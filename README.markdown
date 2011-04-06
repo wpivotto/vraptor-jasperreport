@@ -42,7 +42,10 @@ Exemplo de Controller
 		@Path("/clients/txt") 
 		public Download txtReport() {
 			Report<Client> report = generateReport();
-			return new JasperReportDownload(report, TXT());
+			ExportFormat txt = new TXT();
+			txt.configure(JRTextExporterParameter.OFFSET_X, 0); //customizacoes
+			txt.configure(JRTextExporterParameter.OFFSET_Y, 0);
+			return new JasperReportDownload(report, txt, false); //sem download, visualizacao no browser
 		}
 		
 		@Path("/clients/odt") 
