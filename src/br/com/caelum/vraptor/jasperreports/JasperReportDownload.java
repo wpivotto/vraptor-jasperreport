@@ -7,6 +7,13 @@ import javax.servlet.http.HttpServletResponse;
 import br.com.caelum.vraptor.interceptor.download.ByteArrayDownload;
 import br.com.caelum.vraptor.interceptor.download.Download;
 
+/**
+ * Reads bytes from a JasperReport into the result.
+ *
+ * @author William Pivotto
+ *
+ */
+
 @SuppressWarnings("unchecked")
 public class JasperReportDownload implements Download {
 	

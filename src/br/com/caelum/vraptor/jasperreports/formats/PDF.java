@@ -6,6 +6,10 @@ import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
 import br.com.caelum.vraptor.jasperreports.ExportFormat;
 
+/**
+ * @author William Pivotto
+ */
+
 public class PDF implements ExportFormat {
 	
 	private JRExporter exporter;

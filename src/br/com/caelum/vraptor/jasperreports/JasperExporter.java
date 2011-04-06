@@ -14,6 +14,13 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 
+/**
+ * Export a report into a specific format
+ *
+ * @author William Pivotto
+ *
+ */
+
 @SuppressWarnings("unchecked")
 public class JasperExporter implements ReportExporter {
 

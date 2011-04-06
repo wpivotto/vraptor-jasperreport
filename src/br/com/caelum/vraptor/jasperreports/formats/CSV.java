@@ -6,6 +6,10 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import br.com.caelum.vraptor.jasperreports.ExportFormat;
 
+/**
+ * @author William Pivotto
+ */
+
 public class CSV implements ExportFormat {
 	
 	private JRExporter exporter;

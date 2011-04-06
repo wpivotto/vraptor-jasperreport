@@ -1,5 +1,12 @@
 package br.com.caelum.vraptor.jasperreports;
 
+/**
+ * Generic report exporter
+ *
+ * @author William Pivotto
+ *
+ */
+
 @SuppressWarnings("unchecked")
 public interface ReportExporter {
 	

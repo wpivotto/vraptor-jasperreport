@@ -2,6 +2,9 @@ package br.com.caelum.vraptor.jasperreports.formats;
 
 import br.com.caelum.vraptor.jasperreports.ExportFormat;
 
+/**
+ * @author William Pivotto
+ */
 
 public class Formats {
 	

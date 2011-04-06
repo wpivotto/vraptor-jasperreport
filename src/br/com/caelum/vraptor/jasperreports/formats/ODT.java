@@ -5,6 +5,10 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
 import br.com.caelum.vraptor.jasperreports.ExportFormat;
 
+/**
+ * @author William Pivotto
+ */
+
 public class ODT implements ExportFormat {
 	
 	private JRExporter exporter;

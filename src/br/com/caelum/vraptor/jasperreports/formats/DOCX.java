@@ -6,6 +6,10 @@ import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter;
 import br.com.caelum.vraptor.jasperreports.ExportFormat;
 
+/**
+ * @author William Pivotto
+ */
+
 public class DOCX implements ExportFormat {
 	
 	private JRExporter exporter;

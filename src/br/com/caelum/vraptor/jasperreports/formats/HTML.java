@@ -5,6 +5,10 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import br.com.caelum.vraptor.jasperreports.ExportFormat;
 
+/**
+ * @author William Pivotto
+ */
+
 public class HTML implements ExportFormat {
 	
 	private JRExporter exporter;
