@@ -1,10 +1,10 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
-import br.com.caelum.vraptor.jasperreports.ExportFormat;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter;
+import br.com.caelum.vraptor.jasperreports.ExportFormat;
 
 public class DOCX implements ExportFormat {
 	
@@ -12,6 +12,8 @@ public class DOCX implements ExportFormat {
 
 	public DOCX(){
 		this.exporter = new JRDocxExporter();
+		configure(JRDocxExporterParameter.FLEXIBLE_ROW_HEIGHT, Boolean.TRUE);
+		configure(JRDocxExporterParameter.CHARACTER_ENCODING, "UTF-8");
 	}
 
 	public String getContentType() {
@@ -23,8 +25,6 @@ public class DOCX implements ExportFormat {
 	}
 
 	public JRExporter getExporter() {
-		configure(JRDocxExporterParameter.FLEXIBLE_ROW_HEIGHT, Boolean.TRUE);
-		configure(JRDocxExporterParameter.CHARACTER_ENCODING, "UTF-8");
 		return exporter;
 	}
 	

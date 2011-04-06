@@ -1,10 +1,10 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
-import br.com.caelum.vraptor.jasperreports.ExportFormat;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
+import br.com.caelum.vraptor.jasperreports.ExportFormat;
 
 public class CSV implements ExportFormat {
 	
@@ -12,6 +12,11 @@ public class CSV implements ExportFormat {
 
 	public CSV(){
 		this.exporter = new JRXlsExporter();
+		configure(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+		configure(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);   
+		configure(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE);  
+		configure(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.FALSE);  
+		configure(JRXlsExporterParameter.CHARACTER_ENCODING, "UTF-8");
 	}
 
 	public String getContentType() {
@@ -23,11 +28,6 @@ public class CSV implements ExportFormat {
 	}
 
 	public JRExporter getExporter() {
-		configure(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
-		configure(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);   
-		configure(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE);  
-		configure(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.FALSE);  
-		configure(JRXlsExporterParameter.CHARACTER_ENCODING, "UTF-8");
 		return exporter;
 	}
 	

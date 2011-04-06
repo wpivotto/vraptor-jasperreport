@@ -1,9 +1,9 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
-import br.com.caelum.vraptor.jasperreports.ExportFormat;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
+import br.com.caelum.vraptor.jasperreports.ExportFormat;
 
 public class ODT implements ExportFormat {
 	

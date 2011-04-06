@@ -1,10 +1,10 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
-import br.com.caelum.vraptor.jasperreports.ExportFormat;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
+import br.com.caelum.vraptor.jasperreports.ExportFormat;
 
 public class PDF implements ExportFormat {
 	
@@ -12,6 +12,8 @@ public class PDF implements ExportFormat {
 
 	public PDF(){
 		this.exporter = new JRPdfExporter();
+		configure(JRPdfExporterParameter.IS_COMPRESSED, Boolean.TRUE );
+		configure(JRPdfExporterParameter.CHARACTER_ENCODING, "UTF-8" );
 	}
 
 	public String getContentType() {
@@ -19,8 +21,6 @@ public class PDF implements ExportFormat {
 	}
 
 	public JRExporter getExporter() {
-		configure(JRPdfExporterParameter.IS_COMPRESSED, Boolean.TRUE );
-		configure(JRPdfExporterParameter.CHARACTER_ENCODING, "UTF-8" );
 		return exporter;
 	}
 
