@@ -37,7 +37,7 @@ public interface Report<T> {
      * @param parameter a String specifying the key of the parameter
      * @param value the object to be stored
      */
-	void addParameter(String parameter, Object value);
+	Report<T> addParameter(String parameter, Object value);
 	
 
 }
