@@ -32,6 +32,6 @@ public interface ExportFormat {
      * @param parameter a String specifying the key of the parameter
      * @param value the object to be stored
      */
-	void configure(JRExporterParameter parameter, Object value);
+	ExportFormat configure(JRExporterParameter parameter, Object value);
 
 }

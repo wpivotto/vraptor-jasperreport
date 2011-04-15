@@ -32,8 +32,9 @@ public class DOCX implements ExportFormat {
 		return exporter;
 	}
 	
-	public void configure(JRExporterParameter parameter, Object value) {
+	public ExportFormat configure(JRExporterParameter parameter, Object value) {
 		exporter.setParameter(parameter, value);
+		return this;
 	}
 
 	public String toString() {

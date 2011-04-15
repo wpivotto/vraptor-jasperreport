@@ -29,8 +29,9 @@ public class ODT implements ExportFormat {
 		return ".odt";
 	}
 	
-	public void configure(JRExporterParameter parameter, Object value) {
+	public ExportFormat configure(JRExporterParameter parameter, Object value) {
 		exporter.setParameter(parameter, value);
+		return this;
 	}
 
 }
