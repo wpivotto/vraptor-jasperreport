@@ -1,9 +1,9 @@
 Vraptor Jasper Report Plugin
 ======
 
-Plugin para facilitar a geracao de relatorios com o Vraptor
+Report Generation Plug-in for Vraptor
 
-Formatos suportados:
+Supported File Formats:
 
 * PDF
 * CSV
@@ -13,7 +13,7 @@ Formatos suportados:
 * DOCX
 * RTF
 
-Exemplo de Controller
+Example of a controller
 --------
 
 	@Resource
@@ -43,9 +43,9 @@ Exemplo de Controller
 		public Download txtReport() {
 			Report<Client> report = generateReport();
 			ExportFormat txt = new TXT();
-			txt.configure(JRTextExporterParameter.OFFSET_X, 0); //customizacoes
+			txt.configure(JRTextExporterParameter.OFFSET_X, 0); //customizations
 			txt.configure(JRTextExporterParameter.OFFSET_Y, 0);
-			return new JasperReportDownload(report, txt, false); //sem download, visualizacao no browser
+			return new JasperReportDownload(report, txt, false); //Force files to open in browser
 		}
 		
 		@Path("/clients/odt") 
@@ -73,7 +73,7 @@ Exemplo de Controller
 		
 	}
 
-Exemplo de Relatorio
+Example of a report
 --------
 
 	public class ClientsReport implements Report<Client> {
@@ -109,7 +109,7 @@ Exemplo de Relatorio
 	}
 	
 
-Projeto Exemplo
+Example
 ------
 
 <https://github.com/wpivotto/vraptor-jasperreport-example>
