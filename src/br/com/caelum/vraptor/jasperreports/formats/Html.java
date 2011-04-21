@@ -9,11 +9,11 @@ import br.com.caelum.vraptor.jasperreports.ExportFormat;
  * @author William Pivotto
  */
 
-public class HTML implements ExportFormat {
+public class Html implements ExportFormat {
 	
 	private JRExporter exporter;
 
-	public HTML(){
+	public Html(){
 		this.exporter = new JRHtmlExporter();
 	}
 

@@ -10,11 +10,11 @@ import br.com.caelum.vraptor.jasperreports.ExportFormat;
  * @author William Pivotto
  */
 
-public class RTF implements ExportFormat {
+public class Rtf implements ExportFormat {
 	
 	private JRExporter exporter;
 
-	public RTF(){
+	public Rtf(){
 		this.exporter = new JRTextExporter();
 		configure(JRTextExporterParameter.CHARACTER_ENCODING, "UTF-8");
 		configure(JRTextExporterParameter.CHARACTER_WIDTH, 5f);

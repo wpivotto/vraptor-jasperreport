@@ -10,11 +10,11 @@ import br.com.caelum.vraptor.jasperreports.ExportFormat;
  * @author William Pivotto
  */
 
-public class DOCX implements ExportFormat {
+public class Docx implements ExportFormat {
 	
 	private JRExporter exporter;
 
-	public DOCX(){
+	public Docx(){
 		this.exporter = new JRDocxExporter();
 		configure(JRDocxExporterParameter.FLEXIBLE_ROW_HEIGHT, Boolean.TRUE);
 		configure(JRDocxExporterParameter.CHARACTER_ENCODING, "UTF-8");

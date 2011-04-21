@@ -10,11 +10,11 @@ import br.com.caelum.vraptor.jasperreports.ExportFormat;
  * @author William Pivotto
  */
 
-public class XLS implements ExportFormat {
+public class Xls implements ExportFormat {
 	
 	private JRExporter exporter;
 
-	public XLS(){
+	public Xls(){
 		this.exporter = new JRXlsExporter();  
 		configure(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
 		configure(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);   

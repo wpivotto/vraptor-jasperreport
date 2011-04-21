@@ -8,36 +8,36 @@ import br.com.caelum.vraptor.jasperreports.ExportFormat;
 
 public class Formats {
 	
-	public static ExportFormat PDF(){
-		return new PDF();
+	public static ExportFormat Pdf(){
+		return new Pdf();
 	}
 	
-	public static ExportFormat CSV(){
-		return new CSV();
+	public static ExportFormat Csv(){
+		return new Csv();
 	}
 	
-	public static ExportFormat XLS(){
-		return new XLS();
+	public static ExportFormat Xls(){
+		return new Xls();
 	}
 	
-	public static ExportFormat RTF(){
-		return new RTF();
+	public static ExportFormat Rtf(){
+		return new Rtf();
 	}
 	
-	public static ExportFormat DOCX(){
-		return new DOCX();
+	public static ExportFormat Docx(){
+		return new Docx();
 	}
 	
-	public static ExportFormat ODT(){
-		return new ODT();
+	public static ExportFormat Odt(){
+		return new Odt();
 	}
 	
-	public static ExportFormat TXT(){
-		return new TXT();
+	public static ExportFormat Txt(){
+		return new Txt();
 	}
 	
-	public static ExportFormat HTML(){
-		return new HTML();
+	public static ExportFormat Html(){
+		return new Html();
 	}
 
 }
