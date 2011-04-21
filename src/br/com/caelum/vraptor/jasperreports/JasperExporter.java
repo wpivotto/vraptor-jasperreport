@@ -21,7 +21,6 @@ import net.sf.jasperreports.engine.util.JRLoader;
  *
  */
 
-@SuppressWarnings("unchecked")
 public class JasperExporter implements ReportExporter {
 
 	private Report report;
