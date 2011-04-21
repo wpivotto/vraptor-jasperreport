@@ -2,29 +2,33 @@ package br.com.caelum.vraptor.jasperreports.formats;
 
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.export.JRCsvExporterParameter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import br.com.caelum.vraptor.jasperreports.ExportFormat;
 
 /**
  * @author William Pivotto
  */
 
-public class CSV implements ExportFormat {
+public class XLS implements ExportFormat {
 	
 	private JRExporter exporter;
 
-	public CSV(){
-		this.exporter = new JRXlsExporter();
-		configure(JRCsvExporterParameter.CHARACTER_ENCODING, "UTF-8");
+	public XLS(){
+		this.exporter = new JRXlsExporter();  
+		configure(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+		configure(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);   
+		configure(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE);  
+		configure(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.FALSE);  
+		configure(JRXlsExporterParameter.CHARACTER_ENCODING, "UTF-8");
 	}
 
 	public String getContentType() {
-		return "application/csv";
+		return "application/vnd.ms-excel";
 	}
 
 	public String getExtension() {
-		return ".csv";
+		return ".xls";
 	}
 
 	public JRExporter getExporter() {
@@ -37,7 +41,7 @@ public class CSV implements ExportFormat {
 	}
 	
 	public String toString() {
-		return "csv";
+		return "xls";
 	}
 
 }

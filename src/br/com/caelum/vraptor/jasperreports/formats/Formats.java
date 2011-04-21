@@ -16,6 +16,10 @@ public class Formats {
 		return new CSV();
 	}
 	
+	public static ExportFormat XLS(){
+		return new XLS();
+	}
+	
 	public static ExportFormat RTF(){
 		return new RTF();
 	}
