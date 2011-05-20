@@ -7,13 +7,14 @@ Supported File Formats:
 
 * PDF
 * CSV
+* XLS
 * TXT
 * ODT
 * HTML
 * DOCX
 * RTF
 
-Example of a controller
+Controller
 --------
 
 	@Resource
@@ -25,17 +26,6 @@ Example of a controller
 		public ClientsController(Result result, Clients clients) {
 			this.result = result;
 			this.clients = clients;
-		}
-	
-		@Path("/")
-		public void index() {
-			result.include("clients", clients.listAll());
-		}
-	
-		@Post("/clients") 
-		public void add(Client client) {
-			clients.add(client);
-			result.redirectTo(this).index();
 		}
 		
 		@Path("/clients/csv") 
@@ -104,7 +94,7 @@ Example of a controller
 	
 	}
 
-Example of a report
+Report
 --------
 
 	public class ClientsReport implements Report<Client> {
