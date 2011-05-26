@@ -18,7 +18,7 @@ public class Html implements ExportFormat {
 	}
 
 	public String getContentType() {
-		return "html";
+		return "text/html";
 	}
 
 	public String getExtension() {

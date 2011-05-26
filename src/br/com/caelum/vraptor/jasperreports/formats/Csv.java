@@ -2,8 +2,8 @@ package br.com.caelum.vraptor.jasperreports.formats;
 
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporterParameter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
 import br.com.caelum.vraptor.jasperreports.ExportFormat;
 
 /**
@@ -15,7 +15,7 @@ public class Csv implements ExportFormat {
 	private JRExporter exporter;
 
 	public Csv(){
-		this.exporter = new JRXlsExporter();
+		this.exporter = new JRCsvExporter();
 		configure(JRCsvExporterParameter.CHARACTER_ENCODING, "UTF-8");
 	}
 
