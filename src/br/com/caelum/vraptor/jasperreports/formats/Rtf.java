@@ -30,10 +30,6 @@ public class Rtf implements ExportFormat {
 	}
 
 	public String getExtension() {
-		return ".rtf";
-	}
-
-	public String toString() {
 		return "rtf";
 	}
 

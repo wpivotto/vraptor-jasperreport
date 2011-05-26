@@ -26,7 +26,7 @@ public class Odt implements ExportFormat {
 	}
 
 	public String getExtension() {
-		return ".odt";
+		return "odt";
 	}
 	
 	public ExportFormat configure(JRExporterParameter parameter, Object value) {

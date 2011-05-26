@@ -30,7 +30,7 @@ public class Txt implements ExportFormat {
 	}
 
 	public String getExtension() {
-		return ".txt";
+		return "txt";
 	}
 	
 	public ExportFormat configure(JRExporterParameter parameter, Object value) {

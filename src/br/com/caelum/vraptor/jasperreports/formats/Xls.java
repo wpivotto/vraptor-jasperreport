@@ -28,7 +28,7 @@ public class Xls implements ExportFormat {
 	}
 
 	public String getExtension() {
-		return ".xls";
+		return "xls";
 	}
 
 	public JRExporter getExporter() {
@@ -38,10 +38,6 @@ public class Xls implements ExportFormat {
 	public ExportFormat configure(JRExporterParameter parameter, Object value) {
 		exporter.setParameter(parameter, value);
 		return this;
-	}
-	
-	public String toString() {
-		return "xls";
 	}
 
 }

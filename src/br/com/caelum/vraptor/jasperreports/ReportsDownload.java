@@ -67,7 +67,7 @@ public class ReportsDownload implements Download {
 
 	public ReportsDownload add(Report report, ExportFormat format, boolean doCompress) {
 		byte[] content = exporter.export(report).to(format);
-		String name = report.getFileName() + format.getExtension();
+		String name = report.getFileName() + "." + format.getExtension();
 		add(name, content, doCompress);
 		return this;
 	}

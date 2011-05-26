@@ -38,7 +38,7 @@ public class ReportDownload implements Download {
 
 	public void write(HttpServletResponse response) throws IOException {
 		byte[] bytes = exporter.export(report).to(format);
-		String filename = report.getFileName() + format.getExtension();
+		String filename = report.getFileName() + "." + format.getExtension();
 		new ByteArrayDownload(bytes, format.getContentType(), filename, doDownload).write(response);
 	}
 

@@ -29,10 +29,6 @@ public class Pdf implements ExportFormat {
 	}
 
 	public String getExtension() {
-		return ".pdf";
-	}
-
-	public String toString() {
 		return "pdf";
 	}
 	

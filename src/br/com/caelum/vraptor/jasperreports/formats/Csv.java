@@ -24,7 +24,7 @@ public class Csv implements ExportFormat {
 	}
 
 	public String getExtension() {
-		return ".csv";
+		return "csv";
 	}
 
 	public JRExporter getExporter() {
@@ -35,9 +35,4 @@ public class Csv implements ExportFormat {
 		exporter.setParameter(parameter, value);
 		return this;
 	}
-	
-	public String toString() {
-		return "csv";
-	}
-
 }

@@ -22,7 +22,7 @@ public class Html implements ExportFormat {
 	}
 
 	public String getExtension() {
-		return ".html";
+		return "html";
 	}
 
 	public JRExporter getExporter() {
@@ -33,9 +33,4 @@ public class Html implements ExportFormat {
 		exporter.setParameter(parameter, value);
 		return this;
 	}
-	
-	public String toString() {
-		return "html";
-	}
-
 }

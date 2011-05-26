@@ -25,7 +25,7 @@ public class Docx implements ExportFormat {
 	}
 
 	public String getExtension() {
-		return ".docx";
+		return "docx";
 	}
 
 	public JRExporter getExporter() {
@@ -36,9 +36,4 @@ public class Docx implements ExportFormat {
 		exporter.setParameter(parameter, value);
 		return this;
 	}
-
-	public String toString() {
-		return "docx";
-	}
-	
 }
