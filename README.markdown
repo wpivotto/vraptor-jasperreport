@@ -87,6 +87,12 @@ Controller
 			return download;
 		}
 		
+		@Path("/clients/report/{format}") 
+		public Download report(String format) {
+			Report<Client> report = generateReport();
+			return new ReportDownload(report, Formats.byExtension(format));
+		}
+		
 		private Report<Client> generateReport(){
 			List<Client> data = clients.listAll();
 			return new ClientsReport(data);
