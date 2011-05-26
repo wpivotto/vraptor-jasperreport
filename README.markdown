@@ -134,6 +134,10 @@ Report
 			return "/templates/report.jasper";
 		}
 
+		public boolean isCacheable() {
+			return true;
+		}
+	
 	}
 	
 
