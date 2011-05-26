@@ -1,5 +1,8 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import br.com.caelum.vraptor.jasperreports.ExportFormat;
 
 /**
@@ -7,6 +10,19 @@ import br.com.caelum.vraptor.jasperreports.ExportFormat;
  */
 
 public class Formats {
+	
+	private static final Map<String, ExportFormat> exporters = new HashMap<String, ExportFormat>();
+	
+	static {
+		exporters.put("pdf", Pdf());
+		exporters.put("csv", Csv());
+		exporters.put("xls", Xls());
+		exporters.put("rtf", Rtf());
+		exporters.put("docx", Docx());
+		exporters.put("odt", Odt());
+		exporters.put("txt", Txt());
+		exporters.put("html", Html());
+	};
 	
 	public static ExportFormat Pdf(){
 		return new Pdf();
@@ -40,4 +56,11 @@ public class Formats {
 		return new Html();
 	}
 
+	public static ExportFormat byExtension(String extension){
+		String key = extension.toLowerCase();
+		if(exporters.containsKey(key))
+			return exporters.get(key);
+		throw new IllegalArgumentException("Format is not supported");
+	}
+	
 }
