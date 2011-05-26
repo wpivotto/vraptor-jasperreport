@@ -39,5 +39,7 @@ public interface Report<T> {
      */
 	Report<T> addParameter(String parameter, Object value);
 	
+	boolean isCacheable();
+	
 
 }

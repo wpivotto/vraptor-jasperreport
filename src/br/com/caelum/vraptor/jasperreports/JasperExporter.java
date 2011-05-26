@@ -2,17 +2,14 @@ package br.com.caelum.vraptor.jasperreports;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.util.JRLoader;
 
 /**
  * Export a report into a specific format
@@ -20,12 +17,11 @@ import net.sf.jasperreports.engine.util.JRLoader;
  * @author William Pivotto
  *
  */
-
 public class JasperExporter implements ReportExporter {
 
-	private Report report;
-	
-	public ReportExporter export(Report report) {
+	private Report<?> report;
+
+	public ReportExporter export(Report<?> report) {
 		this.report = report;
 		return this;
 	}
@@ -65,23 +61,12 @@ public class JasperExporter implements ReportExporter {
 	}
 
 
-	private JasperPrint fill(Report report) throws JRException {
+	private JasperPrint fill(Report<?> report) throws JRException {
 		
-		String template = report.getTemplate();
-		
-		InputStream stream = JasperExporter.class.getResourceAsStream(template);
-		if(stream == null)
-			throw new RuntimeException("Could not find the file " + template);
-		
-		JasperReport jr;
-		
-		if(template.contains(".jrxml"))
-			jr = JasperCompileManager.compileReport(stream);
-		else
-			jr = (JasperReport) JRLoader.loadObject(stream);
-		
+		JasperReport jr = new ReportLoader().load(report);
 		JRBeanCollectionDataSource data = new JRBeanCollectionDataSource(report.getData(), false);
 		JasperPrint print = JasperFillManager.fillReport(jr, report.getParameters(), data);
+		
 		return print;
 		
 	}

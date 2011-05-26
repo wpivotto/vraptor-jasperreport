@@ -16,19 +16,19 @@ import br.com.caelum.vraptor.interceptor.download.Download;
 
 public class ReportDownload implements Download {
 	
-	private final Report report;
+	private final Report<?> report;
 	private final ExportFormat format;
 	private final boolean doDownload;
 	private ReportExporter exporter;
 	
-	public ReportDownload(Report report, ExportFormat format, boolean doDownload){
+	public ReportDownload(Report<?> report, ExportFormat format, boolean doDownload){
 		this.report = report;
 		this.format = format;
 		this.doDownload = doDownload;
 		this.exporter = new JasperExporter();
 	}
 	
-	public ReportDownload(Report report, ExportFormat format){
+	public ReportDownload(Report<?> report, ExportFormat format){
 		this(report, format, true);
 	}
 
