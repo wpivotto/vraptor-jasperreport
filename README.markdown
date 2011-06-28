@@ -14,6 +14,20 @@ Supported File Formats:
 * DOCX
 * RTF
 
+Using it
+------
+
+1.	Put Vraptor-JasperReports.jar and dependencies in your `WEB-INF/lib` folder. You can get a copy here
+2.	Add packages on `web.xml`
+
+		<context-param>
+        	<param-name>br.com.caelum.vraptor.packages</param-name>
+	        <param-value>br.com.caelum.vraptor.jasperreports</param-value>
+    	</context-param>
+    	
+3.	Create a class to represent your report: make it implement the `br.com.caelum.vraptor.jasperreports.Report` interface.
+4.	In your controller, create an instance of your report and return it from your method
+
 Controller
 --------
 
@@ -139,7 +153,19 @@ Report
 		}
 	
 	}
-	
+
+Dependencies
+------
+
+* Commons Logging <http://jakarta.apache.org/commons/logging/>
+* Commons Collections <http://jakarta.apache.org/commons/collections/>
+* Commons BeanUtils <http://jakarta.apache.org/commons/beanutils/>
+* Commons Digester <http://jakarta.apache.org/commons/digester/>
+* JFreeChart <http://www.jfree.org/jfreechart/> - Only required when the report contains charts
+* iText <http://www.lowagie.com/iText/> - Only required when exporting reports to PDF or RTF
+* Jakarta POI <http://jakarta.apache.org/poi/> - Only required when exporting reports to Excel format
+* JExcelApi <http://jexcelapi.sourceforge.net/> - Only required when exporting reports to Excel format
+
 
 Example
 ------
