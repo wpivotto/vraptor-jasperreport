@@ -153,6 +153,19 @@ Report
 		}
 	
 	}
+	
+	
+Accept header
+------
+
+If your method return a report, an interceptor tries to discover the request format (through _format or Accept header) and then render the report in 
+this format.
+
+	@Get("/clients/report") 
+	public Report report() {
+		Report<Client> report = generateReport();
+		return report;
+	}
 
 Dependencies
 ------

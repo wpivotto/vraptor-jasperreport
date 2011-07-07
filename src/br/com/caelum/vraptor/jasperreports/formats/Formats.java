@@ -60,7 +60,7 @@ public class Formats {
 		String key = extension.toLowerCase();
 		if(exporters.containsKey(key))
 			return exporters.get(key);
-		throw new IllegalArgumentException("Format is not supported");
+		return Pdf(); // default
 	}
 	
 }
