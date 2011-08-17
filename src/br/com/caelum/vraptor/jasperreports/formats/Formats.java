@@ -22,7 +22,7 @@ public class Formats {
 		}
 	}
 	
-	public static Pdf Pdf(){
+	public static ExportFormat Pdf(){
 		return new Pdf();
 	}
 	
@@ -54,6 +54,22 @@ public class Formats {
 		return new Html();
 	}
 
+	public static ExportFormat Ods(){
+		return new Ods();
+	}
+	
+	public static ExportFormat Pptx(){
+		return new Pptx();
+	}
+	
+	public static ExportFormat Xhtml(){
+		return new Xhtml();
+	}
+	
+	public static ExportFormat Xlsx(){
+		return new Xlsx();
+	}
+	
 	public ExportFormat byExtension(String extension){
 		if(supports(extension))
 			return exporters.get(extension.toLowerCase());

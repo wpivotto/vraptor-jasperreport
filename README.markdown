@@ -13,6 +13,10 @@ Supported File Formats:
 * HTML
 * DOCX
 * RTF
+* ODS
+* PPTX
+* XHTML
+* XLSX
 
 Using it
 ------

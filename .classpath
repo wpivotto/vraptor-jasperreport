@@ -2,9 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry kind="lib" path="libs/jasperreports-3.7.1.jar"/>
 	<classpathentry kind="lib" path="libs/vraptor-3.3.1.jar"/>
 	<classpathentry kind="lib" path="libs/javax.servlet.jar"/>
 	<classpathentry kind="lib" path="libs/guava-r07.jar"/>
+	<classpathentry kind="lib" path="libs/jasperreports-4.0.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
