@@ -4,12 +4,14 @@ import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.export.JRTextExporter;
 import net.sf.jasperreports.engine.export.JRTextExporterParameter;
+import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.jasperreports.ExportFormat;
 
 /**
  * @author William Pivotto
  */
 
+@Component
 public class Txt implements ExportFormat {
 	
 	private JRExporter exporter;

@@ -4,12 +4,14 @@ import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter;
+import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.jasperreports.ExportFormat;
 
 /**
  * @author William Pivotto
  */
 
+@Component
 public class Docx implements ExportFormat {
 	
 	private JRExporter exporter;

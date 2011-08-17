@@ -10,12 +10,10 @@ import br.com.caelum.vraptor.Intercepts;
 import br.com.caelum.vraptor.Lazy;
 import br.com.caelum.vraptor.core.InterceptorStack;
 import br.com.caelum.vraptor.core.MethodInfo;
-import br.com.caelum.vraptor.http.FormatResolver;
 import br.com.caelum.vraptor.interceptor.ExecuteMethodInterceptor;
 import br.com.caelum.vraptor.interceptor.ForwardToDefaultViewInterceptor;
 import br.com.caelum.vraptor.interceptor.Interceptor;
 import br.com.caelum.vraptor.interceptor.download.Download;
-import br.com.caelum.vraptor.jasperreports.formats.Formats;
 import br.com.caelum.vraptor.resource.ResourceMethod;
 
 @Intercepts(after=ExecuteMethodInterceptor.class, before=ForwardToDefaultViewInterceptor.class)
@@ -23,12 +21,12 @@ import br.com.caelum.vraptor.resource.ResourceMethod;
 public class ReportDownloadInterceptor implements Interceptor {
 
 	private final HttpServletResponse response;
-	private final FormatResolver formatResolver;
+	private final ReportFormatResolver resolver;
 	private final MethodInfo methodInfo;
 	
-	public ReportDownloadInterceptor(HttpServletResponse response, FormatResolver formatResolver, MethodInfo methodInfo) {
+	public ReportDownloadInterceptor(HttpServletResponse response, ReportFormatResolver resolver, MethodInfo methodInfo) {
 		this.response = response;
-		this.formatResolver = formatResolver;
+		this.resolver = resolver;
 		this.methodInfo = methodInfo;
 	}
 
@@ -39,12 +37,8 @@ public class ReportDownloadInterceptor implements Interceptor {
 	public void intercept(InterceptorStack stack, ResourceMethod method, Object instance) throws InterceptionException {
 		
 		Report<?> report = (Report<?>) methodInfo.getResult();
-		String requestFormat = formatResolver.getAcceptFormat();
-		ExportFormat exportFormat = Formats.byExtension(requestFormat);
 		
-		boolean doDownload = !"html".equals(requestFormat);
-		
-		Download download = new ReportDownload(report, exportFormat, doDownload);
+		Download download = new ReportDownload(report, resolver.getExportFormat(), resolver.doDownload());
 		
 		try {
 			

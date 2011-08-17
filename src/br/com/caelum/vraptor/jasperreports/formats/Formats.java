@@ -1,28 +1,26 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.jasperreports.ExportFormat;
 
 /**
  * @author William Pivotto
  */
 
+@Component
 public class Formats {
 	
-	private static final Map<String, ExportFormat> exporters = new HashMap<String, ExportFormat>();
+	private Map<String, ExportFormat> exporters = new HashMap<String, ExportFormat>();
 	
-	static {
-		exporters.put("pdf", Pdf());
-		exporters.put("csv", Csv());
-		exporters.put("xls", Xls());
-		exporters.put("rtf", Rtf());
-		exporters.put("docx", Docx());
-		exporters.put("odt", Odt());
-		exporters.put("txt", Txt());
-		exporters.put("html", Html());
-	};
+	public Formats(List<ExportFormat> formats){
+		for(ExportFormat format : formats){
+			exporters.put(format.getExtension(), format);
+		}
+	}
 	
 	public static ExportFormat Pdf(){
 		return new Pdf();
@@ -56,11 +54,13 @@ public class Formats {
 		return new Html();
 	}
 
-	public static ExportFormat byExtension(String extension){
-		String key = extension.toLowerCase();
-		if(exporters.containsKey(key))
-			return exporters.get(key);
+	public ExportFormat byExtension(String extension){
+		if(supports(extension))
+			return exporters.get(extension.toLowerCase());
 		return Pdf(); // default
 	}
 	
+	public boolean supports(String format){
+		return exporters.containsKey(format.toLowerCase());
+	}
 }

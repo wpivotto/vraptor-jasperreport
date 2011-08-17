@@ -3,12 +3,14 @@ package br.com.caelum.vraptor.jasperreports.formats;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.export.oasis.JROdtExporter;
+import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.jasperreports.ExportFormat;
 
 /**
  * @author William Pivotto
  */
 
+@Component
 public class Odt implements ExportFormat {
 	
 	private JRExporter exporter;
