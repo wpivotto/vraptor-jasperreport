@@ -36,10 +36,30 @@ Controller
 
 		private final Result result;
 		private final Clients clients;
+		private final Formats formats;
+		private final User user;
 	
-		public ClientsController(Result result, Clients clients) {
+		public ClientsController(Result result, Clients clients, Formats formats, User user) {
 			this.result = result;
 			this.clients = clients;
+			this.formats = formats;
+			this.user = user;
+		}
+		
+		@Path("/clients/pdf") 
+		public Download pdfReport() {
+			Report<Client> report = generateReport();
+			return new ReportDownload(report, Pdf());
+		}
+		
+		@Path("/clients/pdf/encrypted") 
+		public Download encryptedPdfReport() {
+			Report<Client> report = generateReport();
+			Pdf document = formats.Pdf();
+			document.encrypt(user.getPassword());
+			document.addPermission(PdfWriter.ALLOW_COPY)
+					.addPermission(PdfWriter.ALLOW_PRINTING);
+			return new ReportDownload(report, pdf);
 		}
 		
 		@Path("/clients/csv") 
@@ -63,10 +83,7 @@ Controller
 		@Path("/clients/txt") 
 		public Download txtReport() {
 			Report<Client> report = generateReport();
-			ExportFormat txt = new Txt();
-			txt.configure(JRTextExporterParameter.OFFSET_X, 0)
-			   .configure(JRTextExporterParameter.OFFSET_Y, 0);
-			return new ReportDownload(report, txt, false);
+			return new ReportDownload(report, txt, Txt());
 		}
 		
 		@Path("/clients/odt") 
@@ -79,12 +96,6 @@ Controller
 		public Download rtfReport() {
 			Report<Client> report = generateReport();
 			return new ReportDownload(report, Rtf());
-		}
-		
-		@Path("/clients/pdf") 
-		public Download pdfReport() {
-			Report<Client> report = generateReport();
-			return new ReportDownload(report, Pdf());
 		}
 		
 		@Path("/clients/zip") 
@@ -104,7 +115,7 @@ Controller
 		@Path("/clients/report/{format}") 
 		public Download report(String format) {
 			Report<Client> report = generateReport();
-			return new ReportDownload(report, Formats.byExtension(format));
+			return new ReportDownload(report, formats.byExtension(format));
 		}
 		
 		private Report<Client> generateReport(){

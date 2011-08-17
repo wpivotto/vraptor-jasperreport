@@ -22,7 +22,7 @@ public class Formats {
 		}
 	}
 	
-	public static ExportFormat Pdf(){
+	public static Pdf Pdf(){
 		return new Pdf();
 	}
 	
