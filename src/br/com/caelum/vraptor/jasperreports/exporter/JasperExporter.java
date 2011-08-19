@@ -2,6 +2,7 @@ package br.com.caelum.vraptor.jasperreports.exporter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
@@ -12,6 +13,7 @@ import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import br.com.caelum.vraptor.jasperreports.Report;
 import br.com.caelum.vraptor.jasperreports.ReportLoader;
+import br.com.caelum.vraptor.jasperreports.decorator.ReportDecorator;
 import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
 
 /**
@@ -24,9 +26,11 @@ public class JasperExporter implements ReportExporter {
 
 	private Report<?> report;
 	private final ReportLoader loader; 
-
-	public JasperExporter(ReportLoader loader){
+	private final List<ReportDecorator> decorators;
+	
+	public JasperExporter(ReportLoader loader, List<ReportDecorator> decorators){
 		this.loader = loader;
+		this.decorators = decorators;
 	}
 	
 	public ReportExporter export(Report<?> report) {
@@ -70,6 +74,10 @@ public class JasperExporter implements ReportExporter {
 
 
 	private JasperPrint fill(Report<?> report) throws JRException {
+		
+		for(ReportDecorator decorator : decorators){
+			decorator.decorate(report);
+		}
 		
 		JasperReport jr = loader.load(report);
 		JRBeanCollectionDataSource data = new JRBeanCollectionDataSource(report.getData(), false);

@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="libs/javax.servlet.jar"/>
 	<classpathentry kind="lib" path="libs/guava-r07.jar"/>
 	<classpathentry kind="lib" path="libs/jasperreports-4.0.1.jar"/>
+	<classpathentry kind="lib" path="libs/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
