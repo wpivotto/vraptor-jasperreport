@@ -13,11 +13,11 @@ import br.com.caelum.vraptor.ioc.Component;
  */
 
 @Component
-public class ExportFormatFactory {
+public class ExportFormats {
 	
 	private Map<String, ExportFormat> exporters = new HashMap<String, ExportFormat>();
 
-	public ExportFormatFactory(List<ExportFormat> formats){
+	public ExportFormats(List<ExportFormat> formats){
 		for(ExportFormat format : formats){
 			exporters.put(format.getExtension(), format);
 		}
