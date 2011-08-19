@@ -1,5 +1,6 @@
-package br.com.caelum.vraptor.jasperreports;
+package br.com.caelum.vraptor.jasperreports.exporter;
 
+import br.com.caelum.vraptor.jasperreports.Report;
 import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
 
 /**

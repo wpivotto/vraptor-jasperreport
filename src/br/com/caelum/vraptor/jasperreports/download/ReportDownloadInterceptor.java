@@ -1,4 +1,4 @@
-package br.com.caelum.vraptor.jasperreports;
+package br.com.caelum.vraptor.jasperreports.download;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -13,18 +13,22 @@ import br.com.caelum.vraptor.core.MethodInfo;
 import br.com.caelum.vraptor.interceptor.ExecuteMethodInterceptor;
 import br.com.caelum.vraptor.interceptor.ForwardToDefaultViewInterceptor;
 import br.com.caelum.vraptor.interceptor.Interceptor;
-import br.com.caelum.vraptor.interceptor.download.Download;
+import br.com.caelum.vraptor.jasperreports.Report;
+import br.com.caelum.vraptor.jasperreports.ReportFormatResolver;
+import br.com.caelum.vraptor.jasperreports.exporter.ReportExporter;
 import br.com.caelum.vraptor.resource.ResourceMethod;
 
 @Intercepts(after=ExecuteMethodInterceptor.class, before=ForwardToDefaultViewInterceptor.class)
 @Lazy
 public class ReportDownloadInterceptor implements Interceptor {
 
+	private final ReportExporter exporter;
 	private final HttpServletResponse response;
 	private final ReportFormatResolver resolver;
 	private final MethodInfo methodInfo;
 	
-	public ReportDownloadInterceptor(HttpServletResponse response, ReportFormatResolver resolver, MethodInfo methodInfo) {
+	public ReportDownloadInterceptor(ReportExporter exporter, HttpServletResponse response, ReportFormatResolver resolver, MethodInfo methodInfo) {
+		this.exporter = exporter;
 		this.response = response;
 		this.resolver = resolver;
 		this.methodInfo = methodInfo;
@@ -38,7 +42,8 @@ public class ReportDownloadInterceptor implements Interceptor {
 		
 		Report<?> report = (Report<?>) methodInfo.getResult();
 		
-		Download download = new ReportDownload(report, resolver.getExportFormat(), resolver.doDownload());
+		ReportDownload download = new ReportDownload(report, resolver.getExportFormat(), resolver.doDownload());
+		download.setExporter(exporter);
 		
 		try {
 			

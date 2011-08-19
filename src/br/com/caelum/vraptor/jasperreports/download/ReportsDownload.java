@@ -1,8 +1,10 @@
-package br.com.caelum.vraptor.jasperreports;
+package br.com.caelum.vraptor.jasperreports.download;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -10,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.caelum.vraptor.interceptor.download.ByteArrayDownload;
 import br.com.caelum.vraptor.interceptor.download.Download;
+import br.com.caelum.vraptor.jasperreports.Report;
+import br.com.caelum.vraptor.jasperreports.exporter.ReportExporter;
 import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
 
 import com.google.common.io.Closeables;
@@ -18,11 +22,12 @@ import com.google.common.io.Flushables;
 
 public class ReportsDownload implements Download {
 
+	private ReportExporter exporter;
+	private List<ReportZipEntry> reports = new ArrayList<ReportZipEntry>();
 	private final String filename;
 	private final ByteArrayOutputStream output;
 	private final ZipOutputStream zip;
-	private ReportExporter exporter;
-
+	
 	public ReportsDownload() {
 		this("reports.zip");
 	}
@@ -31,7 +36,6 @@ public class ReportsDownload implements Download {
 		this.filename = filename;
 		this.output = new ByteArrayOutputStream();
 		this.zip = new ZipOutputStream(output);
-		this.exporter = new JasperExporter();
 	}
 
 	public ReportsDownload setLevel(int level) {
@@ -67,9 +71,8 @@ public class ReportsDownload implements Download {
 	}
 
 	public ReportsDownload add(Report<?> report, ExportFormat format, boolean doCompress) {
-		byte[] content = exporter.export(report).to(format);
-		String name = report.getFileName() + "." + format.getExtension();
-		add(name, content, doCompress);
+		ReportZipEntry entry = new ReportZipEntry(report, format, doCompress);
+		this.reports.add(entry);
 		return this;
 	}
 
@@ -88,14 +91,24 @@ public class ReportsDownload implements Download {
 	}
 	
 	public void write(HttpServletResponse response) throws IOException {
-		close();
+		writeReports();
 		new ByteArrayDownload(output.toByteArray(), "application/zip",
 				filename, true).write(response);
 	}
-
-	private void close() {
+	
+	private void writeReports(){
+		
+		for(ReportZipEntry entry : reports){
+			Report<?> report = entry.getReport();
+			ExportFormat format = entry.getFormat();
+			byte[] content = exporter.export(report).to(entry.getFormat());
+			String name = report.getFileName() + "." + format.getExtension();
+			add(name, content, entry.getCompressionMethod());
+		}
+		
 		Flushables.flushQuietly(zip);
 		Closeables.closeQuietly(zip);
+		
 	}
 
 }

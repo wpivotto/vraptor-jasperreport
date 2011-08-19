@@ -4,17 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sf.jasperreports.engine.JasperReport;
+import br.com.caelum.vraptor.ioc.ApplicationScoped;
+import br.com.caelum.vraptor.ioc.Component;
 
+@Component 
+@ApplicationScoped
 public class ReportCache {
 
 	private Map<String, JasperReport> cache = new HashMap<String, JasperReport>();
-	private static final ReportCache instance = new ReportCache();
-	
-	private ReportCache(){}
-	
-	public static ReportCache New(){
-		return instance;
-	}
 	
 	public JasperReport get(String template) {
 		return cache.get(template);

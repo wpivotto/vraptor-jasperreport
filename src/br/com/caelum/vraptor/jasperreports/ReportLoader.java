@@ -1,13 +1,23 @@
 package br.com.caelum.vraptor.jasperreports;
 
-import java.io.InputStream;
-
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
+import br.com.caelum.vraptor.ioc.ApplicationScoped;
+import br.com.caelum.vraptor.ioc.Component;
 
+@Component
+@ApplicationScoped
 public class ReportLoader {
+	
+	private final ReportCache cache;
+	private final ReportPathResolver resolver;
+	
+	public ReportLoader(ReportCache cache, ReportPathResolver resolver){
+		this.cache = cache;
+		this.resolver = resolver;
+	}
 
 	public JasperReport load(Report<?> report) throws JRException {
 		
@@ -20,8 +30,6 @@ public class ReportLoader {
 	
 	private JasperReport loadFromCache(Report<?> report) throws JRException {
 		
-		ReportCache cache = ReportCache.New();
-		
 		if(!cache.contains(report.getTemplate()))
 			cache.put(report.getTemplate(), loadFromDisk(report));
 		
@@ -31,17 +39,12 @@ public class ReportLoader {
 	
 	private JasperReport loadFromDisk(Report<?> report) throws JRException {
 
-		String template = report.getTemplate();
-		
-		InputStream stream = ReportLoader.class.getResourceAsStream(template);
-		
-		if(stream == null)
-			throw new RuntimeException("Could not find the file " + template);
+		String template = resolver.getPathFor(report);
 		
 		if(template.contains(".jrxml"))
-			return JasperCompileManager.compileReport(stream);
+			return JasperCompileManager.compileReport(template);
 		else
-			return (JasperReport) JRLoader.loadObject(stream);
+			return (JasperReport) JRLoader.loadObject(template);
 		
 	}
 }

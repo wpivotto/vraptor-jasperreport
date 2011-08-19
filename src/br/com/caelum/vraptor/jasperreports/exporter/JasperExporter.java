@@ -1,9 +1,7 @@
-package br.com.caelum.vraptor.jasperreports;
+package br.com.caelum.vraptor.jasperreports.exporter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
-import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
@@ -12,6 +10,9 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import br.com.caelum.vraptor.jasperreports.Report;
+import br.com.caelum.vraptor.jasperreports.ReportLoader;
+import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
 
 /**
  * Export a report into a specific format
@@ -22,7 +23,12 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 public class JasperExporter implements ReportExporter {
 
 	private Report<?> report;
+	private final ReportLoader loader; 
 
+	public JasperExporter(ReportLoader loader){
+		this.loader = loader;
+	}
+	
 	public ReportExporter export(Report<?> report) {
 		this.report = report;
 		return this;
@@ -65,7 +71,7 @@ public class JasperExporter implements ReportExporter {
 
 	private JasperPrint fill(Report<?> report) throws JRException {
 		
-		JasperReport jr = new ReportLoader().load(report);
+		JasperReport jr = loader.load(report);
 		JRBeanCollectionDataSource data = new JRBeanCollectionDataSource(report.getData(), false);
 		JasperPrint print = JasperFillManager.fillReport(jr, report.getParameters(), data);
 		
