@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.caelum.vraptor.interceptor.download.ByteArrayDownload;
 import br.com.caelum.vraptor.interceptor.download.Download;
+import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
 
 import com.google.common.io.Closeables;
 import com.google.common.io.Files;

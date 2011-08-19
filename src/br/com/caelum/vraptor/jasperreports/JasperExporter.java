@@ -3,6 +3,8 @@ package br.com.caelum.vraptor.jasperreports;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import br.com.caelum.vraptor.interceptor.download.ByteArrayDownload;
 import br.com.caelum.vraptor.interceptor.download.Download;
+import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
 
 /**
  * Reads bytes from a report into the result.

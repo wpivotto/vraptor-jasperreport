@@ -5,75 +5,76 @@ import java.util.List;
 import java.util.Map;
 
 import br.com.caelum.vraptor.ioc.Component;
-import br.com.caelum.vraptor.jasperreports.ExportFormat;
+
 
 /**
+ * Collection of factory methods to objects that represent export formats.
  * @author William Pivotto
  */
 
 @Component
-public class Formats {
+public class ExportFormatFactory {
 	
 	private Map<String, ExportFormat> exporters = new HashMap<String, ExportFormat>();
-	
-	public Formats(List<ExportFormat> formats){
+
+	public ExportFormatFactory(List<ExportFormat> formats){
 		for(ExportFormat format : formats){
 			exporters.put(format.getExtension(), format);
 		}
 	}
 	
-	public static ExportFormat Pdf(){
+	public static Pdf pdf(){
 		return new Pdf();
 	}
 	
-	public static ExportFormat Csv(){
+	public static Csv csv(){
 		return new Csv();
 	}
 	
-	public static ExportFormat Xls(){
+	public static Xls xls(){
 		return new Xls();
 	}
 	
-	public static ExportFormat Rtf(){
+	public static Rtf rtf(){
 		return new Rtf();
 	}
 	
-	public static ExportFormat Docx(){
+	public static Docx docx(){
 		return new Docx();
 	}
 	
-	public static ExportFormat Odt(){
+	public static Odt odt(){
 		return new Odt();
 	}
 	
-	public static ExportFormat Txt(){
+	public static Txt txt(){
 		return new Txt();
 	}
 	
-	public static ExportFormat Html(){
+	public static Html html(){
 		return new Html();
 	}
 
-	public static ExportFormat Ods(){
+	public static Ods ods(){
 		return new Ods();
 	}
 	
-	public static ExportFormat Pptx(){
+	public static Pptx pptx(){
 		return new Pptx();
 	}
 	
-	public static ExportFormat Xhtml(){
+	public static Xhtml xhtml(){
 		return new Xhtml();
 	}
 	
-	public static ExportFormat Xlsx(){
+	public static Xlsx xlsx(){
 		return new Xlsx();
 	}
 	
 	public ExportFormat byExtension(String extension){
 		if(supports(extension))
 			return exporters.get(extension.toLowerCase());
-		return Pdf(); // default
+		return pdf(); // default
 	}
 	
 	public boolean supports(String format){

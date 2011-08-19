@@ -1,4 +1,4 @@
-package br.com.caelum.vraptor.jasperreports;
+package br.com.caelum.vraptor.jasperreports.formats;
 
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
