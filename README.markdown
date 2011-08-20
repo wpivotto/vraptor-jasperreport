@@ -40,10 +40,10 @@ Controller
 
 		private final Result result;
 		private final Clients clients;
-		private final Formats formats;
+		private final ExportFormats formats;
 		private final User user;
 	
-		public ClientsController(Result result, Clients clients, Formats formats, User user) {
+		public ClientsController(Result result, Clients clients, ExportFormats formats, User user) {
 			this.result = result;
 			this.clients = clients;
 			this.formats = formats;
@@ -53,13 +53,13 @@ Controller
 		@Path("/clients/pdf") 
 		public Download pdfReport() {
 			Report<Client> report = generateReport();
-			return new ReportDownload(report, Pdf());
+			return new ReportDownload(report, pdf());
 		}
 		
 		@Path("/clients/pdf/encrypted") 
 		public Download encryptedPdfReport() {
 			Report<Client> report = generateReport();
-			Pdf document = formats.Pdf();
+			Pdf document = formats.pdf();
 			document.encrypt(user.getPassword());
 			document.addPermission(PdfWriter.ALLOW_COPY)
 					.addPermission(PdfWriter.ALLOW_PRINTING);
@@ -69,50 +69,50 @@ Controller
 		@Path("/clients/csv") 
 		public Download csvReport() {
 			Report<Client> report = generateReport();
-			return new ReportDownload(report, Csv());
+			return new ReportDownload(report, csv());
 		}
 		
 		@Path("/clients/xls") 
 		public Download xlsReport() {
 			Report<Client> report = generateReport();
-			return new ReportDownload(report, Xls());
+			return new ReportDownload(report, xls());
 		}
 		
 		@Path("/clients/docx") 
 		public Download docxReport() {
 			Report<Client> report = generateReport();
-			return new ReportDownload(report, Docx());
+			return new ReportDownload(report, docx());
 		}
 		
 		@Path("/clients/txt") 
 		public Download txtReport() {
 			Report<Client> report = generateReport();
-			return new ReportDownload(report, txt, Txt());
+			return new ReportDownload(report, txt());
 		}
 		
 		@Path("/clients/odt") 
 		public Download odtReport() {
 			Report<Client> report = generateReport();
-			return new ReportDownload(report, Odt());
+			return new ReportDownload(report, odt());
 		}
 		
 		@Path("/clients/rtf") 
 		public Download rtfReport() {
 			Report<Client> report = generateReport();
-			return new ReportDownload(report, Rtf());
+			return new ReportDownload(report, rtf());
 		}
 		
 		@Path("/clients/zip") 
 		public Download zipReport() throws IOException {
 			ReportsDownload download = new ReportsDownload();
 			Report<Client> report = generateReport();
-			download.add(report, Pdf())
-					.add(report, Csv())
-					.add(report, Xls())
-					.add(report, Rtf())
-					.add(report, Docx())
-					.add(report, Txt())
-					.add(report, Odt());
+			download.add(report, pdf())
+					.add(report, csv())
+					.add(report, xls())
+					.add(report, rtf())
+					.add(report, docx())
+					.add(report, txt())
+					.add(report, odt());
 			return download;
 		}
 		
@@ -160,7 +160,7 @@ Report
 		}
 	
 		public String getTemplate() {
-			return "/templates/report.jasper";
+			return "report.jasper";
 		}
 
 		public boolean isCacheable() {
@@ -181,6 +181,58 @@ this format.
 		Report<Client> report = generateReport();
 		return report;
 	}
+
+Customizing paths
+------
+
+By default the lib will consider only reports under `WEB-INF/reports` folder, but you can also specify a different path format.
+For enabling this you must put this parameters on web.xml:
+
+	<context-param>
+	    <param-name>vraptor.reports.path</param-name>
+	    <param-value>...</param-value>
+	    <param-name>vraptor.subreports.path</param-name>
+	    <param-value>...</param-value>
+	    <param-name>vraptor.images.path</param-name>
+	    <param-value>...</param-value>
+	</context-param>
+
+Decorating reports
+------
+
+Decorators can be used to provide default values for all reports, like this
+ 
+	@Component
+	@SessionScoped
+	public class MyDecorator implements ReportDecorator {
+	
+		private final User user;
+		
+		public ReportLocaleDecorator(User user) {
+			this.user = user;
+		}
+	
+		public void decorate(Report<?> report) {
+			report.addParameter("GeneratedBy", user);
+		}
+	}
+	
+Now all reports have a parameter called `$P{GeneratedBy}`.
+
+Internationalization
+------
+
+JasperReports lets you associate a `java.util.ResourceBundle` with the report template, at runtime (by providing a value for the built-in `REPORT_RESOURCE_BUNDLE` parameter). 
+If your report needs to be generated in a locale that is different from the current one, the built-in `REPORT_LOCALE` parameter can be used to specify the runtime locale when filling the report. 
+You just need to put a file called `i18n_en_US.properties` (or whatever) in the same folder of your reports.
+Having done this, parameters such `$R{text.message}`, will be automatically converted to the expected language.
+
+For changing this you must put this parameter on web.xml:
+
+	<context-param>
+	    <param-name>vraptor.reports.resourcebundle.name</param-name>
+	    <param-value>...</param-value>
+	</context-param>
 
 Dependencies
 ------

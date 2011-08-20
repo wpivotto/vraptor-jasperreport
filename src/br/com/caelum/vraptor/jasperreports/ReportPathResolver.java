@@ -1,6 +1,7 @@
 package br.com.caelum.vraptor.jasperreports;
 
 import java.io.File;
+import java.util.Locale;
 
 import javax.servlet.ServletContext;
 
@@ -15,6 +16,7 @@ public class ReportPathResolver {
 	private static final String DEFAULT_REPORTS_PATH = "/WEB-INF/reports";
 	private static final String DEFAULT_SUBREPORTS_PATH = "/WEB-INF/reports/subreports";
 	private static final String DEFAULT_IMAGES_PATH = "/WEB-INF/reports/images";
+	private static final String DEFAULT_BUNDLE_NAME = "i18n_";
 	private static final String SEPARATOR = File.separator;
 	
 	public ReportPathResolver(ServletContext context) {
@@ -37,6 +39,10 @@ public class ReportPathResolver {
 		return context.getRealPath(getRelativeImagesPath()) + SEPARATOR;
 	}
 	
+	public String getResourceBundleFor(Locale locale){
+		return getReportsPath() + getBundleName() + locale.toString() + ".properties";
+	}
+	
 	private String getRelativeImagesPath(){
 		String param = context.getInitParameter("vraptor.images.path");
 		return param != null ? param.trim() : DEFAULT_IMAGES_PATH;
@@ -50,5 +56,10 @@ public class ReportPathResolver {
 	private String getRelativeReportsPath(){
 		String param = context.getInitParameter("vraptor.reports.path");
 		return param != null ? param.trim() : DEFAULT_REPORTS_PATH;
+	}
+	
+	private String getBundleName(){
+		String param = context.getInitParameter("vraptor.reports.resourcebundle.name");
+		return param != null ? param.trim() : DEFAULT_BUNDLE_NAME;
 	}
 }
