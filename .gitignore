@@ -1,2 +1,7 @@
-/bin
-*.class
+/work
+/.settings
+.classpath
+.DS_Store
+.tomcatplugin
+.project
+.scala_dependencies
