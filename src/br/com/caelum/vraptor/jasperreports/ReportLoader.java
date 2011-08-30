@@ -41,10 +41,10 @@ public class ReportLoader {
 
 		String template = resolver.getPathFor(report);
 		
-		if(template.contains(".jrxml"))
+		if(template.endsWith(".jrxml"))
 			return JasperCompileManager.compileReport(template);
 		else
-			return (JasperReport) JRLoader.loadObject(template);
+			return (JasperReport) JRLoader.loadObjectFromFile(template);
 		
 	}
 }
