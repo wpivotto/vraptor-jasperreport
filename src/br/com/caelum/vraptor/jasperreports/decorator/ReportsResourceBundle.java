@@ -41,6 +41,8 @@ public class ReportsResourceBundle extends ResourceBundle {
 		
 		try {	
 			this.delegate = new PropertyResourceBundle(new FileInputStream(bundle));
+			logger.debug("REPORT_LOCALE --> " + locale);
+			logger.debug("REPORT_RESOURCE_BUNDLE --> " + bundle.getAbsolutePath());
         } catch (FileNotFoundException e) {
         	logger.debug("Couldn't find report bundle at " + bundle.getAbsolutePath() + ", creating an empty one");
             this.delegate = new EmptyBundle();
