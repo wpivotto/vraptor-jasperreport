@@ -2,10 +2,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 
-	<groupId>br.com.caelum.vraptor</groupId>
+	<groupId>br.com.prixma</groupId>
 	<artifactId>vraptor-jasperreport</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>vraptor-jasperreport</name>
@@ -49,7 +55,51 @@
 					<downloadJavadocs>true</downloadJavadocs>
 				</configuration>
 			</plugin>
-
+			
+			<!-- Create sources.jar -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						  <id>attach-sources</id>
+						  <goals>
+							<goal>jar</goal>
+						  </goals>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<!-- Create javadocs.jar -->
+			<plugin>
+				  <groupId>org.apache.maven.plugins</groupId>
+				  <artifactId>maven-javadoc-plugin</artifactId>
+				  <executions>
+					<execution>
+					  <id>attach-javadocs</id>
+					  <goals>
+						<goal>jar</goal>
+					  </goals>
+					</execution>
+				  </executions>
+			</plugin>
+			
+			<!--  
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			-->
+			
 		</plugins>
 	</build>
 
@@ -98,6 +148,13 @@
 
 	</dependencies>
 
-
-
+	<scm>
+		<url>http://github.com/wpivotto/vraptor-jasperreport</url>
+		<connection>scm:git@github.com:wpivotto/vraptor-jasperreport.git</connection>
+		<developerConnection>scm:git@github.com:wpivotto/vraptor-jasperreport.git</developerConnection>
+	</scm>
+	
+	<repositories></repositories>
+	<pluginRepositories></pluginRepositories>
+	
 </project>

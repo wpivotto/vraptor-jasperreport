@@ -21,14 +21,28 @@ Supported File Formats:
 Using it
 ------
 
-1.	Put Vraptor-JasperReports.jar and dependencies in your `WEB-INF/lib` folder. You can get a copy here
-2.	Add packages on `web.xml`
+1. In a Maven project's pom.xml file:
+	 
+	<repositories>
+    	<repository>
+        	<id>sonatype-oss-public</id>
+        	<url>https://oss.sonatype.org/content/groups/public/</url>
+        	<releases>
+            	<enabled>true</enabled>
+          	</releases>
+          	<snapshots>
+            	<enabled>true</enabled>
+          	</snapshots>
+        </repository>
+	</repositories>
+      
+	<dependency>
+  		<groupId>br.com.prixma</groupId>
+  		<artifactId>vraptor-jasperreport</artifactId>
+  		<version>1.0.0</version>
+	</dependency>
 
-		<context-param>
-        	<param-name>br.com.caelum.vraptor.packages</param-name>
-	        <param-value>br.com.caelum.vraptor.jasperreports</param-value>
-    	</context-param>
-    	
+2.	Put vraptor-jasperreport-version.jar and dependencies in your `WEB-INF/lib` folder.
 3.	Create a class to represent your report: make it implement the `br.com.caelum.vraptor.jasperreports.Report` interface.
 4.	In your controller, create an instance of your report and return it from your method
 
