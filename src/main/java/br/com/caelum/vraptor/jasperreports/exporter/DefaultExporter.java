@@ -2,6 +2,7 @@ package br.com.caelum.vraptor.jasperreports.exporter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.jasperreports.engine.JRException;
@@ -11,6 +12,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.jasperreports.Report;
 import br.com.caelum.vraptor.jasperreports.ReportLoader;
 import br.com.caelum.vraptor.jasperreports.decorator.ReportDecorator;
@@ -22,19 +24,26 @@ import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
  * @author William Pivotto
  *
  */
-public class JasperExporter implements ReportExporter {
 
-	private Report<?> report;
+@Component
+public class DefaultExporter implements ReportExporter {
+
+	private List<Report<?>> reports = new ArrayList<Report<?>>();
 	private final ReportLoader loader; 
 	private final List<ReportDecorator> decorators;
 	
-	public JasperExporter(ReportLoader loader, List<ReportDecorator> decorators){
+	public DefaultExporter(ReportLoader loader, List<ReportDecorator> decorators){
 		this.loader = loader;
 		this.decorators = decorators;
 	}
 	
 	public ReportExporter export(Report<?> report) {
-		this.report = report;
+		this.reports.add(report);
+		return this;
+	}
+	
+	public ReportExporter export(List<Report<?>> reports) {
+		this.reports = reports;
 		return this;
 	}
 
@@ -46,7 +55,7 @@ public class JasperExporter implements ReportExporter {
 			
 			JRExporter exporter = format.getExporter();
 		
-			exporter.setParameter(JRExporterParameter.JASPER_PRINT, fill(report));
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, fillAll());
 			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, buffer);
 
 			exporter.exportReport();
@@ -73,6 +82,18 @@ public class JasperExporter implements ReportExporter {
 	}
 
 
+	private List<JasperPrint> fillAll() throws JRException {
+		
+		List<JasperPrint> printList = new ArrayList<JasperPrint>();
+		
+		for(Report<?> report : reports){
+			printList.add(fill(report));
+		}
+		
+		return printList;
+		
+	}
+	
 	private JasperPrint fill(Report<?> report) throws JRException {
 		
 		for(ReportDecorator decorator : decorators){
@@ -86,5 +107,7 @@ public class JasperExporter implements ReportExporter {
 		return print;
 		
 	}
+
+	
 
 }

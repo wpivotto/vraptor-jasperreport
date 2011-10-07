@@ -9,6 +9,7 @@ import br.com.caelum.vraptor.interceptor.ExecuteMethodInterceptor;
 import br.com.caelum.vraptor.interceptor.Interceptor;
 import br.com.caelum.vraptor.interceptor.download.Download;
 import br.com.caelum.vraptor.interceptor.download.DownloadInterceptor;
+import br.com.caelum.vraptor.jasperreports.download.BatchReportsDownload;
 import br.com.caelum.vraptor.jasperreports.download.ReportDownload;
 import br.com.caelum.vraptor.jasperreports.download.ReportsDownload;
 import br.com.caelum.vraptor.resource.ResourceMethod;
@@ -41,6 +42,11 @@ public class ExporterInterceptor implements Interceptor {
 		
 		if(result instanceof ReportsDownload){
 			ReportsDownload download = (ReportsDownload)result;
+			download.setExporter(exporter);
+		}
+		
+		if(result instanceof BatchReportsDownload){
+			BatchReportsDownload download = (BatchReportsDownload)result;
 			download.setExporter(exporter);
 		}
 		

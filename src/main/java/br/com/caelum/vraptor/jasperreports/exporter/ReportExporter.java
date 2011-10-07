@@ -1,5 +1,7 @@
 package br.com.caelum.vraptor.jasperreports.exporter;
 
+import java.util.List;
+
 import br.com.caelum.vraptor.jasperreports.Report;
 import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
 
@@ -13,6 +15,7 @@ import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
 public interface ReportExporter {
 	
 	ReportExporter export(Report<?> report);
+	ReportExporter export(List<Report<?>> reports);
 	byte[] to(ExportFormat format);
 
 }

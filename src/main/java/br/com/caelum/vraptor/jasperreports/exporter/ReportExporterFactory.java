@@ -13,7 +13,7 @@ public class ReportExporterFactory implements ComponentFactory<ReportExporter> {
 	private final ReportExporter exporter;
 
 	public ReportExporterFactory(ReportLoader loader, List<ReportDecorator> decorators) {
-		this.exporter = new JasperExporter(loader, decorators);
+		this.exporter = new DefaultExporter(loader, decorators);
 	}
 
 	public ReportExporter getInstance() {
