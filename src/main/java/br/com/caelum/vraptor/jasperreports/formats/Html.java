@@ -1,7 +1,9 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import br.com.caelum.vraptor.ioc.Component;
+import br.com.caelum.vraptor.jasperreports.ReportPathResolver;
 
 /**
  * @author William Pivotto
@@ -10,8 +12,10 @@ import br.com.caelum.vraptor.ioc.Component;
 @Component
 public class Html extends AbstractExporter {
 
-	public Html(){
-		
+	private final ReportPathResolver resolver;
+	
+	public Html(ReportPathResolver resolver){
+		this.resolver = resolver;
 	}
 
 	public String getContentType() {
@@ -24,6 +28,9 @@ public class Html extends AbstractExporter {
 
 	public void setup() {
 		exporter = new JRHtmlExporter();
+		configure(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, Boolean.FALSE);
+		configure(JRHtmlExporterParameter.IMAGES_DIR_NAME, resolver.getImagesPath());
+		configure(JRHtmlExporterParameter.IMAGES_URI, resolver.getImagesURI());
 	}
 	
 }

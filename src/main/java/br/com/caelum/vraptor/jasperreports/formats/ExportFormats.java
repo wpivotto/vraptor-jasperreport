@@ -51,8 +51,8 @@ public class ExportFormats {
 		return new Txt();
 	}
 	
-	public static Html html(){
-		return new Html();
+	public Html html(){
+		return (Html) byExtension("html");
 	}
 
 	public static Ods ods(){

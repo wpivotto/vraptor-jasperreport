@@ -13,9 +13,9 @@ import br.com.caelum.vraptor.ioc.Component;
 public class ReportPathResolver {
 
 	private final ServletContext context;
-	private static final String DEFAULT_REPORTS_PATH = "/WEB-INF/reports";
-	private static final String DEFAULT_SUBREPORTS_PATH = "/WEB-INF/reports/subreports";
-	private static final String DEFAULT_IMAGES_PATH = "/WEB-INF/reports/images";
+	public static final String DEFAULT_REPORTS_PATH = "/WEB-INF/reports";
+	public static final String DEFAULT_SUBREPORTS_PATH = "/WEB-INF/reports/subreports";
+	public static final String DEFAULT_IMAGES_PATH = "/WEB-INF/reports/images";
 	private static final String DEFAULT_BUNDLE_NAME = "i18n_";
 	private static final String SEPARATOR = File.separator;
 	
@@ -62,4 +62,9 @@ public class ReportPathResolver {
 		String param = context.getInitParameter("vraptor.reports.resourcebundle.name");
 		return param != null ? param.trim() : DEFAULT_BUNDLE_NAME;
 	}
+
+	public String getImagesURI() {
+		return context.getContextPath() + "/report.image?image=";
+	}
+
 }

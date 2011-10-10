@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -12,6 +14,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.j2ee.servlets.ImageServlet;
 import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.jasperreports.Report;
 import br.com.caelum.vraptor.jasperreports.ReportLoader;
@@ -31,10 +34,12 @@ public class DefaultExporter implements ReportExporter {
 	private List<Report<?>> reports = new ArrayList<Report<?>>();
 	private final ReportLoader loader; 
 	private final List<ReportDecorator> decorators;
+	private final HttpSession session;
 	
-	public DefaultExporter(ReportLoader loader, List<ReportDecorator> decorators){
+	public DefaultExporter(ReportLoader loader, List<ReportDecorator> decorators, HttpSession session){
 		this.loader = loader;
 		this.decorators = decorators;
+		this.session = session;
 	}
 	
 	public ReportExporter export(Report<?> report) {
@@ -54,8 +59,14 @@ public class DefaultExporter implements ReportExporter {
 		try {
 			
 			JRExporter exporter = format.getExporter();
-		
-			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, fillAll());
+			
+			
+			List<JasperPrint> printList = fillAll();
+			
+			session.setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, printList.get(0));  
+			
+			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, printList);
+					
 			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, buffer);
 
 			exporter.exportReport();
@@ -107,7 +118,5 @@ public class DefaultExporter implements ReportExporter {
 		return print;
 		
 	}
-
-	
 
 }
