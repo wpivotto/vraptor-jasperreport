@@ -3,7 +3,9 @@ package br.com.caelum.vraptor.jasperreports.exporter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +17,10 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.j2ee.servlets.ImageServlet;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.jasperreports.Report;
 import br.com.caelum.vraptor.jasperreports.ReportLoader;
@@ -36,6 +42,7 @@ public class DefaultExporter implements ReportExporter {
 	private final ReportLoader loader; 
 	private final List<ReportDecorator> decorators;
 	private final HttpSession session;
+	private final Logger logger = LoggerFactory.getLogger(DefaultExporter.class);
 	
 	public DefaultExporter(ReportLoader loader, List<ReportDecorator> decorators, HttpSession session){
 		this.loader = loader;
@@ -113,7 +120,15 @@ public class DefaultExporter implements ReportExporter {
 		
 		JasperReport jr = loader.load(report);
 		JRBeanCollectionDataSource data = new JRBeanCollectionDataSource(report.getData(), false);
-		JasperPrint print = JasperFillManager.fillReport(jr, report.getParameters(), data);
+		
+		Map<String, Object> parameters = report.getParameters();
+		
+		if(parameters == null){
+			parameters = new HashMap<String, Object>();
+			logger.warn("You are willing to generate a report, but there is no valid parameters");
+		}
+			
+		JasperPrint print = JasperFillManager.fillReport(jr, parameters, data);
 		
 		return print;
 		

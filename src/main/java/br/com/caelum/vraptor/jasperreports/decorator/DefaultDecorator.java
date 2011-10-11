@@ -22,12 +22,14 @@ public class DefaultDecorator implements ReportDecorator {
 	}
 
 	public void decorate(Report<?> report) {
-		report.addParameter("REPORT_DIR", resolver.getReportsPath());
-		report.addParameter("SUBREPORT_DIR", resolver.getSubReportsPath());
-		report.addParameter("IMAGES_DIR", resolver.getImagesPath());
-		report.addParameter(JRParameter.REPORT_LOCALE, bundle.getLocale());
-		report.addParameter(JRParameter.REPORT_RESOURCE_BUNDLE, bundle);
-		includeRequestParameters(report);
+		if(report.getParameters() != null) {
+			report.addParameter("REPORT_DIR", resolver.getReportsPath());
+			report.addParameter("SUBREPORT_DIR", resolver.getSubReportsPath());
+			report.addParameter("IMAGES_DIR", resolver.getImagesPath());
+			report.addParameter(JRParameter.REPORT_LOCALE, bundle.getLocale());
+			report.addParameter(JRParameter.REPORT_RESOURCE_BUNDLE, bundle);
+			includeRequestParameters(report);
+		}
 	}
 	
 	private void includeRequestParameters(Report<?> report){
