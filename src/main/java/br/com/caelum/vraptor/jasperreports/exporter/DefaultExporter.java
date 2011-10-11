@@ -20,6 +20,7 @@ import br.com.caelum.vraptor.jasperreports.Report;
 import br.com.caelum.vraptor.jasperreports.ReportLoader;
 import br.com.caelum.vraptor.jasperreports.decorator.ReportDecorator;
 import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
+import br.com.caelum.vraptor.jasperreports.formats.Html;
 
 /**
  * Export a report into a specific format
@@ -60,10 +61,9 @@ public class DefaultExporter implements ReportExporter {
 			
 			JRExporter exporter = format.getExporter();
 			
-			
 			List<JasperPrint> printList = fillAll();
 			
-			session.setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, printList.get(0));  
+			configImageServlet(format, printList.get(0));
 			
 			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, printList);
 					
@@ -118,5 +118,10 @@ public class DefaultExporter implements ReportExporter {
 		return print;
 		
 	}
-
+	
+	private void configImageServlet(ExportFormat format, JasperPrint print){
+		if(format.getClass().equals(Html.class) && print != null)
+			session.setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, print);  
+	}
+	
 }

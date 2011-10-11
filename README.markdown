@@ -206,6 +206,8 @@ Accept header
 If your method return a report, an interceptor tries to discover the request format (through _format or Accept header) and then render the report in 
 this format.
 
+	<a href="<c:url value="/clients/report?_format=csv"/>">CSV Report</a>
+
 	@Get("/clients/report") 
 	public Report report() {
 		Report<Client> report = generateReport();
@@ -220,17 +222,29 @@ For enabling this you must put this parameters on web.xml:
 
 	<context-param>
 	    <param-name>vraptor.reports.path</param-name>
-	    <param-value>...</param-value>
-	    <param-name>vraptor.subreports.path</param-name>
-	    <param-value>...</param-value>
-	    <param-name>vraptor.images.path</param-name>
-	    <param-value>...</param-value>
+	    <param-value>custom reports path</param-value>
 	</context-param>
+	<context-param>
+	    <param-name>vraptor.subreports.path</param-name>
+	    <param-value>custom subreports path</param-value>
+	</context-param>
+	<context-param>
+	    <param-name>vraptor.images.path</param-name>
+	    <param-value>custom images path</param-value>
+	</context-param>
+	
+These folders are passed as parameters to reports:
+
+	`$P{REPORT_DIR}` directory where the reports are available
+	`$P{SUBREPORT_DIR}` directory where the sub-reports are available
+	`$P{IMAGES_DIR}` directory where the images are available
+
+So, to include an image in the report just do: `$P{IMAGES_DIR} + "image.png"`
 
 Decorating reports
 ------
 
-Decorators can be used to provide default values for all reports, like this
+Decorators can be used to provide default parameters for all reports, like this
  
 	@Component
 	@SessionScoped
@@ -238,7 +252,7 @@ Decorators can be used to provide default values for all reports, like this
 	
 		private final User user;
 		
-		public ReportLocaleDecorator(User user) {
+		public MyDecorator(User user) {
 			this.user = user;
 		}
 	
@@ -248,6 +262,19 @@ Decorators can be used to provide default values for all reports, like this
 	}
 	
 Now all reports have a parameter called `$P{GeneratedBy}`.
+
+Using Result
+------
+
+Another way to pass parameters to your report is through the result object.
+Values ​​passed to the result are automatically converted into parameters
+
+	@Get("/clients/report") 
+	public Report report() {
+		result.include("GeneratedBy", user);
+		Report<Client> report = generateReport();
+		return report;
+	}
 
 Internationalization
 ------
@@ -261,9 +288,25 @@ For changing this you must put this parameter on web.xml:
 
 	<context-param>
 	    <param-name>vraptor.reports.resourcebundle.name</param-name>
-	    <param-value>...</param-value>
+	    <param-value>custom resource bundle name</param-value>
 	</context-param>
 
+Image Servlet
+------
+
+This servlet (included in the JasperReports distribution package) is needed as part of your Web application in order to include images in your HTML reports.
+To map this servlet to serve the images that are included in yours report, just do:
+
+	<servlet> 
+         <servlet-name>ImageServlet</servlet-name> 
+         <servlet-class>net.sf.jasperreports.j2ee.servlets.ImageServlet</servlet-class> 
+    </servlet>  
+             
+    <servlet-mapping> 
+         <servlet-name>ImageServlet</servlet-name> 
+         <url-pattern>/report.image</url-pattern> 
+   	</servlet-mapping> 
+   
 Dependencies
 ------
 
