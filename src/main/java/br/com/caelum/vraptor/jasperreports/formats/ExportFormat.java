@@ -33,5 +33,10 @@ public interface ExportFormat {
      * @param value the object to be stored
      */
 	ExportFormat configure(JRExporterParameter parameter, Object value);
+	
+	/**
+	 * Can work in batch mode
+	 */
+	boolean supportsBatchMode();
 
 }

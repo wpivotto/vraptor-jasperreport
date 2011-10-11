@@ -24,5 +24,9 @@ public class Txt extends AbstractExporter {
 		configure(JRTextExporterParameter.CHARACTER_WIDTH, 5f);
 		configure(JRTextExporterParameter.CHARACTER_HEIGHT, 20f);
 	}
+	
+	public boolean supportsBatchMode() {
+		return false;
+	}
 
 }

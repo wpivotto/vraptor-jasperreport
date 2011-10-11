@@ -30,6 +30,10 @@ public abstract class AbstractExporter implements ExportFormat {
 		return exporter;
 	}
 	
+	public boolean supportsBatchMode() {
+		return true;
+	}
+	
 	protected abstract void setup();
 	
 }

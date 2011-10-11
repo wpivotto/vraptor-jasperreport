@@ -22,6 +22,8 @@ public class BatchReportsDownload implements Download {
 	private String filename;
 	
 	public BatchReportsDownload(ExportFormat format, String filename, boolean doDownload){
+		if(!format.supportsBatchMode())
+			throw new IllegalArgumentException("This export format is not supported in batch mode");
 		this.format = format;
 		this.filename = filename;
 		this.doDownload = doDownload;

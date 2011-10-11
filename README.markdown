@@ -21,26 +21,26 @@ Supported File Formats:
 Using it
 ------
 
-1. In a Maven project's pom.xml file:
+1. 	In a Maven project's pom.xml file:
 	 
-	<repositories>
-    	<repository>
-        	<id>sonatype-oss-public</id>
-        	<url>https://oss.sonatype.org/content/groups/public/</url>
-        	<releases>
-            	<enabled>true</enabled>
-          	</releases>
-          	<snapshots>
-            	<enabled>true</enabled>
-          	</snapshots>
-        </repository>
-	</repositories>
+ 		<repositories>
+    		<repository>
+        		<id>sonatype-oss-public</id>
+        		<url>https://oss.sonatype.org/content/groups/public/</url>
+        		<releases>
+            			<enabled>true</enabled>
+          		</releases>
+         		<snapshots>
+            			<enabled>true</enabled>
+	       		</snapshots>
+       	 	</repository>
+		</repositories>
       
-	<dependency>
-  		<groupId>br.com.prixma</groupId>
-  		<artifactId>vraptor-jasperreport</artifactId>
-  		<version>1.0.0</version>
-	</dependency>
+		<dependency>
+  			<groupId>br.com.prixma</groupId>
+  			<artifactId>vraptor-jasperreport</artifactId>
+  			<version>1.0.0</version>
+		</dependency>
 
 2.	Put vraptor-jasperreport-version.jar and dependencies in your `WEB-INF/lib` folder.
 3.	Create a class to represent your report: make it implement the `br.com.caelum.vraptor.jasperreports.Report` interface.
@@ -73,10 +73,10 @@ Controller
 		@Path("/clients/pdf/encrypted") 
 		public Download encryptedPdfReport() {
 			Report<Client> report = generateReport();
-			Pdf document = formats.pdf();
-			document.encrypt(user.getPassword());
-			document.addPermission(PdfWriter.ALLOW_COPY)
-					.addPermission(PdfWriter.ALLOW_PRINTING);
+			Pdf pdf = ExportFormats.pdf();
+			pdf.encrypt(user.getPassword());
+			pdf.addPermission(PdfWriter.ALLOW_COPY)
+			   .addPermission(PdfWriter.ALLOW_PRINTING);
 			return new ReportDownload(report, pdf);
 		}
 		
@@ -114,20 +114,6 @@ Controller
 		public Download rtfReport() {
 			Report<Client> report = generateReport();
 			return new ReportDownload(report, rtf());
-		}
-		
-		@Path("/clients/zip") 
-		public Download zipReport() throws IOException {
-			ReportsDownload download = new ReportsDownload();
-			Report<Client> report = generateReport();
-			download.add(report, pdf())
-					.add(report, csv())
-					.add(report, xls())
-					.add(report, rtf())
-					.add(report, docx())
-					.add(report, txt())
-					.add(report, odt());
-			return download;
 		}
 		
 		@Path("/clients/report/{format}") 
@@ -183,6 +169,36 @@ Report
 	
 	}
 	
+Batch Export
+------
+
+Several reports can be exported together to form a single resulting document.
+
+	public Download batchReport(){
+		BatchReportsDownload download = new BatchReportsDownload(pdf());
+		Report header = ...
+		Report another = ...
+		Report footer = ...
+		download.add(header, another, footer);
+		return download;
+	}
+	
+Note: Not all exporters can work in batch mode
+	
+Zip Export
+------
+
+This option allows you to export reports in different formats and agroup them into a single zip file.
+
+	public Download zipReport(){
+		ReportsDownload download = new ReportsDownload();
+		download.add(pdfReport, pdf())
+				.add(csvReport, csv())
+				.add(xlsReport, xls())
+				.add(docxReport, rtf())
+				.add(odtReport, odt());
+		return download;
+	}
 	
 Accept header
 ------
@@ -260,9 +276,4 @@ Dependencies
 * Jakarta POI <http://jakarta.apache.org/poi/> - Only required when exporting reports to Excel format
 * JExcelApi <http://jexcelapi.sourceforge.net/> - Only required when exporting reports to Excel format
 
-
-Example
-------
-
-<https://github.com/wpivotto/vraptor-jasperreport-example>
 
