@@ -80,13 +80,18 @@ public class ReportsDownload implements Download {
 		return add(report, format, true);
 	}
 
-	public ReportsDownload add(File file, boolean doCompress) throws IOException {
-		byte[] content = Files.toByteArray(file);
+	public ReportsDownload add(File file, boolean doCompress) {
+		byte[] content = null;
+		try {
+			content = Files.toByteArray(file);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 		add(file.getName(), content, doCompress);
 		return this;
 	}
 
-	public ReportsDownload add(File file) throws IOException {
+	public ReportsDownload add(File file) {
 		return add(file, true);
 	}
 	

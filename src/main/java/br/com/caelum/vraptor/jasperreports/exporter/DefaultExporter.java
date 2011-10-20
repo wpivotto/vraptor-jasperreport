@@ -68,11 +68,12 @@ public class DefaultExporter implements ReportExporter {
 			
 			JRExporter exporter = format.getExporter();
 			
-			List<JasperPrint> printList = fillAll();
+			List<JasperPrint> printList = fillAll(format);
 			
-			configImageServlet(format, printList.get(0));
-			
-			exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, printList);
+			if(batchExport())
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, printList);
+			else
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, printList.get(0));
 					
 			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, buffer);
 
@@ -88,7 +89,10 @@ public class DefaultExporter implements ReportExporter {
 			throw new RuntimeException(e);
 		}
 		
-		finally{
+		finally {
+			
+			reports.clear();
+			
 			if(buffer != null) { 
 				try {
 					buffer.close();
@@ -98,15 +102,21 @@ public class DefaultExporter implements ReportExporter {
 			}
 		}
 	}
+	
+	private boolean batchExport(){
+		return reports.size() > 1;
+	}
 
 
-	private List<JasperPrint> fillAll() throws JRException {
+	private List<JasperPrint> fillAll(ExportFormat format) throws JRException {
 		
 		List<JasperPrint> printList = new ArrayList<JasperPrint>();
 		
 		for(Report<?> report : reports){
 			printList.add(fill(report));
 		}
+		
+		configImageServlet(format, printList.get(0));
 		
 		return printList;
 		

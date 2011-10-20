@@ -11,7 +11,7 @@
 
 	<groupId>br.com.prixma</groupId>
 	<artifactId>vraptor-jasperreport</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>vraptor-jasperreport</name>
@@ -70,7 +70,7 @@
 				</executions>
 			</plugin>
 			
-			<!-- 
+	
 			<plugin>
 				  <groupId>org.apache.maven.plugins</groupId>
 				  <artifactId>maven-javadoc-plugin</artifactId>
@@ -83,9 +83,9 @@
 					</execution>
 				  </executions>
 			</plugin>
-			-->
+		
 			
-			<!--  
+	<!-- 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
@@ -99,7 +99,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			-->
+		 -->
 			
 		</plugins>
 	</build>
