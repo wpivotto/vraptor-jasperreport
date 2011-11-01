@@ -1,8 +1,6 @@
 package br.com.caelum.vraptor.jasperreports.download;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -13,10 +11,12 @@ import br.com.caelum.vraptor.jasperreports.Report;
 import br.com.caelum.vraptor.jasperreports.exporter.ReportExporter;
 import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
 
+import com.google.common.collect.Lists;
+
 public class BatchReportsDownload implements Download {
 
 	private ReportExporter exporter;
-	private List<Report<?>> reports = new ArrayList<Report<?>>();
+	private List<Report<?>> reports = Lists.newArrayList();
 	private final ExportFormat format;
 	private final boolean doDownload;
 	private String filename;
@@ -37,7 +37,7 @@ public class BatchReportsDownload implements Download {
 		this.exporter = exporter;
 	}
 	
-	public BatchReportsDownload add(Collection<Report<?>> reports){
+	public BatchReportsDownload add(List<Report<?>> reports){
 		reports.addAll(reports);
 		return this;
 	}
@@ -50,8 +50,23 @@ public class BatchReportsDownload implements Download {
 	}
 
 	public void write(HttpServletResponse response) throws IOException {
-		byte[] bytes = exporter.export(reports).to(format);
-		new ByteArrayDownload(bytes, format.getContentType(), filename + "." + format.getExtension(), doDownload).write(response);
+		new ByteArrayDownload(getContent(), getContentType(), getFileName(), doDownload).write(response);
+	}
+	
+	private byte[] getContent(){
+		return exporter.export(reports).to(format);
+	}
+	
+	public byte[] getContent(ReportExporter exporter){
+		return exporter.export(reports).to(format);
+	}
+
+	public String getContentType(){
+		return format.getContentType();
+	}
+	
+	public String getFileName(){
+		return filename + "." + format.getExtension();
 	}
 
 }

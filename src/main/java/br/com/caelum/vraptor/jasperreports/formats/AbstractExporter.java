@@ -33,7 +33,7 @@ public abstract class AbstractExporter implements ExportFormat {
 	public boolean supportsBatchMode() {
 		return true;
 	}
-	
+
 	protected abstract void setup();
 	
 }

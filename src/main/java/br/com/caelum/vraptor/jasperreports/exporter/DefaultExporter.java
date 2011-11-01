@@ -3,7 +3,7 @@ package br.com.caelum.vraptor.jasperreports.exporter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +28,9 @@ import br.com.caelum.vraptor.jasperreports.decorator.ReportDecorator;
 import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
 import br.com.caelum.vraptor.jasperreports.formats.Html;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
 /**
  * Export a report into a specific format
  *
@@ -38,7 +41,7 @@ import br.com.caelum.vraptor.jasperreports.formats.Html;
 @Component
 public class DefaultExporter implements ReportExporter {
 
-	private List<Report<?>> reports = new ArrayList<Report<?>>();
+	private Collection<Report<?>> reports = Lists.newArrayList();
 	private final ReportLoader loader; 
 	private final List<ReportDecorator> decorators;
 	private final HttpSession session;
@@ -55,7 +58,7 @@ public class DefaultExporter implements ReportExporter {
 		return this;
 	}
 	
-	public ReportExporter export(List<Report<?>> reports) {
+	public ReportExporter export(Collection<Report<?>> reports) {
 		this.reports = reports;
 		return this;
 	}
@@ -134,7 +137,7 @@ public class DefaultExporter implements ReportExporter {
 		Map<String, Object> parameters = report.getParameters();
 		
 		if(parameters == null){
-			parameters = new HashMap<String, Object>();
+			parameters = Maps.newHashMap();
 			logger.warn("You are willing to generate a report, but there is no valid parameters");
 		}
 			
