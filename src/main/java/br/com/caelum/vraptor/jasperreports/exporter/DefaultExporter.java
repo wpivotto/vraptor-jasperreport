@@ -64,7 +64,7 @@ public class DefaultExporter implements ReportExporter {
 		try {
 
 			List<JasperPrint> print = fillAll(format);
-			return format.output(print);
+			return format.toByteArray(print);
 
 		} catch (JRException e) {
 			throw new RuntimeException(e);

@@ -71,6 +71,31 @@ public class ExportFormats {
 		return new Xlsx();
 	}
 	
+	public static Image png(){
+		return new Image();
+	}
+	
+	public static Image png(Integer page, Float zoom){
+		Image image = new Image();
+		image.page(page);
+		image.zoom(zoom);
+		return image;
+	}
+	
+	public static Image jpeg(){
+		Image image = new Image();
+		image.jpeg();
+		return image;
+	}
+	
+	public static Image jpeg(Integer page, Float zoom){
+		Image image = new Image();
+		image.jpeg();
+		image.page(page);
+		image.zoom(zoom);
+		return image;
+	}
+	
 	public ExportFormat byExtension(String extension){
 		if(supports(extension))
 			return exporters.get(extension.toLowerCase());

@@ -17,6 +17,7 @@ Supported File Formats:
 * PPTX
 * XHTML
 * XLSX
+* IMAGE (PNG and JPEG)
 
 Using it
 ------
@@ -114,6 +115,12 @@ Controller
 		public Download rtfReport() {
 			Report<Client> report = generateReport();
 			return new ReportDownload(report, rtf());
+		}
+		
+		@Path("/clients/report/preview") 
+		public Download previewReport() {
+			Report<Client> report = generateReport();
+			return new ReportDownload(report, png(), false);
 		}
 		
 		@Path("/clients/report/{format}") 

@@ -36,7 +36,7 @@ public abstract class AbstractExporter implements ExportFormat {
 		return true;
 	}
 	
-	public byte[] output(List<JasperPrint> print) {
+	public byte[] toByteArray(List<JasperPrint> print) {
 		
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 	

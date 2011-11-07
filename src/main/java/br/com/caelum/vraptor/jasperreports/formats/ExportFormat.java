@@ -26,11 +26,6 @@ public interface ExportFormat {
 	String getExtension();
 	
 	/**
-     * Specifies the export implementation
-     */
-	//JRExporter getExporter();
-	
-	/**
      * Stores a configuration parameter
      * @param parameter a String specifying the key of the parameter
      * @param value the object to be stored
@@ -45,6 +40,6 @@ public interface ExportFormat {
 	/**
      * Generates output content
      */
-	byte[] output(List<JasperPrint> print);
+	byte[] toByteArray(List<JasperPrint> print);
 
 }
