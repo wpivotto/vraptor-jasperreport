@@ -1,5 +1,6 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
+import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter;
 import br.com.caelum.vraptor.ioc.Component;
@@ -19,9 +20,9 @@ public class Docx extends AbstractExporter {
 		return "docx";
 	}
 
-	public void setup() {
-		exporter = new JRDocxExporter();
+	public JRExporter setup() {
 		configure(JRDocxExporterParameter.FLEXIBLE_ROW_HEIGHT, Boolean.TRUE);
+		return new JRDocxExporter();
 	}
 	
 }

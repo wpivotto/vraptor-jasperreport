@@ -41,6 +41,11 @@ public class ReportZipFile {
 		return add("reports", reports, format);
 	}
 	
+	public ReportZipFile addAll(Collection<ReportEntry> entries) {
+		this.entries.addAll(entries);
+		return this;
+	}
+	
 	public byte[] getContent(ReportExporter exporter) {
 	
 		for(ReportEntry entry : entries){

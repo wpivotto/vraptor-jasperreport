@@ -1,5 +1,6 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
+import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.export.JRTextExporter;
 import net.sf.jasperreports.engine.export.JRTextExporterParameter;
 import br.com.caelum.vraptor.ioc.Component;
@@ -11,10 +12,10 @@ import br.com.caelum.vraptor.ioc.Component;
 @Component
 public class Rtf extends AbstractExporter {
 
-	public void setup() {
-		exporter = new JRTextExporter();
+	public JRExporter setup() {
 		configure(JRTextExporterParameter.CHARACTER_WIDTH, 5f);
 		configure(JRTextExporterParameter.CHARACTER_HEIGHT, 20f);
+		return new JRTextExporter();
 	}
 
 	public String getContentType() {

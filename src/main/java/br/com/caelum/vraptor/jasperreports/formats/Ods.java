@@ -1,5 +1,6 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
+import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
 import br.com.caelum.vraptor.ioc.Component;
 
@@ -18,8 +19,8 @@ public class Ods extends AbstractExporter {
 		return "ods";
 	}
 	
-	public void setup() {
-		exporter = new JROdsExporter();
+	public JRExporter setup() {
+		return new JROdsExporter();
 	}
 
 }

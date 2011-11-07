@@ -1,5 +1,6 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
+import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import br.com.caelum.vraptor.ioc.Component;
 
@@ -18,8 +19,8 @@ public class Csv extends AbstractExporter {
 		return "csv";
 	}
 
-	public void setup() {
-		exporter = new JRCsvExporter();
+	public JRExporter setup() {
+		return new JRCsvExporter();
 	}
 	
 	

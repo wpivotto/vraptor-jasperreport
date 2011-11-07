@@ -1,5 +1,6 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
+import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
 import br.com.caelum.vraptor.ioc.Component;
@@ -21,9 +22,9 @@ public class Pdf extends AbstractExporter {
 		return "pdf";
 	}
 
-	public void setup() {
-		exporter = new JRPdfExporter();
+	public JRExporter setup() {
 		configure(JRPdfExporterParameter.IS_COMPRESSED, Boolean.TRUE );
+		return new JRPdfExporter();
 	}
 
 	public void encrypt(String password){

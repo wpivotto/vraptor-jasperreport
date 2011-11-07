@@ -1,5 +1,6 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
+import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import br.com.caelum.vraptor.ioc.Component;
@@ -26,11 +27,11 @@ public class Html extends AbstractExporter {
 		return "html";
 	}
 
-	public void setup() {
-		exporter = new JRHtmlExporter();
+	public JRExporter setup() {
 		configure(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, Boolean.FALSE);
 		configure(JRHtmlExporterParameter.IMAGES_DIR_NAME, resolver.getImagesPath());
 		configure(JRHtmlExporterParameter.IMAGES_URI, resolver.getImagesURI());
+		return new JRHtmlExporter();
 	}
 	
 }

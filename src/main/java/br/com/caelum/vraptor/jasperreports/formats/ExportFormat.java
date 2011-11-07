@@ -1,7 +1,10 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
+import java.util.List;
+
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperPrint;
 
 /**
  * Generic Exporter
@@ -25,7 +28,7 @@ public interface ExportFormat {
 	/**
      * Specifies the export implementation
      */
-	JRExporter getExporter();
+	//JRExporter getExporter();
 	
 	/**
      * Stores a configuration parameter
@@ -38,5 +41,10 @@ public interface ExportFormat {
 	 * Can work in batch mode
 	 */
 	boolean supportsBatchMode();
+	
+	/**
+     * Generates output content
+     */
+	byte[] output(List<JasperPrint> print);
 
 }

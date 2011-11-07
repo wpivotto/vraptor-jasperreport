@@ -1,5 +1,6 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
+import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.export.JRXhtmlExporter;
 import br.com.caelum.vraptor.ioc.Component;
 
@@ -18,8 +19,8 @@ public class Xhtml extends AbstractExporter {
 		return "xhtml";
 	}
 
-	public void setup() {
-		exporter = new JRXhtmlExporter();
+	public JRExporter setup() {
+		return new JRXhtmlExporter();
 	}
 	
 }

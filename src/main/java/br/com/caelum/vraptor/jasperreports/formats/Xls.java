@@ -1,5 +1,6 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
+import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import br.com.caelum.vraptor.ioc.Component;
@@ -19,12 +20,12 @@ public class Xls extends AbstractExporter {
 		return "xls";
 	}
 
-	public void setup() {
-		exporter = new JRXlsExporter();  
+	public JRExporter setup() {
 		configure(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
 		configure(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, Boolean.FALSE);   
 		configure(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE);  
 		configure(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, Boolean.FALSE);  
+		return new JRXlsExporter();  
 	}
 
 }

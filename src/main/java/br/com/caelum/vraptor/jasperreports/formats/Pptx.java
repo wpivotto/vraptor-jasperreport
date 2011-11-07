@@ -1,5 +1,6 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
+import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
 import br.com.caelum.vraptor.ioc.Component;
 
@@ -18,8 +19,8 @@ public class Pptx extends AbstractExporter {
 		return "pptx";
 	}
 
-	public void setup() {
-		exporter = new JRPptxExporter();
+	public JRExporter setup() {
+		return new JRPptxExporter();
 	}
 
 }
