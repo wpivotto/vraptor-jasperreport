@@ -20,7 +20,7 @@ public class ReportZipFile {
 	
 	private ByteArrayOutputStream output = new ByteArrayOutputStream();
 	private ZipOutputStream zip = new ZipOutputStream(output);
-	private List<ReportEntry> entries = Lists.newArrayList();
+	private List<ReportItem> items = Lists.newArrayList();
 	private String filename;
 	
 	public ReportZipFile(String filename){
@@ -28,12 +28,12 @@ public class ReportZipFile {
 	}
 	
 	public ReportZipFile add(Report<?> report, ExportFormat format){
-		this.entries.add(new ReportEntry(report, format));
+		this.items.add(new ReportItem(report, format));
 		return this;
 	}
 	
 	public ReportZipFile add(String filename, Collection<Report<?>> reports, ExportFormat format) {
-		this.entries.add(new ReportEntry(filename, reports, format));
+		this.items.add(new ReportItem(filename, reports, format));
 		return this;
 	}
 	
@@ -41,15 +41,15 @@ public class ReportZipFile {
 		return add("reports", reports, format);
 	}
 	
-	public ReportZipFile addAll(Collection<ReportEntry> entries) {
-		this.entries.addAll(entries);
+	public ReportZipFile addAll(Collection<ReportItem> entries) {
+		this.items.addAll(entries);
 		return this;
 	}
 	
 	public byte[] getContent(ReportExporter exporter) {
 	
-		for(ReportEntry entry : entries){
-			write(entry.getFilename(), entry.getContent(exporter));
+		for(ReportItem item : items){
+			write(item.getFilename(), item.getContent(exporter));
 		}
 		
 		Flushables.flushQuietly(zip);
