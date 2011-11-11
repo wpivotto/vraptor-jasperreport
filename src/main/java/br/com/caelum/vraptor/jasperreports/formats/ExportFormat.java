@@ -2,7 +2,6 @@ package br.com.caelum.vraptor.jasperreports.formats;
 
 import java.util.List;
 
-import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 
