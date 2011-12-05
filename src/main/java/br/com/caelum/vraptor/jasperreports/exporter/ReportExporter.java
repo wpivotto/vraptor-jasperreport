@@ -14,8 +14,8 @@ import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
 
 public interface ReportExporter {
 	
-	ReportExporter export(Report<?> report);
-	ReportExporter export(Collection<Report<?>> reports);
+	ReportExporter export(Report report);
+	ReportExporter export(Collection<Report> reports);
 	byte[] to(ExportFormat format);
 
 }

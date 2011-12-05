@@ -37,7 +37,7 @@ import com.google.common.collect.Maps;
 @Component
 public class DefaultExporter implements ReportExporter {
 
-	private Collection<Report<?>> reports = Lists.newArrayList();
+	private Collection<Report> reports = Lists.newArrayList();
 	private final ReportLoader loader;
 	private final List<ReportDecorator> decorators;
 	private final HttpSession session;
@@ -49,12 +49,12 @@ public class DefaultExporter implements ReportExporter {
 		this.session = session;
 	}
 
-	public ReportExporter export(Report<?> report) {
+	public ReportExporter export(Report report) {
 		this.reports.add(report);
 		return this;
 	}
 
-	public ReportExporter export(Collection<Report<?>> reports) {
+	public ReportExporter export(Collection<Report> reports) {
 		this.reports = reports;
 		return this;
 	}
@@ -75,7 +75,7 @@ public class DefaultExporter implements ReportExporter {
 
 		List<JasperPrint> printList = new ArrayList<JasperPrint>();
 
-		for (Report<?> report : reports) {
+		for (Report report : reports) {
 			printList.add(fill(report));
 		}
 
@@ -85,7 +85,7 @@ public class DefaultExporter implements ReportExporter {
 
 	}
 
-	private JasperPrint fill(Report<?> report) throws JRException {
+	private JasperPrint fill(Report report) throws JRException {
 
 		for (ReportDecorator decorator : decorators) {
 			decorator.decorate(report);

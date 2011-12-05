@@ -70,13 +70,13 @@ public class ClientsController {
 		
 	@Path("/clients/pdf") 
 	public Download pdfReport() {
-		Report<Client> report = generateReport();
+		Report report = generateReport();
 		return new ReportDownload(report, pdf());
 	}
 		
 	@Path("/clients/pdf/encrypted") 
 	public Download encryptedPdfReport() {
-		Report<Client> report = generateReport();
+		Report report = generateReport();
 		Pdf pdf = ExportFormats.pdf();
 		pdf.encrypt(user.getPassword());
 		pdf.addPermission(PdfWriter.ALLOW_COPY)
@@ -86,53 +86,53 @@ public class ClientsController {
 		
 	@Path("/clients/csv") 
 	public Download csvReport() {
-		Report<Client> report = generateReport();
+		Report report = generateReport();
 		return new ReportDownload(report, csv());
 	}
 		
 	@Path("/clients/xls") 
 	public Download xlsReport() {
-		Report<Client> report = generateReport();
+		Report report = generateReport();
 		return new ReportDownload(report, xls());
 	}
 		
 	@Path("/clients/docx") 
 	public Download docxReport() {
-		Report<Client> report = generateReport();
+		Report report = generateReport();
 		return new ReportDownload(report, docx());
 	}
 		
 	@Path("/clients/txt") 
 	public Download txtReport() {
-		Report<Client> report = generateReport();
+		Report report = generateReport();
 		return new ReportDownload(report, txt());
 	}
 		
 	@Path("/clients/odt") 
 	public Download odtReport() {
-		Report<Client> report = generateReport();
+		Report report = generateReport();
 		return new ReportDownload(report, odt());
 	}
 		
 	@Path("/clients/rtf") 
 	public Download rtfReport() {
-		Report<Client> report = generateReport();
+		Report report = generateReport();
 		return new ReportDownload(report, rtf());
 	}
 		
 	@Path("/clients/report/preview") 
 	public Download previewReport() {
-		Report<Client> report = generateReport();
+		Report report = generateReport();
 		return new ReportDownload(report, png(), false);
 	}
 		
 	@Path("/clients/report/{format}") 
 	public Download report(String format) {
-		Report<Client> report = generateReport();
+		Report report = generateReport();
 		return new ReportDownload(report, formats.byExtension(format));
 	}
 		
-	private Report<Client> generateReport(){
+	private Report generateReport(){
 		List<Client> data = clients.listAll();
 		return new ClientsReport(data);
 	}
@@ -144,7 +144,7 @@ Report
 --------
 
 ```java
-public class ClientsReport implements Report<Client> {
+public class ClientsReport implements Report {
 	
 	private final List<Client> data;
 	private Map<String, Object> parameters;
@@ -230,7 +230,7 @@ this format.
 ```java
 @Get("/clients/report") 
 public Report report() {
-	Report<Client> report = generateReport();
+	Report report = ...;
 	return report;
 }
 ```
@@ -282,7 +282,7 @@ public class MyDecorator implements ReportDecorator {
 		this.user = user;
 	}
 	
-	public void decorate(Report<?> report) {
+	public void decorate(Report report) {
 		report.addParameter("GeneratedBy", user);
 	}
 }
@@ -300,7 +300,7 @@ Values ​​passed to the result are automatically converted into parameters
 @Get("/clients/report") 
 public Report report() {
 	result.include("GeneratedBy", user);
-	Report<Client> report = generateReport();
+	Report report = generateReport();
 	return report;
 }
 ```

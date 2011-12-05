@@ -10,7 +10,7 @@ import java.util.Map;
  *
  */
 
-public interface Report<T> {
+public interface Report {
 	
 	/**
      * Specifies the path to locate template file (.jrxml or .jasper)
@@ -25,7 +25,7 @@ public interface Report<T> {
 	/**
      * Specifies the content to fill the report
      */
-	Collection<T> getData();
+	Collection getData();
 	
 	/**
      * Specifies the output file name
@@ -37,7 +37,7 @@ public interface Report<T> {
      * @param parameter a String specifying the key of the parameter
      * @param value the object to be stored
      */
-	Report<T> addParameter(String parameter, Object value);
+	Report addParameter(String parameter, Object value);
 	
 	boolean isCacheable();
 	

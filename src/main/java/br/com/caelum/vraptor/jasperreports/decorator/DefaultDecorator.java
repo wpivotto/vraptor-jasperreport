@@ -21,7 +21,7 @@ public class DefaultDecorator implements ReportDecorator {
 		this.result = result;
 	}
 
-	public void decorate(Report<?> report) {
+	public void decorate(Report report) {
 		if(report.getParameters() != null) {
 			report.addParameter("REPORT_DIR", resolver.getReportsPath());
 			report.addParameter("SUBREPORT_DIR", resolver.getSubReportsPath());
@@ -32,7 +32,7 @@ public class DefaultDecorator implements ReportDecorator {
 		}
 	}
 	
-	private void includeRequestParameters(Report<?> report){
+	private void includeRequestParameters(Report report){
 		for(Map.Entry<String, Object> entry : result.included().entrySet()){
 			report.addParameter(entry.getKey(), entry.getValue());
 		}

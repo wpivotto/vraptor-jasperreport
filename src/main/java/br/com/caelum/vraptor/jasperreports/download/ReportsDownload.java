@@ -28,12 +28,12 @@ public class ReportsDownload implements Download {
 		this.exporter = exporter;
 	}
 
-	public ReportsDownload add(Report<?> report, ExportFormat format) {
+	public ReportsDownload add(Report report, ExportFormat format) {
 		this.file.add(report, format);
 		return this;
 	}
 	
-	public ReportsDownload add(String filename, List<Report<?>> reports, ExportFormat format) {
+	public ReportsDownload add(String filename, List<Report> reports, ExportFormat format) {
 		this.file.add(filename, reports, format);
 		return this;
 	}

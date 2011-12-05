@@ -19,7 +19,7 @@ public class ReportLoader {
 		this.resolver = resolver;
 	}
 
-	public JasperReport load(Report<?> report) throws JRException {
+	public JasperReport load(Report report) throws JRException {
 		
 		if(report.isCacheable())
 			return loadFromCache(report);
@@ -28,7 +28,7 @@ public class ReportLoader {
 
 	}
 	
-	private JasperReport loadFromCache(Report<?> report) throws JRException {
+	private JasperReport loadFromCache(Report report) throws JRException {
 		
 		if(!cache.contains(report.getTemplate()))
 			cache.put(report.getTemplate(), loadFromDisk(report));
@@ -37,7 +37,7 @@ public class ReportLoader {
 		
 	}
 	
-	private JasperReport loadFromDisk(Report<?> report) throws JRException {
+	private JasperReport loadFromDisk(Report report) throws JRException {
 
 		String template = resolver.getPathFor(report);
 		

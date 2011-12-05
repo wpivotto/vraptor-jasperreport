@@ -16,7 +16,7 @@ import com.google.common.collect.Lists;
 public class BatchReportsDownload implements Download {
 
 	private ReportExporter exporter;
-	private List<Report<?>> reports = Lists.newArrayList();
+	private List<Report> reports = Lists.newArrayList();
 	private final ExportFormat format;
 	private final boolean doDownload;
 	private String filename;
@@ -37,13 +37,13 @@ public class BatchReportsDownload implements Download {
 		this.exporter = exporter;
 	}
 	
-	public BatchReportsDownload add(List<Report<?>> reports){
+	public BatchReportsDownload add(List<Report> reports){
 		reports.addAll(reports);
 		return this;
 	}
 	
-	public BatchReportsDownload add(Report<?> ...reports){
-		for(Report<?> report : reports){
+	public BatchReportsDownload add(Report ...reports){
+		for(Report report : reports){
 			this.reports.add(report);
 		}
 		return this;

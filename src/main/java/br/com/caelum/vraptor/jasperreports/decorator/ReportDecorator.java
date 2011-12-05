@@ -4,6 +4,6 @@ import br.com.caelum.vraptor.jasperreports.Report;
 
 public interface ReportDecorator {
 
-	void decorate(Report<?> report);
+	void decorate(Report report);
 	
 }

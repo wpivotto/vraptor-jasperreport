@@ -30,7 +30,7 @@ public class ReportPathResolver {
 		logger.debug("IMAGES_DIR --> " + getImagesPath());
 	}
 	
-	public String getPathFor(Report<?> report){
+	public String getPathFor(Report report){
 		return getReportsPath() + report.getTemplate();
 	}
 	

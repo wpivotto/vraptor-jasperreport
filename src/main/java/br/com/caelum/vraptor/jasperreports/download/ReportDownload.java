@@ -20,17 +20,17 @@ import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
 public class ReportDownload implements Download {
 	
 	private ReportExporter exporter;
-	private final Report<?> report;
+	private final Report report;
 	private final ExportFormat format;
 	private final boolean doDownload;
 	
-	public ReportDownload(Report<?> report, ExportFormat format, boolean doDownload){
+	public ReportDownload(Report report, ExportFormat format, boolean doDownload){
 		this.report = report;
 		this.format = format;
 		this.doDownload = doDownload;
 	}
 	
-	public ReportDownload(Report<?> report, ExportFormat format){
+	public ReportDownload(Report report, ExportFormat format){
 		this(report, format, true);
 	}
 

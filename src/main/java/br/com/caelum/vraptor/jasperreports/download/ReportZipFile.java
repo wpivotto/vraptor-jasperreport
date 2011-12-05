@@ -27,17 +27,17 @@ public class ReportZipFile {
 		this.filename = filename;
 	}
 	
-	public ReportZipFile add(Report<?> report, ExportFormat format){
+	public ReportZipFile add(Report report, ExportFormat format){
 		this.items.add(new ReportItem(report, format));
 		return this;
 	}
 	
-	public ReportZipFile add(String filename, Collection<Report<?>> reports, ExportFormat format) {
+	public ReportZipFile add(String filename, Collection<Report> reports, ExportFormat format) {
 		this.items.add(new ReportItem(filename, reports, format));
 		return this;
 	}
 	
-	public ReportZipFile add(Collection<Report<?>> reports, ExportFormat format) {
+	public ReportZipFile add(Collection<Report> reports, ExportFormat format) {
 		return add("reports", reports, format);
 	}
 	

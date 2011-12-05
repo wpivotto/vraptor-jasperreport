@@ -45,7 +45,7 @@ public class ReportDownloadInterceptor implements Interceptor {
 
 	public void intercept(InterceptorStack stack, ResourceMethod method, Object instance) throws InterceptionException {
 
-		Report<?> report = (Report<?>) methodInfo.getResult();
+		Report report = (Report) methodInfo.getResult();
 
 		if (report == null) {
 			if (result.used()) {
