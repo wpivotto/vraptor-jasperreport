@@ -26,6 +26,10 @@ public abstract class AbstractExporter implements ExportFormat {
 		return this;
 	}
 	
+	public Map<JRExporterParameter, Object> getParameters(){
+		return this.parameters;
+	}
+	
 	protected void defaultParameters(){
 		configure(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
 	}
@@ -43,7 +47,7 @@ public abstract class AbstractExporter implements ExportFormat {
 		try {
 			
 			JRExporter exporter = setup();
-			exporter.setParameters(parameters);
+			exporter.setParameters(getParameters());
 			
 			if (print.size() > 1)
 				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, print);
