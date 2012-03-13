@@ -5,6 +5,9 @@ import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import br.com.caelum.vraptor.InterceptionException;
 import br.com.caelum.vraptor.Intercepts;
 import br.com.caelum.vraptor.Lazy;
@@ -28,6 +31,7 @@ public class ReportDownloadInterceptor implements Interceptor {
 	private final ReportFormatResolver resolver;
 	private final MethodInfo methodInfo;
 	private final Result result;
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public ReportDownloadInterceptor(ReportExporter exporter,
 			HttpServletResponse response, ReportFormatResolver resolver,
@@ -57,6 +61,7 @@ public class ReportDownloadInterceptor implements Interceptor {
 
 		ReportDownload download = new ReportDownload(report, resolver.getExportFormat(), resolver.doDownload());
 		download.setExporter(exporter);
+		logger.debug("Injecting {} in {}", exporter.getClass().getName(), download.getClass().getName());
 
 		try {
 

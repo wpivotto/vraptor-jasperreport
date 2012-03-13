@@ -1,5 +1,8 @@
 package br.com.caelum.vraptor.jasperreports.exporter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import br.com.caelum.vraptor.InterceptionException;
 import br.com.caelum.vraptor.Intercepts;
 import br.com.caelum.vraptor.Lazy;
@@ -16,12 +19,13 @@ import br.com.caelum.vraptor.resource.ResourceMethod;
 
 @Intercepts(after=ExecuteMethodInterceptor.class, before=DownloadInterceptor.class)
 @Lazy
-public class ExporterInterceptor implements Interceptor {
+public class ExporterInjector implements Interceptor {
 
 	private final ReportExporter exporter;
 	private final MethodInfo methodInfo;
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
-	public ExporterInterceptor(ReportExporter exporter, MethodInfo methodInfo) {
+	public ExporterInjector(ReportExporter exporter, MethodInfo methodInfo) {
 		this.exporter = exporter;
 		this.methodInfo = methodInfo;
 	}
@@ -52,6 +56,8 @@ public class ExporterInterceptor implements Interceptor {
 			BatchReportsDownload download = (BatchReportsDownload)result;
 			download.setExporter(exporter);
 		}
+		
+		logger.debug("Injecting {} in {}", exporter.getClass().getName(), result.getClass().getName());
 		
 		stack.next(method, instance);
 		
