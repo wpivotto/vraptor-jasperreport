@@ -11,7 +11,7 @@
 
 	<groupId>br.com.prixma</groupId>
 	<artifactId>vraptor-jasperreport</artifactId>
-	<version>1.0.1-SNAPSHOT</version>
+	<version>1.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>vraptor-jasperreport</name>
@@ -109,13 +109,13 @@
 		<dependency>
 			<groupId>br.com.caelum</groupId>
 			<artifactId>vraptor</artifactId>
-			<version>3.3.1</version>
+			<version>3.4.0</version>
 		</dependency>
 		
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>4.1.1</version>
+			<version>4.5.1</version>
 		</dependency>		
 
 		<!-- Test dependencies -->

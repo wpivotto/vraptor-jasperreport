@@ -41,7 +41,7 @@ Using it
 <dependency>
 	<groupId>br.com.prixma</groupId>
   	<artifactId>vraptor-jasperreport</artifactId>
-  	<version>1.0.0</version>
+  	<version>1.0.1</version>
 </dependency>
 ```
 
@@ -191,9 +191,9 @@ Several reports can be exported together to form a single resulting document.
 public Download batchReport(){
 	BatchReportsDownload download = new BatchReportsDownload(pdf());
 	Report header = ...
-	Report another = ...
+	Report content = ...
 	Report footer = ...
-	download.add(header, another, footer);
+	download.add(header, content, footer);
 	return download;
 }
 ```
