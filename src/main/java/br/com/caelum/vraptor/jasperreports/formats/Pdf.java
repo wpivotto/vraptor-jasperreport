@@ -39,5 +39,28 @@ public class Pdf extends AbstractExporter {
 		configure(JRPdfExporterParameter.PERMISSIONS, permissions);
 		return this;
 	}
+	
+	public void setAuthor(String author){
+		configure(JRPdfExporterParameter.METADATA_AUTHOR, author);
+	}
+	
+	public void setTitle(String title){
+		configure(JRPdfExporterParameter.METADATA_TITLE, title);
+	}
+	
+	public void setCreator(String creator){
+		configure(JRPdfExporterParameter.METADATA_CREATOR, creator);
+	}
+	
+	public void setSubject(String subject){
+		configure(JRPdfExporterParameter.METADATA_SUBJECT, subject);
+	}
+	
+	/**
+     * The Keywords of the PDF document, as comma-separated String. 
+     */
+	public void setKeywords(String keywords){
+		configure(JRPdfExporterParameter.METADATA_KEYWORDS, keywords);
+	}
 
 }
