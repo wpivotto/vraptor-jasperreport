@@ -1,0 +1,462 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Vraptor-jasperreport by wpivotto</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Vraptor-jasperreport</h1>
+<p>A jasper report plugin for vraptor</p>
+        <p class="view"><a href="https://github.com/wpivotto/vraptor-jasperreport">View the Project on GitHub <small>wpivotto/vraptor-jasperreport</small></a></p>
+        <ul>
+          <li><a href="https://github.com/wpivotto/vraptor-jasperreport/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/wpivotto/vraptor-jasperreport/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/wpivotto/vraptor-jasperreport">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Vraptor Jasper Report Plugin</h1>
+
+<p>Report Generation Plug-in for Vraptor</p>
+
+<p>Supported File Formats:</p>
+
+<ul>
+<li>PDF</li>
+<li>CSV</li>
+<li>XLS</li>
+<li>TXT</li>
+<li>ODT</li>
+<li>HTML</li>
+<li>DOCX</li>
+<li>RTF</li>
+<li>ODS</li>
+<li>PPTX</li>
+<li>XHTML</li>
+<li>XLSX</li>
+<li>IMAGE (PNG and JPEG)</li>
+</ul><h2>Using it</h2>
+
+<ol>
+<li> In a Maven project's pom.xml file:</li>
+</ol><div class="highlight">
+<pre><span class="nt">&lt;repositories&gt;</span>
+    <span class="nt">&lt;repository&gt;</span>
+        <span class="nt">&lt;id&gt;</span>sonatype-oss-public<span class="nt">&lt;/id&gt;</span>
+        <span class="nt">&lt;url&gt;</span><a href="https://oss.sonatype.org/content/groups/public/">https://oss.sonatype.org/content/groups/public/</a><span class="nt">&lt;/url&gt;</span>
+        <span class="nt">&lt;releases&gt;</span>
+            <span class="nt">&lt;enabled&gt;</span>true<span class="nt">&lt;/enabled&gt;</span>
+        <span class="nt">&lt;/releases&gt;</span>
+        <span class="nt">&lt;snapshots&gt;</span>
+            <span class="nt">&lt;enabled&gt;</span>true<span class="nt">&lt;/enabled&gt;</span>
+        <span class="nt">&lt;/snapshots&gt;</span>
+    <span class="nt">&lt;/repository&gt;</span>       
+<span class="nt">&lt;/repositories&gt;</span>  
+
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>br.com.prixma<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>vraptor-jasperreport<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>1.0.1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</pre>
+</div>
+
+
+<ol>
+<li> Put vraptor-jasperreport-version.jar and dependencies in your <code>WEB-INF/lib</code> folder.</li>
+<li> Create a class to represent your report: make it implement the <code>br.com.caelum.vraptor.jasperreports.Report</code> interface.</li>
+<li> In your controller, create an instance of your report and return it from your method</li>
+</ol><h2>Controller</h2>
+
+<div class="highlight">
+<pre><span class="nd">@Resource</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ClientsController</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Result</span> <span class="n">result</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">Clients</span> <span class="n">clients</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">ExportFormats</span> <span class="n">formats</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">User</span> <span class="n">user</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">ClientsController</span><span class="o">(</span><span class="n">Result</span> <span class="n">result</span><span class="o">,</span> <span class="n">Clients</span> <span class="n">clients</span><span class="o">,</span> <span class="n">ExportFormats</span> <span class="n">formats</span><span class="o">,</span> <span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">clients</span> <span class="o">=</span> <span class="n">clients</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">formats</span> <span class="o">=</span> <span class="n">formats</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">user</span> <span class="o">=</span> <span class="n">user</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Path</span><span class="o">(</span><span class="s">"/clients/pdf"</span><span class="o">)</span> 
+    <span class="kd">public</span> <span class="n">Download</span> <span class="nf">pdfReport</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">Report</span> <span class="n">report</span> <span class="o">=</span> <span class="n">generateReport</span><span class="o">();</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">ReportDownload</span><span class="o">(</span><span class="n">report</span><span class="o">,</span> <span class="n">pdf</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Path</span><span class="o">(</span><span class="s">"/clients/pdf/encrypted"</span><span class="o">)</span> 
+    <span class="kd">public</span> <span class="n">Download</span> <span class="nf">encryptedPdfReport</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">Report</span> <span class="n">report</span> <span class="o">=</span> <span class="n">generateReport</span><span class="o">();</span>
+        <span class="n">Pdf</span> <span class="n">pdf</span> <span class="o">=</span> <span class="n">ExportFormats</span><span class="o">.</span><span class="na">pdf</span><span class="o">();</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="na">encrypt</span><span class="o">(</span><span class="n">user</span><span class="o">.</span><span class="na">getPassword</span><span class="o">());</span>
+        <span class="n">pdf</span><span class="o">.</span><span class="na">addPermission</span><span class="o">(</span><span class="n">PdfWriter</span><span class="o">.</span><span class="na">ALLOW_COPY</span><span class="o">)</span>
+           <span class="o">.</span><span class="na">addPermission</span><span class="o">(</span><span class="n">PdfWriter</span><span class="o">.</span><span class="na">ALLOW_PRINTING</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">ReportDownload</span><span class="o">(</span><span class="n">report</span><span class="o">,</span> <span class="n">pdf</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Path</span><span class="o">(</span><span class="s">"/clients/csv"</span><span class="o">)</span> 
+    <span class="kd">public</span> <span class="n">Download</span> <span class="nf">csvReport</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">Report</span> <span class="n">report</span> <span class="o">=</span> <span class="n">generateReport</span><span class="o">();</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">ReportDownload</span><span class="o">(</span><span class="n">report</span><span class="o">,</span> <span class="n">csv</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Path</span><span class="o">(</span><span class="s">"/clients/xls"</span><span class="o">)</span> 
+    <span class="kd">public</span> <span class="n">Download</span> <span class="nf">xlsReport</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">Report</span> <span class="n">report</span> <span class="o">=</span> <span class="n">generateReport</span><span class="o">();</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">ReportDownload</span><span class="o">(</span><span class="n">report</span><span class="o">,</span> <span class="n">xls</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Path</span><span class="o">(</span><span class="s">"/clients/docx"</span><span class="o">)</span> 
+    <span class="kd">public</span> <span class="n">Download</span> <span class="nf">docxReport</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">Report</span> <span class="n">report</span> <span class="o">=</span> <span class="n">generateReport</span><span class="o">();</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">ReportDownload</span><span class="o">(</span><span class="n">report</span><span class="o">,</span> <span class="n">docx</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Path</span><span class="o">(</span><span class="s">"/clients/txt"</span><span class="o">)</span> 
+    <span class="kd">public</span> <span class="n">Download</span> <span class="nf">txtReport</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">Report</span> <span class="n">report</span> <span class="o">=</span> <span class="n">generateReport</span><span class="o">();</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">ReportDownload</span><span class="o">(</span><span class="n">report</span><span class="o">,</span> <span class="n">txt</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Path</span><span class="o">(</span><span class="s">"/clients/odt"</span><span class="o">)</span> 
+    <span class="kd">public</span> <span class="n">Download</span> <span class="nf">odtReport</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">Report</span> <span class="n">report</span> <span class="o">=</span> <span class="n">generateReport</span><span class="o">();</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">ReportDownload</span><span class="o">(</span><span class="n">report</span><span class="o">,</span> <span class="n">odt</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Path</span><span class="o">(</span><span class="s">"/clients/rtf"</span><span class="o">)</span> 
+    <span class="kd">public</span> <span class="n">Download</span> <span class="nf">rtfReport</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">Report</span> <span class="n">report</span> <span class="o">=</span> <span class="n">generateReport</span><span class="o">();</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">ReportDownload</span><span class="o">(</span><span class="n">report</span><span class="o">,</span> <span class="n">rtf</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Path</span><span class="o">(</span><span class="s">"/clients/report/preview"</span><span class="o">)</span> 
+    <span class="kd">public</span> <span class="n">Download</span> <span class="nf">previewReport</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">Report</span> <span class="n">report</span> <span class="o">=</span> <span class="n">generateReport</span><span class="o">();</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">ReportDownload</span><span class="o">(</span><span class="n">report</span><span class="o">,</span> <span class="n">png</span><span class="o">(),</span> <span class="kc">false</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Path</span><span class="o">(</span><span class="s">"/clients/report/{format}"</span><span class="o">)</span> 
+    <span class="kd">public</span> <span class="n">Download</span> <span class="nf">report</span><span class="o">(</span><span class="n">String</span> <span class="n">format</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">Report</span> <span class="n">report</span> <span class="o">=</span> <span class="n">generateReport</span><span class="o">();</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">ReportDownload</span><span class="o">(</span><span class="n">report</span><span class="o">,</span> <span class="n">formats</span><span class="o">.</span><span class="na">byExtension</span><span class="o">(</span><span class="n">format</span><span class="o">));</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="n">Report</span> <span class="nf">generateReport</span><span class="o">(){</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Client</span><span class="o">&gt;</span> <span class="n">data</span> <span class="o">=</span> <span class="n">clients</span><span class="o">.</span><span class="na">listAll</span><span class="o">();</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">ClientsReport</span><span class="o">(</span><span class="n">data</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</pre>
+</div>
+
+
+<h2>Report</h2>
+
+<div class="highlight">
+<pre><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ClientsReport</span> <span class="kd">implements</span> <span class="n">Report</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Client</span><span class="o">&gt;</span> <span class="n">data</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">parameters</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">ClientsReport</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Client</span><span class="o">&gt;</span> <span class="n">data</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">parameters</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Report</span> <span class="nf">addParameter</span><span class="o">(</span><span class="n">String</span> <span class="n">key</span><span class="o">,</span> <span class="n">Object</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">parameters</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Collection</span><span class="o">&lt;</span><span class="n">Client</span><span class="o">&gt;</span> <span class="n">getData</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">data</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getFileName</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"report"</span> <span class="o">+</span> <span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Object</span><span class="o">&gt;</span> <span class="n">getParameters</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">this</span><span class="o">.</span><span class="na">parameters</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getTemplate</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"report.jasper"</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isCacheable</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</pre>
+</div>
+
+
+<h2>Batch Export</h2>
+
+<p>Several reports can be exported together to form a single resulting document.</p>
+
+<div class="highlight">
+<pre><span class="kd">public</span> <span class="n">Download</span> <span class="nf">batchReport</span><span class="o">(){</span>
+    <span class="n">BatchReportsDownload</span> <span class="n">download</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BatchReportsDownload</span><span class="o">(</span><span class="n">pdf</span><span class="o">());</span>
+    <span class="n">Report</span> <span class="n">header</span> <span class="o">=</span> <span class="o">...</span>
+    <span class="n">Report</span> <span class="n">content</span> <span class="o">=</span> <span class="o">...</span>
+    <span class="n">Report</span> <span class="n">footer</span> <span class="o">=</span> <span class="o">...</span>
+    <span class="n">download</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">header</span><span class="o">,</span> <span class="n">content</span><span class="o">,</span> <span class="n">footer</span><span class="o">);</span>
+    <span class="k">return</span> <span class="n">download</span><span class="o">;</span>
+<span class="o">}</span>
+</pre>
+</div>
+
+
+<p>Note: Not all exporters can work in batch mode</p>
+
+<h2>Zip Export</h2>
+
+<p>This option allows you to export reports in different formats and agroup them into a single zip file.</p>
+
+<div class="highlight">
+<pre><span class="kd">public</span> <span class="n">Download</span> <span class="nf">zipReport</span><span class="o">(){</span>
+    <span class="n">ReportsDownload</span> <span class="n">download</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ReportsDownload</span><span class="o">();</span>
+    <span class="n">download</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">pdfReport</span><span class="o">,</span> <span class="n">pdf</span><span class="o">())</span>
+            <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">csvReport</span><span class="o">,</span> <span class="n">csv</span><span class="o">())</span>
+            <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">xlsReport</span><span class="o">,</span> <span class="n">xls</span><span class="o">())</span>
+            <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">docxReport</span><span class="o">,</span> <span class="n">rtf</span><span class="o">())</span>
+            <span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">odtReport</span><span class="o">,</span> <span class="n">odt</span><span class="o">());</span>
+    <span class="k">return</span> <span class="n">download</span><span class="o">;</span>
+<span class="o">}</span>
+</pre>
+</div>
+
+
+<h2>Accept header</h2>
+
+<p>If your method return a report, an interceptor tries to discover the request format (through _format or Accept header) and then render the report in 
+this format.</p>
+
+<div class="highlight">
+<pre><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"&lt;c:url value="</span><span class="err">/</span><span class="na">clients</span><span class="err">/</span><span class="na">report</span><span class="err">?</span><span class="na">_format=</span><span class="s">csv"/</span><span class="nt">&gt;</span>"&gt;CSV Report<span class="nt">&lt;/a&gt;</span>
+</pre>
+</div>
+
+
+<div class="highlight">
+<pre><span class="nd">@Get</span><span class="o">(</span><span class="s">"/clients/report"</span><span class="o">)</span> 
+<span class="kd">public</span> <span class="n">Report</span> <span class="nf">report</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">Report</span> <span class="n">report</span> <span class="o">=</span> <span class="o">...;</span>
+    <span class="k">return</span> <span class="n">report</span><span class="o">;</span>
+<span class="o">}</span>
+</pre>
+</div>
+
+
+<h2>Data URIs</h2>
+
+<p>The data URI is a scheme that provides a way to include data in-line in web pages as if they were external resources.
+The scheme is defined in <a href="http://tools.ietf.org/html/rfc2397" title="RFC 2397">RFC 2397</a>.</p>
+
+<p>Example 1: Embedding a report in a div</p>
+
+<div class="highlight">
+<pre><span class="nd">@Get</span><span class="o">(</span><span class="s">"/clients.json"</span><span class="o">)</span> 
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">jsonReport</span><span class="o">(</span><span class="n">ReportDataURIBuilder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">build</span><span class="o">(</span><span class="n">report</span><span class="o">(),</span> <span class="n">png</span><span class="o">());</span>
+    <span class="n">result</span><span class="o">.</span><span class="na">use</span><span class="o">(</span><span class="n">json</span><span class="o">()).</span><span class="na">withoutRoot</span><span class="o">().</span><span class="na">from</span><span class="o">(</span><span class="n">uri</span><span class="o">).</span><span class="na">serialize</span><span class="o">();</span>
+<span class="o">}</span>
+</pre>
+</div>
+
+
+<p>In your jsp:</p>
+
+<div class="highlight">
+<pre><span class="nx">$</span><span class="p">(</span><span class="s2">"#reportButton"</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="s1">'/clients.json'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">uri</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s1">'#container'</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="s2">"&lt;img src=\""</span> <span class="o">+</span> <span class="nx">uri</span> <span class="o">+</span> <span class="s2">"\" /&gt;"</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+
+<p>Example 2: Embedding a generic report in a new window</p>
+
+<div class="highlight">
+<pre><span class="nd">@Get</span><span class="o">(</span><span class="s">"/clients.json"</span><span class="o">)</span> 
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">jsonReport</span><span class="o">(</span><span class="n">ReportDataURIBuilder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">uri</span> <span class="o">=</span> <span class="n">builder</span><span class="o">.</span><span class="na">build</span><span class="o">(</span><span class="n">report</span><span class="o">());</span> <span class="c1">//recognizes the format via _format parameter</span>
+    <span class="n">result</span><span class="o">.</span><span class="na">use</span><span class="o">(</span><span class="n">json</span><span class="o">()).</span><span class="na">withoutRoot</span><span class="o">().</span><span class="na">from</span><span class="o">(</span><span class="n">uri</span><span class="o">).</span><span class="na">serialize</span><span class="o">();</span>
+<span class="o">}</span>
+</pre>
+</div>
+
+
+<p>In your jsp:</p>
+
+<div class="highlight">
+<pre><span class="nx">$</span><span class="p">(</span><span class="s2">"#reportButton"</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="s1">'/clients.json?_format=pdf'</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">uri</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">window</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="nx">uri</span><span class="p">);</span>
+    <span class="p">});</span>
+<span class="p">});</span>
+</pre>
+</div>
+
+
+<h2>Customizing paths</h2>
+
+<p>By default the lib will consider only reports under <code>WEB-INF/reports</code> folder, but you can also specify a different path format.
+For enabling this you must put this parameters on web.xml:</p>
+
+<div class="highlight">
+<pre><span class="nt">&lt;context-param&gt;</span>
+    <span class="nt">&lt;param-name&gt;</span>vraptor.reports.path<span class="nt">&lt;/param-name&gt;</span>
+    <span class="nt">&lt;param-value&gt;</span>custom reports path<span class="nt">&lt;/param-value&gt;</span>
+<span class="nt">&lt;/context-param&gt;</span>
+
+<span class="nt">&lt;context-param&gt;</span>
+    <span class="nt">&lt;param-name&gt;</span>vraptor.subreports.path<span class="nt">&lt;/param-name&gt;</span>
+    <span class="nt">&lt;param-value&gt;</span>custom subreports path<span class="nt">&lt;/param-value&gt;</span>
+<span class="nt">&lt;/context-param&gt;</span>
+
+<span class="nt">&lt;context-param&gt;</span>
+    <span class="nt">&lt;param-name&gt;</span>vraptor.images.path<span class="nt">&lt;/param-name&gt;</span>
+    <span class="nt">&lt;param-value&gt;</span>custom images path<span class="nt">&lt;/param-value&gt;</span>
+<span class="nt">&lt;/context-param&gt;</span>
+</pre>
+</div>
+
+
+<p>These folders are passed as parameters to reports:</p>
+
+<pre><code>`$P{REPORT_DIR}` directory where the reports are available
+`$P{SUBREPORT_DIR}` directory where the sub-reports are available
+`$P{IMAGES_DIR}` directory where the images are available
+</code></pre>
+
+<p>So, to include an image in the report just do: <code>$P{IMAGES_DIR} + "image.png"</code></p>
+
+<h2>Decorating reports</h2>
+
+<p>Decorators can be used to provide default parameters for all reports, like this</p>
+
+<div class="highlight">
+<pre><span class="nd">@Component</span>
+<span class="nd">@SessionScoped</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyDecorator</span> <span class="kd">implements</span> <span class="n">ReportDecorator</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">User</span> <span class="n">user</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">MyDecorator</span><span class="o">(</span><span class="n">User</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">user</span> <span class="o">=</span> <span class="n">user</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">decorate</span><span class="o">(</span><span class="n">Report</span> <span class="n">report</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">report</span><span class="o">.</span><span class="na">addParameter</span><span class="o">(</span><span class="s">"GeneratedBy"</span><span class="o">,</span> <span class="n">user</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+</div>
+
+
+<p>Now all reports have a parameter called <code>$P{GeneratedBy}</code>.</p>
+
+<h2>Using Result</h2>
+
+<p>Another way to pass parameters to your report is through the result object.
+Values ​​passed to the result are automatically converted into parameters</p>
+
+<div class="highlight">
+<pre><span class="nd">@Get</span><span class="o">(</span><span class="s">"/clients/report"</span><span class="o">)</span> 
+<span class="kd">public</span> <span class="n">Report</span> <span class="nf">report</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">result</span><span class="o">.</span><span class="na">include</span><span class="o">(</span><span class="s">"GeneratedBy"</span><span class="o">,</span> <span class="n">user</span><span class="o">);</span>
+    <span class="n">Report</span> <span class="n">report</span> <span class="o">=</span> <span class="n">generateReport</span><span class="o">();</span>
+    <span class="k">return</span> <span class="n">report</span><span class="o">;</span>
+<span class="o">}</span>
+</pre>
+</div>
+
+
+<h2>Internationalization</h2>
+
+<p>JasperReports lets you associate a <code>java.util.ResourceBundle</code> with the report template, at runtime (by providing a value for the built-in <code>REPORT_RESOURCE_BUNDLE</code> parameter). 
+If your report needs to be generated in a locale that is different from the current one, the built-in <code>REPORT_LOCALE</code> parameter can be used to specify the runtime locale when filling the report. 
+You just need to put a file called <code>i18n_en_US.properties</code> (or whatever) in the same folder of your reports.
+Having done this, parameters such <code>$R{text.message}</code>, will be automatically converted to the expected language.</p>
+
+<p>For changing this you must put this parameter on web.xml:</p>
+
+<div class="highlight">
+<pre><span class="nt">&lt;context-param&gt;</span>
+    <span class="nt">&lt;param-name&gt;</span>vraptor.reports.resourcebundle.name<span class="nt">&lt;/param-name&gt;</span>
+    <span class="nt">&lt;param-value&gt;</span>custom resource bundle name<span class="nt">&lt;/param-value&gt;</span>
+<span class="nt">&lt;/context-param&gt;</span>
+</pre>
+</div>
+
+
+<h2>Image Servlet</h2>
+
+<p>This servlet (included in the JasperReports distribution package) is needed as part of your Web application in order to include images in your HTML reports.
+To map this servlet to serve the images that are included in yours report, just do:</p>
+
+<div class="highlight">
+<pre><span class="nt">&lt;servlet&gt;</span>
+    <span class="nt">&lt;servlet-name&gt;</span>ImageServlet<span class="nt">&lt;/servlet-name&gt;</span> 
+    <span class="nt">&lt;servlet-class&gt;</span>net.sf.jasperreports.j2ee.servlets.ImageServlet<span class="nt">&lt;/servlet-class&gt;</span> 
+<span class="nt">&lt;/servlet&gt;</span>  
+
+<span class="nt">&lt;servlet-mapping&gt;</span> 
+    <span class="nt">&lt;servlet-name&gt;</span>ImageServlet<span class="nt">&lt;/servlet-name&gt;</span> 
+    <span class="nt">&lt;url-pattern&gt;</span>/report.image<span class="nt">&lt;/url-pattern&gt;</span> 
+<span class="nt">&lt;/servlet-mapping&gt;</span> 
+</pre>
+</div>
+
+
+<h2>Dependencies</h2>
+
+<ul>
+<li>Commons Logging <a href="http://jakarta.apache.org/commons/logging/">http://jakarta.apache.org/commons/logging/</a>
+</li>
+<li>Commons Collections <a href="http://jakarta.apache.org/commons/collections/">http://jakarta.apache.org/commons/collections/</a>
+</li>
+<li>Commons BeanUtils <a href="http://jakarta.apache.org/commons/beanutils/">http://jakarta.apache.org/commons/beanutils/</a>
+</li>
+<li>Commons Digester <a href="http://jakarta.apache.org/commons/digester/">http://jakarta.apache.org/commons/digester/</a>
+</li>
+<li>JFreeChart <a href="http://www.jfree.org/jfreechart/">http://www.jfree.org/jfreechart/</a> - Only required when the report contains charts</li>
+<li>iText <a href="http://www.lowagie.com/iText/">http://www.lowagie.com/iText/</a> - Only required when exporting reports to PDF or RTF</li>
+<li>Jakarta POI <a href="http://jakarta.apache.org/poi/">http://jakarta.apache.org/poi/</a> - Only required when exporting reports to Excel format</li>
+<li>JExcelApi <a href="http://jexcelapi.sourceforge.net/">http://jexcelapi.sourceforge.net/</a> - Only required when exporting reports to Excel format</li>
+</ul>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/wpivotto">wpivotto</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+  </body>
+</html>
