@@ -35,10 +35,7 @@ public class ExporterInjector implements Interceptor {
 
 	public boolean accepts(ResourceMethod method) {
 		Class<?> type = method.getMethod().getReturnType();
-		return Download.class.isAssignableFrom(type) || 
-		       type == ReportDownload.class || 
-		       type == ReportsDownload.class ||
-		       type == BatchReportsDownload.class;
+		return Download.class.isAssignableFrom(type); 
 	}
 
 	public void intercept(InterceptorStack stack, ResourceMethod method, Object instance) throws InterceptionException {
