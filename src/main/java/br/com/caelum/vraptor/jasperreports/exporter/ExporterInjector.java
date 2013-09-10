@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import br.com.caelum.vraptor.InterceptionException;
 import br.com.caelum.vraptor.Intercepts;
 import br.com.caelum.vraptor.Lazy;
+import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.core.InterceptorStack;
 import br.com.caelum.vraptor.core.MethodInfo;
 import br.com.caelum.vraptor.interceptor.ExecuteMethodInterceptor;
@@ -23,41 +24,47 @@ public class ExporterInjector implements Interceptor {
 
 	private final ReportExporter exporter;
 	private final MethodInfo methodInfo;
+	private final Result result;
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
-	public ExporterInjector(ReportExporter exporter, MethodInfo methodInfo) {
+	public ExporterInjector(ReportExporter exporter, MethodInfo methodInfo, Result result) {
 		this.exporter = exporter;
 		this.methodInfo = methodInfo;
+		this.result = result;
 	}
 
 	public boolean accepts(ResourceMethod method) {
 		Class<?> type = method.getMethod().getReturnType();
-		return Download.class.isAssignableFrom(type) || 
-		       type == ReportDownload.class || 
-		       type == ReportsDownload.class ||
-		       type == BatchReportsDownload.class;
+		return Download.class.isAssignableFrom(type); 
 	}
 
 	public void intercept(InterceptorStack stack, ResourceMethod method, Object instance) throws InterceptionException {
 		
-		Object result =  methodInfo.getResult();
+		Object reportDownload =  methodInfo.getResult();
+		if (reportDownload == null) {
+			if (result.used()) {
+				stack.next(method, instance);
+				return;
+			} else
+				throw new NullPointerException("You've just returned a Null ReportDownload. Consider redirecting to another page/logic");
+		}
 		
-		if(result instanceof ReportDownload){
-			ReportDownload download = (ReportDownload)result;
+		if(reportDownload instanceof ReportDownload){
+			ReportDownload download = (ReportDownload) reportDownload;
 			download.setExporter(exporter);
 		}
 		
-		if(result instanceof ReportsDownload){
-			ReportsDownload download = (ReportsDownload)result;
+		if(reportDownload instanceof ReportsDownload){
+			ReportsDownload download = (ReportsDownload) reportDownload;
 			download.setExporter(exporter);
 		}
 		
-		if(result instanceof BatchReportsDownload){
-			BatchReportsDownload download = (BatchReportsDownload)result;
+		if(reportDownload instanceof BatchReportsDownload){
+			BatchReportsDownload download = (BatchReportsDownload) reportDownload;
 			download.setExporter(exporter);
 		}
 		
-		logger.debug("Injecting {} in {}", exporter.getClass().getName(), result.getClass().getName());
+		logger.debug("Injecting {} in {}", exporter.getClass().getName(), reportDownload.getClass().getName());
 		
 		stack.next(method, instance);
 		
