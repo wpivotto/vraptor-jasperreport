@@ -41,11 +41,11 @@ Using it
 <dependency>
 	<groupId>br.com.prixma</groupId>
   	<artifactId>vraptor-jasperreport</artifactId>
-  	<version>1.0.1</version>
+  	<version>1.0.2</version>
 </dependency>
 ```
 
-2.	Put vraptor-jasperreport-version.jar and dependencies in your `WEB-INF/lib` folder.
+2.	Put vraptor-jasperreport-version.jar [Download Here](http://oss.sonatype.org/content/groups/public/br/com/prixma/vraptor-jasperreport/) and dependencies in your `WEB-INF/lib` folder.
 3.	Create a class to represent your report: make it implement the `br.com.caelum.vraptor.jasperreports.Report` interface.
 4.	In your controller, create an instance of your report and return it from your method
 
