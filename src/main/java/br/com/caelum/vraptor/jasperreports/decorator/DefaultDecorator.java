@@ -26,7 +26,8 @@ public class DefaultDecorator implements ReportDecorator {
 			report.addParameter("REPORT_DIR", resolver.getReportsPath());
 			report.addParameter("SUBREPORT_DIR", resolver.getSubReportsPath());
 			report.addParameter("IMAGES_DIR", resolver.getImagesPath());
-			report.addParameter(JRParameter.REPORT_LOCALE, bundle.getLocale());
+			if (!report.getParameters().containsKey(JRParameter.REPORT_LOCALE))
+				report.addParameter(JRParameter.REPORT_LOCALE, bundle.getLocale());
 			report.addParameter(JRParameter.REPORT_RESOURCE_BUNDLE, bundle);
 			includeRequestParameters(report);
 		}
