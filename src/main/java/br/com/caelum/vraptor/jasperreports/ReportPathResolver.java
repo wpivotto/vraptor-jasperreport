@@ -3,15 +3,12 @@ package br.com.caelum.vraptor.jasperreports;
 import java.io.File;
 import java.util.Locale;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.servlet.ServletContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.com.caelum.vraptor.ioc.ApplicationScoped;
-import br.com.caelum.vraptor.ioc.Component;
-
-@Component
 @ApplicationScoped
 public class ReportPathResolver {
 

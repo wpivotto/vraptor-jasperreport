@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import javax.enterprise.context.RequestScoped;
 import javax.servlet.http.HttpSession;
 
 import net.sf.jasperreports.engine.JRException;
@@ -17,7 +18,6 @@ import net.sf.jasperreports.j2ee.servlets.ImageServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.jasperreports.Report;
 import br.com.caelum.vraptor.jasperreports.ReportLoader;
 import br.com.caelum.vraptor.jasperreports.decorator.ReportDecorator;
@@ -34,7 +34,7 @@ import com.google.common.collect.Maps;
  * 
  */
 
-@Component
+@RequestScoped
 public class DefaultExporter implements ReportExporter {
 
 	private Collection<Report> reports = Lists.newArrayList();

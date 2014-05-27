@@ -1,14 +1,15 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
+import javax.enterprise.context.RequestScoped;
+
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
-import br.com.caelum.vraptor.ioc.Component;
 
 /**
  * @author William Pivotto
  */
 
-@Component
+@RequestScoped
 public class Pptx extends AbstractExporter {
 	
 	public String getContentType() {

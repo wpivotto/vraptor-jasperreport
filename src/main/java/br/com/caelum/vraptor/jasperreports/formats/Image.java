@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+import javax.enterprise.context.RequestScoped;
 import javax.imageio.ImageIO;
 
 import net.sf.jasperreports.engine.JRException;
@@ -13,7 +14,6 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
-import br.com.caelum.vraptor.ioc.Component;
 
 import com.google.common.io.Closeables;
 
@@ -21,7 +21,7 @@ import com.google.common.io.Closeables;
  * @author William Pivotto
  */
 
-@Component
+@RequestScoped
 public class Image extends AbstractExporter {
 
 	private Float zoom = 1f;

@@ -1,15 +1,16 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
+import javax.enterprise.context.RequestScoped;
+
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.export.JRTextExporter;
 import net.sf.jasperreports.engine.export.JRTextExporterParameter;
-import br.com.caelum.vraptor.ioc.Component;
 
 /**
  * @author William Pivotto
  */
 
-@Component
+@RequestScoped
 public class Txt extends AbstractExporter {
 
 	public String getContentType() {

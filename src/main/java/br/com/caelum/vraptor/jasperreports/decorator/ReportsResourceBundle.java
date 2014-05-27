@@ -10,15 +10,15 @@ import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import javax.enterprise.context.RequestScoped;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import br.com.caelum.vraptor.core.Localization;
-import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.jasperreports.ReportPathResolver;
 import br.com.caelum.vraptor.util.EmptyBundle;
 
-@Component
+@RequestScoped
 public class ReportsResourceBundle extends ResourceBundle {
 
 	private ResourceBundle delegate;

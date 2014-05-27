@@ -3,11 +3,10 @@ package br.com.caelum.vraptor.jasperreports;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.sf.jasperreports.engine.JasperReport;
-import br.com.caelum.vraptor.ioc.ApplicationScoped;
-import br.com.caelum.vraptor.ioc.Component;
+import javax.enterprise.context.ApplicationScoped;
 
-@Component 
+import net.sf.jasperreports.engine.JasperReport;
+
 @ApplicationScoped
 public class ReportCache {
 

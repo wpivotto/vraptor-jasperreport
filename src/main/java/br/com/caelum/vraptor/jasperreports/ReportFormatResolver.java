@@ -1,12 +1,13 @@
 package br.com.caelum.vraptor.jasperreports;
 
 
+import javax.enterprise.context.RequestScoped;
+
 import br.com.caelum.vraptor.http.FormatResolver;
-import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
 import br.com.caelum.vraptor.jasperreports.formats.ExportFormats;
 
-@Component
+@RequestScoped
 public class ReportFormatResolver {
 
 	private final ExportFormats formats;

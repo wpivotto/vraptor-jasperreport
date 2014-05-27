@@ -1,16 +1,17 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
+import javax.enterprise.context.RequestScoped;
+
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
-import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.jasperreports.ReportPathResolver;
 
 /**
  * @author William Pivotto
  */
 
-@Component
+@RequestScoped
 public class Html extends AbstractExporter {
 
 	private final ReportPathResolver resolver;

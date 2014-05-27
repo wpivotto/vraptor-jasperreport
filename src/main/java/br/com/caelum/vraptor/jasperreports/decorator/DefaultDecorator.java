@@ -2,13 +2,14 @@ package br.com.caelum.vraptor.jasperreports.decorator;
 
 import java.util.Map;
 
+import javax.enterprise.context.RequestScoped;
+
 import net.sf.jasperreports.engine.JRParameter;
 import br.com.caelum.vraptor.Result;
-import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.jasperreports.Report;
 import br.com.caelum.vraptor.jasperreports.ReportPathResolver;
 
-@Component
+@RequestScoped
 public class DefaultDecorator implements ReportDecorator {
 
 	private final ReportPathResolver resolver;

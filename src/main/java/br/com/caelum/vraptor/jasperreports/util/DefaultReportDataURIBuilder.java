@@ -1,15 +1,16 @@
 package br.com.caelum.vraptor.jasperreports.util;
 
-import com.lowagie.text.pdf.codec.Base64;
+import javax.enterprise.context.RequestScoped;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
-import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.jasperreports.Report;
 import br.com.caelum.vraptor.jasperreports.ReportFormatResolver;
 import br.com.caelum.vraptor.jasperreports.exporter.ReportExporter;
 import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
 
-@Component
+import com.lowagie.text.pdf.codec.Base64;
+
+@RequestScoped
 public class DefaultReportDataURIBuilder implements ReportDataURIBuilder {
 
 	private final ReportExporter exporter;

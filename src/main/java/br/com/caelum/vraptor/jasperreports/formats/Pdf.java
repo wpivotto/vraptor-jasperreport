@@ -1,15 +1,16 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
+import javax.enterprise.context.RequestScoped;
+
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
-import br.com.caelum.vraptor.ioc.Component;
 
 /**
  * @author William Pivotto
  */
 
-@Component
+@RequestScoped
 public class Pdf extends AbstractExporter {
 	
 	private Integer permissions = 0;

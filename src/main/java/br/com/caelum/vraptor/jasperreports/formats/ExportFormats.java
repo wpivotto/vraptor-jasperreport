@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import br.com.caelum.vraptor.ioc.Component;
+import javax.enterprise.context.RequestScoped;
 
 
 /**
@@ -12,7 +12,7 @@ import br.com.caelum.vraptor.ioc.Component;
  * @author William Pivotto
  */
 
-@Component
+@RequestScoped
 public class ExportFormats {
 	
 	private Map<String, ExportFormat> exporters = new HashMap<String, ExportFormat>();

@@ -1,13 +1,12 @@
 package br.com.caelum.vraptor.jasperreports;
 
+import javax.enterprise.context.ApplicationScoped;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.util.JRLoader;
-import br.com.caelum.vraptor.ioc.ApplicationScoped;
-import br.com.caelum.vraptor.ioc.Component;
 
-@Component
 @ApplicationScoped
 public class ReportLoader {
 	
