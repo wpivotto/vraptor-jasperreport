@@ -1,6 +1,7 @@
 package br.com.caelum.vraptor.jasperreports.util;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 
 import net.sf.jasperreports.engine.JRExporterParameter;
 import br.com.caelum.vraptor.jasperreports.Report;
@@ -13,14 +14,8 @@ import com.lowagie.text.pdf.codec.Base64;
 @RequestScoped
 public class DefaultReportDataURIBuilder implements ReportDataURIBuilder {
 
-	private final ReportExporter exporter;
-	private final ReportFormatResolver resolver;
-
-	public DefaultReportDataURIBuilder(ReportExporter exporter,
-			ReportFormatResolver resolver) {
-		this.exporter = exporter;
-		this.resolver = resolver;
-	}
+	@Inject private ReportExporter exporter;
+	@Inject private ReportFormatResolver resolver;
 
 	/**
 	 * The data URIs have the following syntax:

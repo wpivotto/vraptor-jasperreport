@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Any;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import net.sf.jasperreports.engine.JRException;
@@ -38,16 +41,10 @@ import com.google.common.collect.Maps;
 public class DefaultExporter implements ReportExporter {
 
 	private Collection<Report> reports = Lists.newArrayList();
-	private final ReportLoader loader;
-	private final List<ReportDecorator> decorators;
-	private final HttpSession session;
+	@Inject private ReportLoader loader;
+	@Inject @Any private Instance<ReportDecorator> decorators;
+	@Inject private HttpSession session;
 	private final Logger logger = LoggerFactory.getLogger(DefaultExporter.class);
-
-	public DefaultExporter(ReportLoader loader, List<ReportDecorator> decorators, HttpSession session) {
-		this.loader = loader;
-		this.decorators = decorators;
-		this.session = session;
-	}
 
 	public ReportExporter export(Report report) {
 		this.reports.add(report);

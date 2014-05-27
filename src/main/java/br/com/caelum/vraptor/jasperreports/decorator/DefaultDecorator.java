@@ -3,6 +3,7 @@ package br.com.caelum.vraptor.jasperreports.decorator;
 import java.util.Map;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 
 import net.sf.jasperreports.engine.JRParameter;
 import br.com.caelum.vraptor.Result;
@@ -12,15 +13,9 @@ import br.com.caelum.vraptor.jasperreports.ReportPathResolver;
 @RequestScoped
 public class DefaultDecorator implements ReportDecorator {
 
-	private final ReportPathResolver resolver;
-	private final ReportsResourceBundle bundle;
-	private final Result result;
-
-	public DefaultDecorator(ReportPathResolver resolver, ReportsResourceBundle bundle, Result result) {
-		this.resolver = resolver;
-		this.bundle = bundle;
-		this.result = result;
-	}
+	@Inject private ReportPathResolver resolver;
+	@Inject private ReportsResourceBundle bundle;
+	@Inject private Result result;
 
 	public void decorate(Report report) {
 		if(report.getParameters() != null) {

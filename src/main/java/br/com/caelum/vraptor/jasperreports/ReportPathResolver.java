@@ -3,7 +3,9 @@ package br.com.caelum.vraptor.jasperreports;
 import java.io.File;
 import java.util.Locale;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
 import org.slf4j.Logger;
@@ -12,7 +14,7 @@ import org.slf4j.LoggerFactory;
 @ApplicationScoped
 public class ReportPathResolver {
 
-	private final ServletContext context;
+	@Inject private ServletContext context;
 	public static final String DEFAULT_REPORTS_PATH = "/WEB-INF/reports";
 	public static final String DEFAULT_SUBREPORTS_PATH = "/WEB-INF/reports/subreports";
 	public static final String DEFAULT_IMAGES_PATH = "/WEB-INF/reports/images";
@@ -20,8 +22,8 @@ public class ReportPathResolver {
 	private static final String SEPARATOR = File.separator;
 	private final Logger logger = LoggerFactory.getLogger(ReportPathResolver.class);
 	
-	public ReportPathResolver(ServletContext context) {
-		this.context = context;
+	@PostConstruct
+	private void log() {
 		logger.debug("REPORT_DIR --> " + getReportsPath());
 		logger.debug("SUBREPORT_DIR --> " + getSubReportsPath());
 		logger.debug("IMAGES_DIR --> " + getImagesPath());

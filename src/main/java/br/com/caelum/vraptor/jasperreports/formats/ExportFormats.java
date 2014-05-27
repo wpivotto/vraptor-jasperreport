@@ -1,10 +1,13 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Any;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
 
 
 /**
@@ -16,9 +19,11 @@ import javax.enterprise.context.RequestScoped;
 public class ExportFormats {
 	
 	private Map<String, ExportFormat> exporters = new HashMap<String, ExportFormat>();
-
-	public ExportFormats(List<ExportFormat> formats){
-		for(ExportFormat format : formats){
+	@Inject @Any private Instance<ExportFormat> formats;
+	
+	@PostConstruct
+	private void setup() {
+		for(ExportFormat format : formats) {
 			exporters.put(format.getExtension(), format);
 		}
 	}

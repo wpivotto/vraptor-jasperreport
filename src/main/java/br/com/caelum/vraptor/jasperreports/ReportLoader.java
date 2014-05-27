@@ -1,6 +1,7 @@
 package br.com.caelum.vraptor.jasperreports;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -10,13 +11,8 @@ import net.sf.jasperreports.engine.util.JRLoader;
 @ApplicationScoped
 public class ReportLoader {
 	
-	private final ReportCache cache;
-	private final ReportPathResolver resolver;
-	
-	public ReportLoader(ReportCache cache, ReportPathResolver resolver){
-		this.cache = cache;
-		this.resolver = resolver;
-	}
+	@Inject private ReportCache cache;
+	@Inject private ReportPathResolver resolver;
 
 	public JasperReport load(Report report) throws JRException {
 		

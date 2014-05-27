@@ -2,6 +2,7 @@ package br.com.caelum.vraptor.jasperreports;
 
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 
 import br.com.caelum.vraptor.http.FormatResolver;
 import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
@@ -10,13 +11,8 @@ import br.com.caelum.vraptor.jasperreports.formats.ExportFormats;
 @RequestScoped
 public class ReportFormatResolver {
 
-	private final ExportFormats formats;
-	private final FormatResolver formatResolver;
-	
-	public ReportFormatResolver(ExportFormats formats, FormatResolver formatResolver) {
-		this.formats = formats;
-		this.formatResolver = formatResolver;
-	}
+	@Inject private ExportFormats formats;
+	@Inject private FormatResolver formatResolver;
 	
 	public ExportFormat getExportFormat(){
 		return formats.byExtension(formatResolver.getAcceptFormat());
