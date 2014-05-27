@@ -6,3 +6,4 @@ target
 .tomcatplugin
 .project
 .scala_dependencies
+/bin
