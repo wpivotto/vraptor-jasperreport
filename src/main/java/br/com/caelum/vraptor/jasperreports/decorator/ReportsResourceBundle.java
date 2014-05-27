@@ -10,30 +10,30 @@ import java.util.MissingResourceException;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
-import javax.inject.Inject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import br.com.caelum.vraptor.jasperreports.ReportPathResolver;
 import br.com.caelum.vraptor.util.EmptyBundle;
 
-@RequestScoped
 public class ReportsResourceBundle extends ResourceBundle {
 
-	@Inject private Locale locale;
-	@Inject private ResourceBundle delegate;
-	@Inject private ReportPathResolver resolver;
+	private final Locale locale;
+	private final ReportPathResolver resolver;
+	private ResourceBundle delegate;
 	private static final Logger logger = LoggerFactory.getLogger(ReportsResourceBundle.class);
-
-	public Locale getLocale(){
-		return locale;
+	
+	public ReportsResourceBundle(Locale locale, ReportPathResolver resolver) {
+		this.locale = locale;
+		this.resolver = resolver;
+		buildBundle();
 	}
 	
-	@PostConstruct
-	private void buildBundle(){
+	public Locale getLocale() {
+		return locale;
+	}
+
+	private void buildBundle() {
 		
 		String path = resolver.getResourceBundleFor(locale);
 		File bundle = new File(path);
