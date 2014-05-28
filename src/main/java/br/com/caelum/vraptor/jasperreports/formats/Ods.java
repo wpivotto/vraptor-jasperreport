@@ -1,15 +1,19 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 
-import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.export.oasis.JROdsExporter;
+import net.sf.jasperreports.export.Exporter;
+import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.export.ReportExportConfiguration;
+import net.sf.jasperreports.export.SimpleOdsExporterConfiguration;
+import net.sf.jasperreports.export.SimpleOdsReportConfiguration;
 
 /**
  * @author William Pivotto
  */
 
-@RequestScoped
+@ApplicationScoped
 public class Ods extends AbstractExporter {
 	
 	public String getContentType() {
@@ -20,8 +24,17 @@ public class Ods extends AbstractExporter {
 		return "ods";
 	}
 	
-	public JRExporter setup() {
+	@SuppressWarnings("rawtypes")
+	public Exporter setup() {
 		return new JROdsExporter();
+	}
+
+	public ReportExportConfiguration getReportConfiguration() {
+		return new SimpleOdsReportConfiguration();
+	}
+
+	public ExporterConfiguration getExporterConfiguration() {
+		return new SimpleOdsExporterConfiguration();
 	}
 
 }

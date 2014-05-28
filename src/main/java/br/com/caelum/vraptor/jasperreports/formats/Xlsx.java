@@ -1,16 +1,19 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.export.Exporter;
+import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.export.ReportExportConfiguration;
+import net.sf.jasperreports.export.SimpleXlsxExporterConfiguration;
+import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 /**
  * @author William Pivotto
  */
 
-@RequestScoped
+@ApplicationScoped
 public class Xlsx extends AbstractExporter {
 
 	public String getContentType() {
@@ -21,9 +24,20 @@ public class Xlsx extends AbstractExporter {
 		return "xlsx";
 	}
 
-	public JRExporter setup() {
-		configure(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.TRUE);
+	@SuppressWarnings("rawtypes")
+	public Exporter setup() {
 		return new JRXlsxExporter();  
+	}
+
+	public ReportExportConfiguration getReportConfiguration() {
+		SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
+		configuration.setOnePagePerSheet(true);
+		return configuration;
+	}
+
+	@Override
+	public ExporterConfiguration getExporterConfiguration() {
+		return new SimpleXlsxExporterConfiguration();
 	}
 
 }

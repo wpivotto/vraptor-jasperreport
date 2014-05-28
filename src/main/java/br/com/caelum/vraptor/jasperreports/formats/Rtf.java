@@ -1,22 +1,28 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
-import javax.enterprise.context.RequestScoped;
+import java.io.OutputStream;
 
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.export.JRTextExporter;
-import net.sf.jasperreports.engine.export.JRTextExporterParameter;
+import javax.enterprise.context.ApplicationScoped;
+
+import net.sf.jasperreports.engine.export.JRRtfExporter;
+import net.sf.jasperreports.export.Exporter;
+import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.export.ExporterOutput;
+import net.sf.jasperreports.export.ReportExportConfiguration;
+import net.sf.jasperreports.export.SimpleRtfExporterConfiguration;
+import net.sf.jasperreports.export.SimpleRtfReportConfiguration;
+import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 
 /**
  * @author William Pivotto
  */
 
-@RequestScoped
+@ApplicationScoped
 public class Rtf extends AbstractExporter {
 
-	public JRExporter setup() {
-		configure(JRTextExporterParameter.CHARACTER_WIDTH, 5f);
-		configure(JRTextExporterParameter.CHARACTER_HEIGHT, 20f);
-		return new JRTextExporter();
+	@SuppressWarnings("rawtypes")
+	public Exporter setup() {
+		return new JRRtfExporter();
 	}
 
 	public String getContentType() {
@@ -25,6 +31,18 @@ public class Rtf extends AbstractExporter {
 
 	public String getExtension() {
 		return "rtf";
+	}
+
+	public ReportExportConfiguration getReportConfiguration() {
+		return new SimpleRtfReportConfiguration();
+	}
+
+	public ExporterConfiguration getExporterConfiguration() {
+		return new SimpleRtfExporterConfiguration();
+	}
+	
+	public ExporterOutput getExporterOutput(OutputStream output) {
+		return new SimpleWriterExporterOutput(output);
 	}
 
 }

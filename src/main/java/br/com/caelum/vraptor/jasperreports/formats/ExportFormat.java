@@ -1,10 +1,12 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
+import java.io.OutputStream;
 import java.util.List;
-import java.util.Map;
 
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.export.ExporterOutput;
+import net.sf.jasperreports.export.ReportExportConfiguration;
 
 /**
  * Generic Exporter
@@ -26,16 +28,17 @@ public interface ExportFormat {
 	String getExtension();
 	
 	/**
-     * Stores a configuration parameter
-     * @param parameter a String specifying the key of the parameter
-     * @param value the object to be stored
+     * Specifies the report configurations
      */
-	ExportFormat configure(JRExporterParameter parameter, Object value);
+	ReportExportConfiguration getReportConfiguration();
 	
 	/**
-     * Return configuration parameters
+     * Specifies the exporter configurations
      */
-	Map<JRExporterParameter, Object> getParameters();
+	ExporterConfiguration getExporterConfiguration();
+	
+	
+	ExporterOutput getExporterOutput(OutputStream output);
 	
 	/**
 	 * Can work in batch mode

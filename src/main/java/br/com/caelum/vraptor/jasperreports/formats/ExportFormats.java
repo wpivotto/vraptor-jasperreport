@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
@@ -15,7 +15,7 @@ import javax.inject.Inject;
  * @author William Pivotto
  */
 
-@RequestScoped
+@ApplicationScoped
 public class ExportFormats {
 	
 	private Map<String, ExportFormat> exporters = new HashMap<String, ExportFormat>();
@@ -28,86 +28,71 @@ public class ExportFormats {
 		}
 	}
 	
-	public static Pdf pdf(){
+	public static Pdf pdf() {
 		return new Pdf();
 	}
 	
-	public static Csv csv(){
+	public static Csv csv() {
 		return new Csv();
 	}
 	
-	public static Xls xls(){
+	public static Xls xls() {
 		return new Xls();
 	}
 	
-	public static Rtf rtf(){
+	public static Rtf rtf() {
 		return new Rtf();
 	}
 	
-	public static Docx docx(){
+	public static Docx docx() {
 		return new Docx();
 	}
 	
-	public static Odt odt(){
+	public static Odt odt() {
 		return new Odt();
 	}
 	
-	public static Txt txt(){
+	public static Txt txt() {
 		return new Txt();
 	}
 	
-	public Html html(){
+	public Html html() {
 		return (Html) byExtension("html");
 	}
 
-	public static Ods ods(){
+	public static Ods ods() {
 		return new Ods();
 	}
 	
-	public static Pptx pptx(){
+	public static Pptx pptx() {
 		return new Pptx();
 	}
 	
-	public static Xhtml xhtml(){
+	public static Xhtml xhtml() {
 		return new Xhtml();
 	}
 	
-	public static Xlsx xlsx(){
+	public static Xlsx xlsx() {
 		return new Xlsx();
 	}
 	
-	public static Image png(){
+	public static Image png() {
 		return new Image();
 	}
 	
-	public static Image png(Integer page, Float zoom){
-		Image image = new Image();
-		image.page(page);
-		image.zoom(zoom);
-		return image;
-	}
-	
-	public static Image jpeg(){
+	public static Image jpeg() {
 		Image image = new Image();
 		image.jpeg();
 		return image;
 	}
 	
-	public static Image jpeg(Integer page, Float zoom){
-		Image image = new Image();
-		image.jpeg();
-		image.page(page);
-		image.zoom(zoom);
-		return image;
-	}
-	
-	public ExportFormat byExtension(String extension){
+	public ExportFormat byExtension(String extension) {
 		if(supports(extension))
 			return exporters.get(extension.toLowerCase());
 		return pdf(); // default
 	}
 	
-	public boolean supports(String format){
+	public boolean supports(String format) {
 		return exporters.containsKey(format.toLowerCase());
 	}
 }

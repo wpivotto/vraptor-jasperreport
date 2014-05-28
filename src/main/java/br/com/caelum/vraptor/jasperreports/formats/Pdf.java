@@ -1,19 +1,22 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 
-import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
+import net.sf.jasperreports.export.Exporter;
+import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.export.ReportExportConfiguration;
+import net.sf.jasperreports.export.SimplePdfExporterConfiguration;
+import net.sf.jasperreports.export.SimplePdfReportConfiguration;
 
 /**
  * @author William Pivotto
  */
 
-@RequestScoped
+@ApplicationScoped
 public class Pdf extends AbstractExporter {
 	
-	private Integer permissions = 0;
+	private SimplePdfExporterConfiguration config = new SimplePdfExporterConfiguration();
 
 	public String getContentType() {
 		return "application/pdf";
@@ -23,45 +26,48 @@ public class Pdf extends AbstractExporter {
 		return "pdf";
 	}
 
-	public JRExporter setup() {
-		configure(JRPdfExporterParameter.IS_COMPRESSED, Boolean.TRUE );
+	@SuppressWarnings("rawtypes")
+	public Exporter setup() {
+		config.setCompressed(Boolean.TRUE);
 		return new JRPdfExporter();
 	}
 
 	public void encrypt(String password){
-		configure(JRPdfExporterParameter.IS_ENCRYPTED, Boolean.TRUE);
-		configure(JRPdfExporterParameter.IS_128_BIT_KEY, Boolean.TRUE);
-		configure(JRPdfExporterParameter.USER_PASSWORD, password);
-		configure(JRPdfExporterParameter.OWNER_PASSWORD, password);
+		config.setEncrypted(Boolean.TRUE);
+		config.set128BitKey(Boolean.TRUE);
+		config.setUserPassword(password);
+		config.setOwnerPassword(password);
 	}
 	
-	public Pdf addPermission(Integer permission){
-		this.permissions |= permission; 
-		configure(JRPdfExporterParameter.PERMISSIONS, permissions);
-		return this;
-	}
-	
-	public void setAuthor(String author){
-		configure(JRPdfExporterParameter.METADATA_AUTHOR, author);
+	public void setAuthor(String author) {
+		config.setMetadataAuthor(author);
 	}
 	
 	public void setTitle(String title){
-		configure(JRPdfExporterParameter.METADATA_TITLE, title);
+		config.setMetadataTitle(title);
 	}
 	
 	public void setCreator(String creator){
-		configure(JRPdfExporterParameter.METADATA_CREATOR, creator);
+		config.setMetadataCreator(creator);
 	}
 	
 	public void setSubject(String subject){
-		configure(JRPdfExporterParameter.METADATA_SUBJECT, subject);
+		config.setMetadataSubject(subject);
 	}
 	
 	/**
      * The Keywords of the PDF document, as comma-separated String. 
      */
 	public void setKeywords(String keywords){
-		configure(JRPdfExporterParameter.METADATA_KEYWORDS, keywords);
+		config.setMetadataKeywords(keywords);
+	}
+
+	public ReportExportConfiguration getReportConfiguration() {
+		return new SimplePdfReportConfiguration();
+	}
+
+	public ExporterConfiguration getExporterConfiguration() {
+		return config;
 	}
 
 }

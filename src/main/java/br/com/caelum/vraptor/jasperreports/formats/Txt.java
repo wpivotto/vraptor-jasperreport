@@ -1,16 +1,23 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
-import javax.enterprise.context.RequestScoped;
+import java.io.OutputStream;
 
-import net.sf.jasperreports.engine.JRExporter;
+import javax.enterprise.context.ApplicationScoped;
+
 import net.sf.jasperreports.engine.export.JRTextExporter;
-import net.sf.jasperreports.engine.export.JRTextExporterParameter;
+import net.sf.jasperreports.export.Exporter;
+import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.export.ExporterOutput;
+import net.sf.jasperreports.export.ReportExportConfiguration;
+import net.sf.jasperreports.export.SimpleTextExporterConfiguration;
+import net.sf.jasperreports.export.SimpleTextReportConfiguration;
+import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 
 /**
  * @author William Pivotto
  */
 
-@RequestScoped
+@ApplicationScoped
 public class Txt extends AbstractExporter {
 
 	public String getContentType() {
@@ -21,14 +28,28 @@ public class Txt extends AbstractExporter {
 		return "txt";
 	}
 	
-	public JRExporter setup() {
-		configure(JRTextExporterParameter.CHARACTER_WIDTH, 5f);
-		configure(JRTextExporterParameter.CHARACTER_HEIGHT, 20f);
+	@SuppressWarnings("rawtypes")
+	public Exporter setup() {
 		return new JRTextExporter();
 	}
 	
 	public boolean supportsBatchMode() {
 		return false;
+	}
+
+	public ReportExportConfiguration getReportConfiguration() {
+		SimpleTextReportConfiguration config = new SimpleTextReportConfiguration();
+		config.setCharHeight(20f);
+		config.setCharWidth(5f);
+		return config;
+	}
+
+	public ExporterConfiguration getExporterConfiguration() {
+		return new SimpleTextExporterConfiguration();
+	}
+	
+	public ExporterOutput getExporterOutput(OutputStream output) {
+		return new SimpleWriterExporterOutput(output);
 	}
 
 }

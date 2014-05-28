@@ -1,15 +1,23 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
-import javax.enterprise.context.RequestScoped;
+import java.io.OutputStream;
 
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.export.JRXhtmlExporter;
+import javax.enterprise.context.ApplicationScoped;
+
+import net.sf.jasperreports.engine.export.HtmlExporter;
+import net.sf.jasperreports.export.Exporter;
+import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.export.ExporterOutput;
+import net.sf.jasperreports.export.ReportExportConfiguration;
+import net.sf.jasperreports.export.SimpleHtmlExporterConfiguration;
+import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
+import net.sf.jasperreports.export.SimpleHtmlReportConfiguration;
 
 /**
  * @author William Pivotto
  */
 
-@RequestScoped
+@ApplicationScoped
 public class Xhtml extends AbstractExporter {
 
 	public String getContentType() {
@@ -20,8 +28,21 @@ public class Xhtml extends AbstractExporter {
 		return "xhtml";
 	}
 
-	public JRExporter setup() {
-		return new JRXhtmlExporter();
+	@SuppressWarnings("rawtypes")
+	public Exporter setup() {
+		return new HtmlExporter();
+	}
+
+	public ReportExportConfiguration getReportConfiguration() {
+		return new SimpleHtmlReportConfiguration();
+	}
+
+	public ExporterConfiguration getExporterConfiguration() {
+		return new SimpleHtmlExporterConfiguration();
+	}
+	
+	public ExporterOutput getExporterOutput(OutputStream output) {
+		return new SimpleHtmlExporterOutput(output, "UTF-8");
 	}
 	
 }

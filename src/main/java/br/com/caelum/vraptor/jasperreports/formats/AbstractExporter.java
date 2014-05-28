@@ -1,43 +1,33 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
-import java.util.Map;
 
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.export.Exporter;
+import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.export.ExporterInput;
+import net.sf.jasperreports.export.ExporterOutput;
+import net.sf.jasperreports.export.ReportExportConfiguration;
+import net.sf.jasperreports.export.SimpleExporterInput;
+import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 
-import com.google.common.collect.Maps;
-import com.google.common.io.Closeables;
 import com.google.common.io.Flushables;
 
+@SuppressWarnings({"unchecked", "rawtypes"})
 public abstract class AbstractExporter implements ExportFormat {
 	
-	protected Map<JRExporterParameter, Object> parameters = Maps.newHashMap();
-	
-	public AbstractExporter(){
-		defaultParameters();
-	}
-	
-	public ExportFormat configure(JRExporterParameter parameter, Object value) {
-		parameters.put(parameter, value);
-		return this;
-	}
-	
-	public Map<JRExporterParameter, Object> getParameters(){
-		return this.parameters;
-	}
-	
-	protected void defaultParameters(){
-		configure(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
-	}
-	
-	protected abstract JRExporter setup();
+	protected abstract Exporter setup();
 	
 	public boolean supportsBatchMode() {
 		return true;
+	}
+	
+	public ExporterOutput getExporterOutput(OutputStream output) {
+		return new SimpleOutputStreamExporterOutput(output);
 	}
 	
 	public byte[] toByteArray(List<JasperPrint> print) {
@@ -46,15 +36,22 @@ public abstract class AbstractExporter implements ExportFormat {
 	
 		try {
 			
-			JRExporter exporter = setup();
-			exporter.setParameters(getParameters());
+			Exporter exporter = setup();
 			
-			if (print.size() > 1)
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT_LIST, print);
-			else
-				exporter.setParameter(JRExporterParameter.JASPER_PRINT, print.get(0));
+			ExporterInput exporterInput = SimpleExporterInput.getInstance(print);
+			exporter.setExporterInput(exporterInput);
 			
-			exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, output);
+			ExporterOutput exporterOutput = getExporterOutput(output);
+			exporter.setExporterOutput(exporterOutput);
+
+			ExporterConfiguration exporterConfiguration = getExporterConfiguration();
+			if (exporterConfiguration != null)
+				exporter.setConfiguration(exporterConfiguration);
+			
+			ReportExportConfiguration reportConfiguration = getReportConfiguration();
+			if (reportConfiguration != null)
+				exporter.setConfiguration(reportConfiguration);
+			
 			exporter.exportReport();
 			Flushables.flushQuietly(output);
 			return output.toByteArray();  
@@ -63,8 +60,11 @@ public abstract class AbstractExporter implements ExportFormat {
 			throw new RuntimeException(e);
 		}
 		finally {
-			Closeables.closeQuietly(output);
-			parameters.clear();
+			try {
+				output.close();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
 		}
 	}
 	

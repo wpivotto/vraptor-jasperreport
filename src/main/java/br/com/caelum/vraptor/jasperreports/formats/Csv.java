@@ -1,15 +1,23 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
-import javax.enterprise.context.RequestScoped;
+import java.io.OutputStream;
 
-import net.sf.jasperreports.engine.JRExporter;
+import javax.enterprise.context.ApplicationScoped;
+
 import net.sf.jasperreports.engine.export.JRCsvExporter;
+import net.sf.jasperreports.export.Exporter;
+import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.export.ExporterOutput;
+import net.sf.jasperreports.export.ReportExportConfiguration;
+import net.sf.jasperreports.export.SimpleCsvExporterConfiguration;
+import net.sf.jasperreports.export.SimpleCsvReportConfiguration;
+import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 
 /**
  * @author William Pivotto
  */
 
-@RequestScoped
+@ApplicationScoped
 public class Csv extends AbstractExporter {
 
 	public String getContentType() {
@@ -20,9 +28,21 @@ public class Csv extends AbstractExporter {
 		return "csv";
 	}
 
-	public JRExporter setup() {
+	@SuppressWarnings("rawtypes")
+	public Exporter setup() {
 		return new JRCsvExporter();
 	}
+
+	public ReportExportConfiguration getReportConfiguration() {
+		return new SimpleCsvReportConfiguration();
+	}
 	
+	public ExporterConfiguration getExporterConfiguration() {
+		return new SimpleCsvExporterConfiguration();
+	}
 	
+	public ExporterOutput getExporterOutput(OutputStream output) {
+		return new SimpleWriterExporterOutput(output);
+	}
+
 }

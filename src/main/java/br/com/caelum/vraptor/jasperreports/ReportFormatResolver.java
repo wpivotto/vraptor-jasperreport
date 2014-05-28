@@ -14,11 +14,11 @@ public class ReportFormatResolver {
 	@Inject private ExportFormats formats;
 	@Inject private FormatResolver formatResolver;
 	
-	public ExportFormat getExportFormat(){
+	public ExportFormat getExportFormat() {
 		return formats.byExtension(formatResolver.getAcceptFormat());
 	}
 	
-	public boolean doDownload(){
+	public boolean doDownload() {
 		return !"html".equals(formatResolver.getAcceptFormat());
 	}
 }

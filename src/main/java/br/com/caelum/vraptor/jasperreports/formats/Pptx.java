@@ -1,15 +1,19 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.ApplicationScoped;
 
-import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRPptxExporter;
+import net.sf.jasperreports.export.Exporter;
+import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.export.ReportExportConfiguration;
+import net.sf.jasperreports.export.SimplePptxExporterConfiguration;
+import net.sf.jasperreports.export.SimplePptxReportConfiguration;
 
 /**
  * @author William Pivotto
  */
 
-@RequestScoped
+@ApplicationScoped
 public class Pptx extends AbstractExporter {
 	
 	public String getContentType() {
@@ -20,8 +24,17 @@ public class Pptx extends AbstractExporter {
 		return "pptx";
 	}
 
-	public JRExporter setup() {
+	@SuppressWarnings("rawtypes")
+	public Exporter setup() {
 		return new JRPptxExporter();
+	}
+
+	public ReportExportConfiguration getReportConfiguration() {
+		return new SimplePptxReportConfiguration();
+	}
+
+	public ExporterConfiguration getExporterConfiguration() {
+		return new SimplePptxExporterConfiguration();
 	}
 
 }

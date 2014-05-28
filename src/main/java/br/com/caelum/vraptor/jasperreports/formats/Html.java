@@ -1,24 +1,24 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
-import javax.enterprise.context.RequestScoped;
+import java.io.OutputStream;
 
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.export.JRHtmlExporter;
-import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
-import br.com.caelum.vraptor.jasperreports.ReportPathResolver;
+import javax.enterprise.context.ApplicationScoped;
+
+import net.sf.jasperreports.engine.export.HtmlExporter;
+import net.sf.jasperreports.export.Exporter;
+import net.sf.jasperreports.export.ExporterConfiguration;
+import net.sf.jasperreports.export.ExporterOutput;
+import net.sf.jasperreports.export.ReportExportConfiguration;
+import net.sf.jasperreports.export.SimpleHtmlExporterConfiguration;
+import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
+import net.sf.jasperreports.export.SimpleHtmlReportConfiguration;
 
 /**
  * @author William Pivotto
  */
 
-@RequestScoped
+@ApplicationScoped
 public class Html extends AbstractExporter {
-
-	private final ReportPathResolver resolver;
-	
-	public Html(ReportPathResolver resolver){
-		this.resolver = resolver;
-	}
 
 	public String getContentType() {
 		return "text/html";
@@ -28,11 +28,21 @@ public class Html extends AbstractExporter {
 		return "html";
 	}
 
-	public JRExporter setup() {
-		configure(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN, Boolean.FALSE);
-		configure(JRHtmlExporterParameter.IMAGES_DIR_NAME, resolver.getImagesPath());
-		configure(JRHtmlExporterParameter.IMAGES_URI, resolver.getImagesURI());
-		return new JRHtmlExporter();
+	@SuppressWarnings("rawtypes")
+	public Exporter setup() {
+		return new HtmlExporter();
+	}
+
+	public ReportExportConfiguration getReportConfiguration() {
+		return new SimpleHtmlReportConfiguration();
+	}
+
+	public ExporterConfiguration getExporterConfiguration() {
+		return new SimpleHtmlExporterConfiguration();
+	}
+	
+	public ExporterOutput getExporterOutput(OutputStream output) {
+		return new SimpleHtmlExporterOutput(output, "UTF-8");
 	}
 	
 }
