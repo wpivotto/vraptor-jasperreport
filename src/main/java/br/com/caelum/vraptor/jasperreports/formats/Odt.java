@@ -15,6 +15,9 @@ import net.sf.jasperreports.export.SimpleOdtReportConfiguration;
 
 @ApplicationScoped
 public class Odt extends AbstractExporter {
+	
+	protected SimpleOdtReportConfiguration reportConfiguration = new SimpleOdtReportConfiguration();
+	protected SimpleOdtExporterConfiguration exportConfiguration = new SimpleOdtExporterConfiguration();
 
 	public String getContentType() {
 		return "application/vnd.oasis.opendocument.text";
@@ -30,11 +33,11 @@ public class Odt extends AbstractExporter {
 	}
 
 	public ReportExportConfiguration getReportConfiguration() {
-		return new SimpleOdtReportConfiguration();
+		return reportConfiguration;
 	}
 
 	public ExporterConfiguration getExporterConfiguration() {
-		return new SimpleOdtExporterConfiguration();
+		return exportConfiguration;
 	}
 
 }

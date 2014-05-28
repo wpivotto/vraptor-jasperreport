@@ -19,6 +19,9 @@ import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 
 @ApplicationScoped
 public class Csv extends AbstractExporter {
+	
+	protected SimpleCsvReportConfiguration reportConfiguration = new SimpleCsvReportConfiguration();
+	protected SimpleCsvExporterConfiguration exportConfiguration = new SimpleCsvExporterConfiguration();
 
 	public String getContentType() {
 		return "application/csv";
@@ -34,11 +37,11 @@ public class Csv extends AbstractExporter {
 	}
 
 	public ReportExportConfiguration getReportConfiguration() {
-		return new SimpleCsvReportConfiguration();
+		return reportConfiguration;
 	}
 	
 	public ExporterConfiguration getExporterConfiguration() {
-		return new SimpleCsvExporterConfiguration();
+		return exportConfiguration;
 	}
 	
 	public ExporterOutput getExporterOutput(OutputStream output) {

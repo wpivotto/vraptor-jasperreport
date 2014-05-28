@@ -19,6 +19,9 @@ import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 
 @ApplicationScoped
 public class Rtf extends AbstractExporter {
+	
+	protected SimpleRtfReportConfiguration reportConfiguration = new SimpleRtfReportConfiguration();
+	protected SimpleRtfExporterConfiguration exportConfiguration = new SimpleRtfExporterConfiguration();
 
 	@SuppressWarnings("rawtypes")
 	public Exporter setup() {
@@ -34,11 +37,11 @@ public class Rtf extends AbstractExporter {
 	}
 
 	public ReportExportConfiguration getReportConfiguration() {
-		return new SimpleRtfReportConfiguration();
+		return reportConfiguration;
 	}
 
 	public ExporterConfiguration getExporterConfiguration() {
-		return new SimpleRtfExporterConfiguration();
+		return exportConfiguration;
 	}
 	
 	public ExporterOutput getExporterOutput(OutputStream output) {

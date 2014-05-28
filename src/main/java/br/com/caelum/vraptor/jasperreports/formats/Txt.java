@@ -19,6 +19,9 @@ import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 
 @ApplicationScoped
 public class Txt extends AbstractExporter {
+	
+	protected SimpleTextReportConfiguration reportConfiguration = new SimpleTextReportConfiguration();
+	protected SimpleTextExporterConfiguration exportConfiguration = new SimpleTextExporterConfiguration();
 
 	public String getContentType() {
 		return "text/plain";
@@ -38,14 +41,13 @@ public class Txt extends AbstractExporter {
 	}
 
 	public ReportExportConfiguration getReportConfiguration() {
-		SimpleTextReportConfiguration config = new SimpleTextReportConfiguration();
-		config.setCharHeight(20f);
-		config.setCharWidth(5f);
-		return config;
+		reportConfiguration.setCharHeight(13.948f);
+		reportConfiguration.setCharWidth(7.238f);
+		return reportConfiguration;
 	}
 
 	public ExporterConfiguration getExporterConfiguration() {
-		return new SimpleTextExporterConfiguration();
+		return exportConfiguration;
 	}
 	
 	public ExporterOutput getExporterOutput(OutputStream output) {

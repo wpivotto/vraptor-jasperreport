@@ -16,6 +16,9 @@ import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 @ApplicationScoped
 public class Xls extends AbstractExporter {
 	
+	protected SimpleXlsReportConfiguration reportConfiguration = new SimpleXlsReportConfiguration();
+	protected SimpleXlsExporterConfiguration exportConfiguration = new SimpleXlsExporterConfiguration();
+	
 	public String getContentType() {
 		return "application/vnd.ms-excel";
 	}
@@ -30,13 +33,12 @@ public class Xls extends AbstractExporter {
 	}
 
 	public ReportExportConfiguration getReportConfiguration() {
-		SimpleXlsReportConfiguration configuration = new SimpleXlsReportConfiguration();
-		configuration.setOnePagePerSheet(true);
-		return configuration;
+		reportConfiguration.setOnePagePerSheet(true);
+		return reportConfiguration;
 	}
 
 	public ExporterConfiguration getExporterConfiguration() {
-		return new SimpleXlsExporterConfiguration();
+		return exportConfiguration;
 	}
 
 }

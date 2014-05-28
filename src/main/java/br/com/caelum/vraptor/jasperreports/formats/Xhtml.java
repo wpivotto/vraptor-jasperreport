@@ -19,6 +19,9 @@ import net.sf.jasperreports.export.SimpleHtmlReportConfiguration;
 
 @ApplicationScoped
 public class Xhtml extends AbstractExporter {
+	
+	protected SimpleHtmlReportConfiguration reportConfiguration = new SimpleHtmlReportConfiguration();
+	protected SimpleHtmlExporterConfiguration exportConfiguration = new SimpleHtmlExporterConfiguration();
 
 	public String getContentType() {
 		return "text/html";
@@ -34,11 +37,11 @@ public class Xhtml extends AbstractExporter {
 	}
 
 	public ReportExportConfiguration getReportConfiguration() {
-		return new SimpleHtmlReportConfiguration();
+		return reportConfiguration;
 	}
 
 	public ExporterConfiguration getExporterConfiguration() {
-		return new SimpleHtmlExporterConfiguration();
+		return exportConfiguration;
 	}
 	
 	public ExporterOutput getExporterOutput(OutputStream output) {

@@ -16,6 +16,9 @@ import net.sf.jasperreports.export.SimpleDocxReportConfiguration;
 @ApplicationScoped
 public class Docx extends AbstractExporter {
 
+	protected SimpleDocxReportConfiguration reportConfiguration = new SimpleDocxReportConfiguration();
+	protected SimpleDocxExporterConfiguration exportConfiguration = new SimpleDocxExporterConfiguration();
+	
 	public String getContentType() {
 		return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 	}
@@ -30,11 +33,11 @@ public class Docx extends AbstractExporter {
 	}
 	
 	public ReportExportConfiguration getReportConfiguration() {
-		return new SimpleDocxReportConfiguration();
+		return reportConfiguration;
 	}
 
 	public ExporterConfiguration getExporterConfiguration() {
-		return new SimpleDocxExporterConfiguration();
+		return exportConfiguration;
 	}
 	
 }

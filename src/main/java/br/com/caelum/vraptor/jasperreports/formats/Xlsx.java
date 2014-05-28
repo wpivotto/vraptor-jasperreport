@@ -15,6 +15,9 @@ import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 @ApplicationScoped
 public class Xlsx extends AbstractExporter {
+	
+	protected SimpleXlsxReportConfiguration reportConfiguration = new SimpleXlsxReportConfiguration();
+	protected SimpleXlsxExporterConfiguration exportConfiguration = new SimpleXlsxExporterConfiguration();
 
 	public String getContentType() {
 		return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
@@ -30,14 +33,12 @@ public class Xlsx extends AbstractExporter {
 	}
 
 	public ReportExportConfiguration getReportConfiguration() {
-		SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
-		configuration.setOnePagePerSheet(true);
-		return configuration;
+		reportConfiguration.setOnePagePerSheet(true);
+		return reportConfiguration;
 	}
 
-	@Override
 	public ExporterConfiguration getExporterConfiguration() {
-		return new SimpleXlsxExporterConfiguration();
+		return exportConfiguration;
 	}
 
 }

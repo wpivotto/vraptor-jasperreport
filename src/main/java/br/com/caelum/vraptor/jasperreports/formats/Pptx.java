@@ -16,6 +16,9 @@ import net.sf.jasperreports.export.SimplePptxReportConfiguration;
 @ApplicationScoped
 public class Pptx extends AbstractExporter {
 	
+	protected SimplePptxReportConfiguration reportConfiguration = new SimplePptxReportConfiguration();
+	protected SimplePptxExporterConfiguration exportConfiguration = new SimplePptxExporterConfiguration();
+	
 	public String getContentType() {
 		return "application/vnd.openxmlformats-officedocument.presentationml.presentation";
 	}
@@ -30,11 +33,11 @@ public class Pptx extends AbstractExporter {
 	}
 
 	public ReportExportConfiguration getReportConfiguration() {
-		return new SimplePptxReportConfiguration();
+		return reportConfiguration;
 	}
 
 	public ExporterConfiguration getExporterConfiguration() {
-		return new SimplePptxExporterConfiguration();
+		return exportConfiguration;
 	}
 
 }
