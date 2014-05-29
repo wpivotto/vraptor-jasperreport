@@ -35,6 +35,5 @@ public class DefaultDecorator implements ReportDecorator {
 			report.addParameter(entry.getKey(), entry.getValue());
 		}
 	}
-
 	
 }

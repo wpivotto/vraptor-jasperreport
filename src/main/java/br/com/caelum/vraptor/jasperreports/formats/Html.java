@@ -1,8 +1,10 @@
 package br.com.caelum.vraptor.jasperreports.formats;
 
+import java.io.File;
 import java.io.OutputStream;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
 
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.export.Exporter;
@@ -12,6 +14,8 @@ import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.export.SimpleHtmlExporterConfiguration;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleHtmlReportConfiguration;
+import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
+import br.com.caelum.vraptor.jasperreports.ReportPathResolver;
 
 /**
  * @author William Pivotto
@@ -45,7 +49,9 @@ public class Html extends AbstractExporter {
 	}
 	
 	public ExporterOutput getExporterOutput(OutputStream output) {
-		return new SimpleHtmlExporterOutput(output, "UTF-8");
+		SimpleHtmlExporterOutput exporterOutput = new SimpleHtmlExporterOutput(output, "UTF-8");
+		exporterOutput.setImageHandler(new WebHtmlResourceHandler("servlets/image?image={0}"));
+		return exporterOutput;
 	}
 	
 }

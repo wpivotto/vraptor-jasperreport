@@ -69,8 +69,4 @@ public class ReportPathResolver {
 		return param != null ? param.trim() : DEFAULT_BUNDLE_NAME;
 	}
 
-	public String getImagesURI() {
-		return context.getContextPath() + "/report.image?image=";
-	}
-
 }

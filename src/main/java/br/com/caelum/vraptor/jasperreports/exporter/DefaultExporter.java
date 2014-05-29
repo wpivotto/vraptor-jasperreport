@@ -25,7 +25,6 @@ import br.com.caelum.vraptor.jasperreports.Report;
 import br.com.caelum.vraptor.jasperreports.ReportLoader;
 import br.com.caelum.vraptor.jasperreports.decorator.ReportDecorator;
 import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
-import br.com.caelum.vraptor.jasperreports.formats.Html;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -40,10 +39,10 @@ import com.google.common.collect.Maps;
 @RequestScoped
 public class DefaultExporter implements ReportExporter {
 
-	private Collection<Report> reports = Lists.newArrayList();
 	@Inject private ReportLoader loader;
 	@Inject @Any private Instance<ReportDecorator> decorators;
 	@Inject private HttpSession session;
+	private Collection<Report> reports = Lists.newArrayList();
 	private final Logger logger = LoggerFactory.getLogger(DefaultExporter.class);
 
 	public ReportExporter export(Report report) {
@@ -57,56 +56,40 @@ public class DefaultExporter implements ReportExporter {
 	}
 
 	public byte[] to(ExportFormat format) {
-
 		try {
-
 			List<JasperPrint> print = fillAll(format);
 			return format.toByteArray(print);
-
 		} catch (JRException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	private List<JasperPrint> fillAll(ExportFormat format) throws JRException {
-
 		List<JasperPrint> printList = new ArrayList<JasperPrint>();
-
 		for (Report report : reports) {
 			printList.add(fill(report));
 		}
-
-		configImageServlet(format, printList.get(0));
-
+		configImageServlet(format, printList);
 		return printList;
-
 	}
 
 	private JasperPrint fill(Report report) throws JRException {
-
 		for (ReportDecorator decorator : decorators) {
 			decorator.decorate(report);
 		}
-
 		JasperReport jr = loader.load(report);
 		JRBeanCollectionDataSource data = new JRBeanCollectionDataSource(report.getData(), false);
-
 		Map<String, Object> parameters = report.getParameters();
-
 		if (parameters == null) {
 			parameters = Maps.newHashMap();
 			logger.warn("You are willing to generate a report, but there is no valid parameters");
 		}
-
 		JasperPrint print = JasperFillManager.fillReport(jr, parameters, data);
-
 		return print;
-
 	}
 
-	private void configImageServlet(ExportFormat format, JasperPrint print) {
-		if (format.getClass().equals(Html.class) && print != null)
-			session.setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_SESSION_ATTRIBUTE, print);
+	private void configImageServlet(ExportFormat format, List<JasperPrint> printList) {
+		session.setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_LIST_SESSION_ATTRIBUTE, printList);
 	}
 
 }

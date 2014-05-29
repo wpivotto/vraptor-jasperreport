@@ -12,6 +12,7 @@ import net.sf.jasperreports.export.ReportExportConfiguration;
 import net.sf.jasperreports.export.SimpleHtmlExporterConfiguration;
 import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleHtmlReportConfiguration;
+import net.sf.jasperreports.web.util.WebHtmlResourceHandler;
 
 /**
  * @author William Pivotto
@@ -45,7 +46,9 @@ public class Xhtml extends AbstractExporter {
 	}
 	
 	public ExporterOutput getExporterOutput(OutputStream output) {
-		return new SimpleHtmlExporterOutput(output, "UTF-8");
+		SimpleHtmlExporterOutput exporterOutput = new SimpleHtmlExporterOutput(output, "UTF-8");
+		exporterOutput.setImageHandler(new WebHtmlResourceHandler("servlets/image?image={0}"));
+		return exporterOutput;
 	}
 	
 }
