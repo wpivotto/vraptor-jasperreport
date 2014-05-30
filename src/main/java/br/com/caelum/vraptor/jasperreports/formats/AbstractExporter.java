@@ -30,7 +30,7 @@ public abstract class AbstractExporter implements ExportFormat {
 		return new SimpleOutputStreamExporterOutput(output);
 	}
 	
-	public byte[] toByteArray(List<JasperPrint> print) {
+	public byte[] toByteArray(List<JasperPrint> printList) {
 		
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 	
@@ -38,7 +38,7 @@ public abstract class AbstractExporter implements ExportFormat {
 			
 			Exporter exporter = setup();
 			
-			ExporterInput exporterInput = SimpleExporterInput.getInstance(print);
+			ExporterInput exporterInput = SimpleExporterInput.getInstance(printList);
 			exporter.setExporterInput(exporterInput);
 			
 			ExporterOutput exporterOutput = getExporterOutput(output);

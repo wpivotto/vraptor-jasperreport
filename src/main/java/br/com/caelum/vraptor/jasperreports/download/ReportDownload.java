@@ -4,6 +4,9 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import br.com.caelum.vraptor.jasperreports.Report;
 import br.com.caelum.vraptor.jasperreports.exporter.ReportExporter;
 import br.com.caelum.vraptor.jasperreports.formats.ExportFormat;
@@ -23,6 +26,7 @@ public class ReportDownload implements Download {
 	private final Report report;
 	private final ExportFormat format;
 	private final boolean doDownload;
+	private final Logger logger = LoggerFactory.getLogger(ReportDownload.class);
 	
 	public ReportDownload(Report report, ExportFormat format, boolean doDownload){
 		this.report = report;
@@ -39,7 +43,9 @@ public class ReportDownload implements Download {
 	}
 
 	public void write(HttpServletResponse response) throws IOException {
-		new ByteArrayDownload(getContent(), getContentType(), getFileName(), doDownload).write(response);
+		ByteArrayDownload download = new ByteArrayDownload(getContent(), getContentType(), getFileName(), doDownload);
+		logger.debug("Generating report " + getFileName() + ", Content-Type: " + getContentType());
+		download.write(response);
 	}
 	
 	private byte[] getContent(){

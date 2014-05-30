@@ -76,14 +76,8 @@ public class ExportFormats {
 		return new Xlsx();
 	}
 	
-	public static Image png() {
-		return new Image();
-	}
-	
-	public static Image jpeg() {
-		Image image = new Image();
-		image.jpeg();
-		return image;
+	public static Png png() {
+		return new Png();
 	}
 	
 	public ExportFormat byExtension(String extension) {

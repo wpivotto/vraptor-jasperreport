@@ -2,10 +2,12 @@ package br.com.caelum.vraptor.jasperreports.formats;
 
 import java.io.File;
 import java.io.OutputStream;
+import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
+import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.export.Exporter;
 import net.sf.jasperreports.export.ExporterConfiguration;
