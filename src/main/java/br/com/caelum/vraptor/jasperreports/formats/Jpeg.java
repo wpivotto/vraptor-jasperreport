@@ -7,10 +7,10 @@ import javax.enterprise.context.ApplicationScoped;
  */
 
 @ApplicationScoped
-public class Png extends ImageFormat {
+public class Jpeg extends ImageFormat {
 	
-	public Png() {
-		super("png");
+	public Jpeg() {
+		super("jpeg");
 	}
 
 }

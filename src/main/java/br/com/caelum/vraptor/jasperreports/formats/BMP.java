@@ -7,10 +7,10 @@ import javax.enterprise.context.ApplicationScoped;
  */
 
 @ApplicationScoped
-public class Png extends ImageFormat {
+public class BMP extends ImageFormat {
 	
-	public Png() {
-		super("png");
+	public BMP() {
+		super("bmp");
 	}
 
 }
