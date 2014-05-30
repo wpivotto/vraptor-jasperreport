@@ -17,7 +17,7 @@ Supported File Formats:
 * PPTX
 * XHTML
 * XLSX
-* IMAGE (PNG and JPEG)
+* IMAGE (PNG, JPEG, BMP)
 
 Using it
 ------
@@ -41,7 +41,7 @@ Using it
 <dependency>
 	<groupId>br.com.prixma</groupId>
   	<artifactId>vraptor-jasperreport</artifactId>
-  	<version>1.0.2</version>
+  	<version>1.1.0</version>
 </dependency>
 ```
 
@@ -53,20 +53,11 @@ Controller
 --------
 
 ```java
-@Resource
+@Controller
 public class ClientsController {
 
-	private final Result result;
-	private final Clients clients;
-	private final ExportFormats formats;
-	private final User user;
-	
-	public ClientsController(Result result, Clients clients, ExportFormats formats, User user) {
-		this.result = result;
-		this.clients = clients;
-		this.formats = formats;
-		this.user = user;
-	}
+	@Inject private final Result result;
+	@Inject private final Clients clients;
 		
 	@Path("/clients/pdf") 
 	public Download pdfReport() {
@@ -74,65 +65,18 @@ public class ClientsController {
 		return new ReportDownload(report, pdf());
 	}
 		
-	@Path("/clients/pdf/encrypted") 
-	public Download encryptedPdfReport() {
-		Report report = generateReport();
-		Pdf pdf = ExportFormats.pdf();
-		pdf.encrypt(user.getPassword());
-		pdf.addPermission(PdfWriter.ALLOW_COPY)
-		   .addPermission(PdfWriter.ALLOW_PRINTING);
-		return new ReportDownload(report, pdf);
-	}
-		
-	@Path("/clients/csv") 
-	public Download csvReport() {
-		Report report = generateReport();
-		return new ReportDownload(report, csv());
-	}
-		
 	@Path("/clients/xls") 
 	public Download xlsReport() {
 		Report report = generateReport();
 		return new ReportDownload(report, xls());
+	}	
+		
+	@Path("/clients/report") 
+	public Report customReport() {
+		return generateReport(); //uses content negotiation to find export format
 	}
 		
-	@Path("/clients/docx") 
-	public Download docxReport() {
-		Report report = generateReport();
-		return new ReportDownload(report, docx());
-	}
-		
-	@Path("/clients/txt") 
-	public Download txtReport() {
-		Report report = generateReport();
-		return new ReportDownload(report, txt());
-	}
-		
-	@Path("/clients/odt") 
-	public Download odtReport() {
-		Report report = generateReport();
-		return new ReportDownload(report, odt());
-	}
-		
-	@Path("/clients/rtf") 
-	public Download rtfReport() {
-		Report report = generateReport();
-		return new ReportDownload(report, rtf());
-	}
-		
-	@Path("/clients/report/preview") 
-	public Download previewReport() {
-		Report report = generateReport();
-		return new ReportDownload(report, png(), false);
-	}
-		
-	@Path("/clients/report/{format}") 
-	public Download report(String format) {
-		Report report = generateReport();
-		return new ReportDownload(report, formats.byExtension(format));
-	}
-		
-	private Report generateReport(){
+	private Report generateReport() {
 		List<Client> data = clients.listAll();
 		return new ClientsReport(data);
 	}
@@ -188,7 +132,7 @@ Batch Export
 Several reports can be exported together to form a single resulting document.
 
 ```java
-public Download batchReport(){
+public Download batchReport() {
 	BatchReportsDownload download = new BatchReportsDownload(pdf());
 	Report header = ...
 	Report content = ...
@@ -206,7 +150,7 @@ Zip Export
 This option allows you to export reports in different formats and agroup them into a single zip file.
 
 ```java
-public Download zipReport(){
+public Download zipReport() {
 	ReportsDownload download = new ReportsDownload();
 	download.add(pdfReport, pdf())
 			.add(csvReport, csv())
@@ -281,6 +225,27 @@ $("#reportButton").click(function() {
 });
 ```
 
+Customizing Export Formats
+------
+
+Sample: Make all pdf reports encrypted.
+
+```java
+@ApplicationScoped
+@Specializes
+public class EncryptedPdf extends Pdf {
+
+	public ExporterConfiguration getExporterConfiguration() {
+		exportConfiguration.setEncrypted(Boolean.TRUE);
+		exportConfiguration.set128BitKey(Boolean.TRUE);
+		exportConfiguration.setUserPassword("123456");
+		exportConfiguration.setOwnerPassword("123456");
+		return exportConfiguration;
+	}
+
+}
+```
+
 Customizing paths
 ------
 
@@ -318,15 +283,10 @@ Decorating reports
 Decorators can be used to provide default parameters for all reports, like this
 
 ```java 
-@Component
 @SessionScoped
 public class MyDecorator implements ReportDecorator {
 	
-	private final User user;
-	
-	public MyDecorator(User user) {
-		this.user = user;
-	}
+	@Inject private final LoggedUser user;
 	
 	public void decorate(Report report) {
 		report.addParameter("GeneratedBy", user);
