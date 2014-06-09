@@ -33,7 +33,19 @@ public class Xls extends AbstractExporter {
 	}
 
 	public ReportExportConfiguration getReportConfiguration() {
-		reportConfiguration.setOnePagePerSheet(true);
+		reportConfiguration.setIgnoreGraphics(Boolean.FALSE);
+		reportConfiguration.setCollapseRowSpan(Boolean.FALSE);
+		reportConfiguration.setDetectCellType(Boolean.TRUE);
+		reportConfiguration.setFontSizeFixEnabled(Boolean.TRUE);
+		reportConfiguration.setRemoveEmptySpaceBetweenColumns(Boolean.FALSE);
+		reportConfiguration.setRemoveEmptySpaceBetweenRows(Boolean.FALSE);
+		reportConfiguration.setIgnoreCellBorder(Boolean.FALSE);
+		reportConfiguration.setImageBorderFixEnabled(Boolean.FALSE);
+		reportConfiguration.setShowGridLines(Boolean.FALSE);
+		reportConfiguration.setIgnoreCellBackground(Boolean.FALSE);
+		reportConfiguration.setWrapText(Boolean.FALSE);
+		reportConfiguration.setOnePagePerSheet(Boolean.TRUE);
+		reportConfiguration.setColumnWidthRatio(1.25f);
 		return reportConfiguration;
 	}
 
