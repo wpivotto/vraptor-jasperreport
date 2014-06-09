@@ -8,6 +8,7 @@ import javax.inject.Inject;
 
 import net.sf.jasperreports.engine.JRParameter;
 import br.com.caelum.vraptor.Result;
+import br.com.caelum.vraptor.config.Configuration;
 import br.com.caelum.vraptor.jasperreports.Report;
 import br.com.caelum.vraptor.jasperreports.ReportPathResolver;
 
@@ -17,6 +18,7 @@ public class DefaultDecorator implements ReportDecorator {
 	@Inject private Locale locale;
 	@Inject private ReportPathResolver resolver;
 	@Inject private Result result;
+	@Inject private Configuration cfg;
 
 	public void decorate(Report report) {
 		if (report == null)
@@ -27,6 +29,7 @@ public class DefaultDecorator implements ReportDecorator {
 		addParameter("REPORT_DIR", resolver.getReportsPath(), report);
 		addParameter("SUBREPORT_DIR", resolver.getSubReportsPath(), report);
 		addParameter("IMAGES_DIR", resolver.getImagesPath(), report);
+		addParameter("CONTEXT_PATH", cfg.getApplicationPath(), report);
 		addParameter(JRParameter.REPORT_LOCALE, locale, report);
 		addParameter(JRParameter.REPORT_RESOURCE_BUNDLE, bundle, report);
 		includeRequestParameters(report);
