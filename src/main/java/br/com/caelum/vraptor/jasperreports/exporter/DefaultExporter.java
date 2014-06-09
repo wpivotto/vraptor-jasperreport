@@ -11,6 +11,8 @@ import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import net.sf.jasperreports.engine.JRDataSource;
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -74,18 +76,36 @@ public class DefaultExporter implements ReportExporter {
 	}
 
 	private JasperPrint fill(Report report) throws JRException {
-		for (ReportDecorator decorator : decorators) {
-			decorator.decorate(report);
-		}
 		JasperReport jr = loader.load(report);
-		JRBeanCollectionDataSource data = new JRBeanCollectionDataSource(report.getData(), false);
+		Map<String, Object> parameters = getParameters(report);
+		JRDataSource datasource = getDataSource(report);
+		decorate(report);
+		JasperPrint print = JasperFillManager.fillReport(jr, parameters, datasource);
+		return print;
+	}
+	
+	private JRDataSource getDataSource(Report report) {
+		if (report.getData() != null)
+			return new JRBeanCollectionDataSource(report.getData(), false);
+		else {
+			logger.warn("You are willing to generate a report, but there is no valid datasource, using empty one");
+			return new JREmptyDataSource();
+		}
+	}
+	
+	private Map<String, Object> getParameters(Report report) {
 		Map<String, Object> parameters = report.getParameters();
 		if (parameters == null) {
 			parameters = Maps.newHashMap();
 			logger.warn("You are willing to generate a report, but there is no valid parameters");
 		}
-		JasperPrint print = JasperFillManager.fillReport(jr, parameters, data);
-		return print;
+		return parameters;
+	}
+	
+	private void decorate(Report report) {
+		for (ReportDecorator decorator : decorators) {
+			decorator.decorate(report);
+		}
 	}
 
 	private void configImageServlet(ExportFormat format, List<JasperPrint> printList) {
