@@ -19,21 +19,29 @@ public class DefaultDecorator implements ReportDecorator {
 	@Inject private Result result;
 
 	public void decorate(Report report) {
-		if(report.getParameters() != null) {
-			ReportsResourceBundle bundle = new ReportsResourceBundle(locale, resolver);
-			report.addParameter("REPORT_DIR", resolver.getReportsPath());
-			report.addParameter("SUBREPORT_DIR", resolver.getSubReportsPath());
-			report.addParameter("IMAGES_DIR", resolver.getImagesPath());
-			report.addParameter(JRParameter.REPORT_LOCALE, locale);
-			report.addParameter(JRParameter.REPORT_RESOURCE_BUNDLE, bundle);
-			includeRequestParameters(report);
-		}
+		if (report == null)
+			return;
+		if(report.getParameters() == null)
+			return;
+		ReportsResourceBundle bundle = new ReportsResourceBundle(locale, resolver);
+		addParameter("REPORT_DIR", resolver.getReportsPath(), report);
+		addParameter("SUBREPORT_DIR", resolver.getSubReportsPath(), report);
+		addParameter("IMAGES_DIR", resolver.getImagesPath(), report);
+		addParameter(JRParameter.REPORT_LOCALE, locale, report);
+		addParameter(JRParameter.REPORT_RESOURCE_BUNDLE, bundle, report);
+		includeRequestParameters(report);
+		
 	}
 	
 	private void includeRequestParameters(Report report) {
 		for(Map.Entry<String, Object> entry : result.included().entrySet()){
-			report.addParameter(entry.getKey(), entry.getValue());
+			addParameter(entry.getKey(), entry.getValue(), report);
 		}
 	}
 	
+	private void addParameter(String param, Object value, Report report) {
+		if (!report.getParameters().containsKey(param)) {
+			report.addParameter(param, value);
+		}
+	}
 }
