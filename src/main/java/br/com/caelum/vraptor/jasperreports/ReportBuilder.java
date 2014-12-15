@@ -1,6 +1,5 @@
 package br.com.caelum.vraptor.jasperreports;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -94,7 +93,7 @@ public class ReportBuilder {
 		private Map<String, Object> params = new HashMap<String, Object>();
 
 		/** Report data */
-		private Collection<?> data = new ArrayList<Object>();
+		private Collection<?> data;
 
 		@Override
 		public Report addParameter(String param, Object value) {
