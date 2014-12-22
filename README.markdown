@@ -126,6 +126,35 @@ public class ClientsReport implements Report {
 }
 ```
 	
+Report Builder
+------
+
+Alternatively, you can use the ReportBuilder instead of creating a new class
+that implements Report once the builder does that for you. Additionally, it 
+allows you to set only the properties you need for your reports.
+
+The code in your controller would look something similiar to this one:
+
+```java
+@Controller
+public class ClientsController {
+
+	@Inject private final Clients clients;
+	
+	[...]
+	
+	private Report generateReport() {
+		return new ReportBuilder()
+			.withTemplate("report.jasper")
+			.withData(clients.listAll())
+			.with[...]
+			.build();
+	}
+	
+}
+```
+
+
 Batch Export
 ------
 
@@ -310,6 +339,47 @@ public Report report() {
 	return report;
 }
 ```
+
+SQL Query Reports
+------
+
+If your reports are set to run the SQL query internally, you can pass the report
+a Connection to use by adding a parameter with the name of 'java.sql.Connection'
+and the actual connection as the value, like this:
+
+```java
+Connection con = [...]; // <- return a valid connection here
+report.addParameter("java.sql.Connection", con);
+``` 
+
+Or, you can take advantage of the Decorators feature and create one like this:
+
+```java
+public class SQLReportDecorator implements ReportDecorator {
+
+	@PersistenceContext
+	private EntityManager em;
+
+	@Override
+	public void decorate(Report report) {
+		if (report.getData() == null) {
+			report.addParameter(Connection.class.getName(), getConnection());
+		}
+	}
+
+	private Connection getConnection() {
+		final Session session = (Session) em.getDelegate();
+		final SessionFactoryImpl sessionFactory = (SessionFactoryImpl) session.getSessionFactory();
+		try {
+			return sessionFactory.getConnectionProvider().getConnection();
+		} catch (SQLException e) {
+			return null;
+		}
+	}
+
+}
+```
+
 
 Internationalization
 ------

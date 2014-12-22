@@ -1,5 +1,6 @@
 package br.com.caelum.vraptor.jasperreports.exporter;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -37,7 +38,6 @@ import com.google.common.collect.Maps;
  * @author William Pivotto
  * 
  */
-
 @RequestScoped
 public class DefaultExporter implements ReportExporter {
 
@@ -78,21 +78,31 @@ public class DefaultExporter implements ReportExporter {
 	private JasperPrint fill(Report report) throws JRException {
 		JasperReport jr = loader.load(report);
 		Map<String, Object> parameters = getParameters(report);
-		JRDataSource datasource = getDataSource(report);
 		decorate(report);
-		JasperPrint print = JasperFillManager.fillReport(jr, parameters, datasource);
+		return printReport(jr, parameters, getDataSource(report));
+	}
+
+	private JasperPrint printReport(JasperReport jr, Map<String, Object> parameters, JRDataSource datasource) throws JRException {
+		JasperPrint print = null;
+		final Object dsConn = parameters.get(Connection.class.getName());
+		if (dsConn != null && dsConn instanceof Connection) {
+			print = JasperFillManager.fillReport(jr, parameters, (Connection) dsConn);
+		} else {
+			print = JasperFillManager.fillReport(jr, parameters, datasource);
+		}
 		return print;
 	}
-	
+
 	private JRDataSource getDataSource(Report report) {
 		if (report.getData() != null)
 			return new JRBeanCollectionDataSource(report.getData(), false);
-		else {
+		else if (!report.getParameters().containsKey(Connection.class.getName())) {
 			logger.warn("You are willing to generate a report, but there is no valid datasource, using empty one");
 			return new JREmptyDataSource();
 		}
+		return null;
 	}
-	
+
 	private Map<String, Object> getParameters(Report report) {
 		Map<String, Object> parameters = report.getParameters();
 		if (parameters == null) {
@@ -101,7 +111,7 @@ public class DefaultExporter implements ReportExporter {
 		}
 		return parameters;
 	}
-	
+
 	private void decorate(Report report) {
 		for (ReportDecorator decorator : decorators) {
 			decorator.decorate(report);
