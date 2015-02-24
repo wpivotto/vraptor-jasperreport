@@ -208,19 +208,19 @@ public Report report() {
 }
 ```
 
-Data URIs
+Embedding your report in a web page 
 ------
 
-The data URI is a scheme that provides a way to include data in-line in web pages as if they were external resources.
+Data URI is a scheme that provides a way to include data in-line in web pages as if they were external resources.
 The scheme is defined in [RFC 2397](http://tools.ietf.org/html/rfc2397 "RFC 2397").
 
-Example 1: Embedding a report in a div
+Example: 
 
 ```java
-@Get("/clients.json") 
-public void jsonReport(ReportDataURIBuilder builder) {
-	String uri = builder.build(report(), png());
-    result.use(json()).withoutRoot().from(uri).serialize();
+@Get("/report/embed") 
+public void embeddedReport(ReportSerializer serializer) {
+	Report report = buildReport();
+    serializer.serialize(report);
 }
 ```
 
@@ -228,28 +228,8 @@ In your jsp:
 
 ```javascript
 $("#reportButton").click(function() {
-	$.getJSON('/clients.json', function(uri) {
-		$('#container').append("<img src=\"" + uri + "\" />");
-	});
-});
-```
-
-Example 2: Embedding a generic report in a new window
-
-```java
-@Get("/clients.json") 
-public void jsonReport(ReportDataURIBuilder builder) {
-	String uri = builder.build(report()); //recognizes the format via _format parameter
-    result.use(json()).withoutRoot().from(uri).serialize();
-}
-```
-
-In your jsp:
-
-```javascript
-$("#reportButton").click(function() {
-	$.getJSON('/clients.json?_format=pdf', function(uri) {
-		window.open(uri);
+	$.getJSON('${pageContext.request.contextPath}/report/embed?_format=pdf', function(report) {
+		$('#container').html("<embed src=\"" + report.src + "\" width='900' height='800' />");
 	});
 });
 ```
