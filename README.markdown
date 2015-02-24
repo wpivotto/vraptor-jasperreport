@@ -241,17 +241,14 @@ public class ReportsController {
 Note: All files will be saved in the `WEB-INF/tmp` directory by default.
 
 
-Embedding your report in a web page 
+Embedding reports 
 ------
-
-Data URI is a scheme that provides a way to include data in-line in web pages as if they were external resources.
-The scheme is defined in [RFC 2397](http://tools.ietf.org/html/rfc2397 "RFC 2397").
 
 Example: 
 
 ```java
 @Get("/report/embed") 
-public void embeddedReport(ReportSerializer serializer) {
+public void serializeReport(ReportSerializer serializer) {
 	Report report = buildReport();
     serializer.serialize(report);
 }
@@ -266,6 +263,8 @@ $("#reportButton").click(function() {
 	});
 });
 ```
+
+Note: The report content will be serializable as a base64 string, in accordance with [RFC 2397](http://en.wikipedia.org/wiki/Data_URI_scheme "RFC 2397").
 
 Customizing Export Formats
 ------
