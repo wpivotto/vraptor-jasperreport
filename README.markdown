@@ -41,7 +41,7 @@ Using it
 <dependency>
 	<groupId>br.com.prixma</groupId>
   	<artifactId>vraptor-jasperreport</artifactId>
-  	<version>4.0.0</version>
+  	<version>4.1.0</version>
 </dependency>
 ```
 
