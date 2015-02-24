@@ -79,6 +79,7 @@ public class DefaultExporter implements ReportExporter {
 		JasperReport jr = loader.load(report);
 		Map<String, Object> parameters = getParameters(report);
 		decorate(report);
+		logParameters(report);
 		return printReport(jr, parameters, getDataSource(report));
 	}
 
@@ -109,6 +110,7 @@ public class DefaultExporter implements ReportExporter {
 			parameters = Maps.newHashMap();
 			logger.warn("You are willing to generate a report, but there is no valid parameters");
 		}
+		
 		return parameters;
 	}
 
@@ -117,9 +119,23 @@ public class DefaultExporter implements ReportExporter {
 			decorator.decorate(report);
 		}
 	}
+	
+	private void logParameters(Report report) {
+		if (logger.isDebugEnabled()) {
+			try {
+				Map<String, Object> parameters = report.getParameters();
+				if (!parameters.isEmpty()) {
+					logger.debug("Parameters passed to the template {} ", report.getTemplate());
+					for (Map.Entry<String, Object> param : parameters.entrySet()) {
+					    logger.debug("$P{" + param.getKey() + "} = " + param.getValue().toString());
+					}
+				}
+			} catch (Exception e) {}
+		}
+	}
 
 	private void configImageServlet(ExportFormat format, List<JasperPrint> printList) {
 		session.setAttribute(ImageServlet.DEFAULT_JASPER_PRINT_LIST_SESSION_ATTRIBUTE, printList);
 	}
-
+	
 }
