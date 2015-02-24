@@ -208,6 +208,39 @@ public Report report() {
 }
 ```
 
+Exporting files
+------
+
+```java
+@Controller
+public class ReportsController {
+
+	@Inject private FileSystemReportExporter exporter;
+	
+	private File generateSingleFile() {
+		Report report = generateReport();
+		return exporter.export(report);
+	}
+	
+	private File generateBatchFile() {
+		Report part1 = new MonthlySalesGrowthReport();
+		Report part2 = new TopItemSalesAnalysisReport();
+		exporter.export("filename", pdf(), part1, part2);
+	}
+	
+	private File generateZipFile() {
+		ReportItem report1 = new ReportItem(new MonthlySalesGrowthReport(), pdf());
+		ReportItem report2 = new ReportItem(new TopCustomerAnalysisReport(), png());
+		ReportItem report3 = new ReportItem(new ItemSummaryWorksheetReport(), xlsx());
+		return exporter.export("sales_dashboard", report1, report2, report3);
+	}
+	
+}
+```
+
+Note: All files will be saved in the `WEB-INF/tmp` directory by default.
+
+
 Embedding your report in a web page 
 ------
 
@@ -276,6 +309,11 @@ For enabling this you must put this parameters on web.xml:
 	<param-name>vraptor.images.path</param-name>
 	<param-value>custom images path</param-value>
 </context-param>
+
+<context-param>
+	<param-name>vraptor.reports.generation.path</param-name>
+	<param-value>custom report generation path</param-value>
+</context-param>
 ```
 	
 These folders are passed as parameters to reports:
@@ -283,6 +321,7 @@ These folders are passed as parameters to reports:
 	`$P{REPORT_DIR}` directory where the reports are available
 	`$P{SUBREPORT_DIR}` directory where the sub-reports are available
 	`$P{IMAGES_DIR}` directory where the images are available
+	`$P{REPORT_GENERATION_PATH}` directory where the output file are available
 
 So, to include an image in the report just do: `$P{IMAGES_DIR} + "image.png"`
 

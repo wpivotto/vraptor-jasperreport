@@ -14,6 +14,7 @@ public class ReportPathResolver {
 	public static final String DEFAULT_REPORTS_PATH = "/WEB-INF/reports";
 	public static final String DEFAULT_SUBREPORTS_PATH = "/WEB-INF/reports/subreports";
 	public static final String DEFAULT_IMAGES_PATH = "/WEB-INF/reports/images";
+	public static final String DEFAULT_REPORT_GENERATION_PATH = "/WEB-INF/reports/tmp";
 	private static final String DEFAULT_BUNDLE_NAME = "i18n_";
 	private static final String SEPARATOR = File.separator;
 	
@@ -33,6 +34,10 @@ public class ReportPathResolver {
 		return context.getRealPath(getRelativeImagesPath()) + SEPARATOR;
 	}
 	
+	public String getReportGenerationPath(){
+		return context.getRealPath(getRelativeReportGenerationPath()) + SEPARATOR;
+	}
+	
 	public String getResourceBundleFor(Locale locale){
 		return getReportsPath() + getBundleName() + locale.toString() + ".properties";
 	}
@@ -50,6 +55,11 @@ public class ReportPathResolver {
 	private String getRelativeReportsPath(){
 		String param = context.getInitParameter("vraptor.reports.path");
 		return param != null ? param.trim() : DEFAULT_REPORTS_PATH;
+	}
+	
+	private String getRelativeReportGenerationPath(){
+		String param = context.getInitParameter("vraptor.reports.generation.path");
+		return param != null ? param.trim() : DEFAULT_REPORT_GENERATION_PATH;
 	}
 	
 	private String getBundleName(){
