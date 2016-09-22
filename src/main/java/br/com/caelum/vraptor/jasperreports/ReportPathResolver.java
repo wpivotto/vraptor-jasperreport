@@ -6,11 +6,14 @@ import java.util.Locale;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 @ApplicationScoped
 public class ReportPathResolver {
 
 	@Inject private ServletContext context;
+	@Inject private HttpServletRequest request;
+	
 	public static final String DEFAULT_REPORTS_PATH = "/WEB-INF/reports";
 	public static final String DEFAULT_SUBREPORTS_PATH = "/WEB-INF/reports/subreports";
 	public static final String DEFAULT_IMAGES_PATH = "/WEB-INF/reports/images";
@@ -23,19 +26,19 @@ public class ReportPathResolver {
 	}
 	
 	public String getReportsPath(){
-		return context.getRealPath(getRelativeReportsPath()) + SEPARATOR;
+		return getContext().getRealPath(getRelativeReportsPath()) + SEPARATOR;
 	}
 	
 	public String getSubReportsPath(){
-		return context.getRealPath(getRelativeSubReportsPath()) + SEPARATOR;
+		return getContext().getRealPath(getRelativeSubReportsPath()) + SEPARATOR;
 	}
 	
 	public String getImagesPath(){
-		return context.getRealPath(getRelativeImagesPath()) + SEPARATOR;
+		return getContext().getRealPath(getRelativeImagesPath()) + SEPARATOR;
 	}
 	
 	public String getReportGenerationPath(){
-		return context.getRealPath(getRelativeReportGenerationPath()) + SEPARATOR;
+		return getContext().getRealPath(getRelativeReportGenerationPath()) + SEPARATOR;
 	}
 	
 	public String getResourceBundleFor(Locale locale){
@@ -43,28 +46,33 @@ public class ReportPathResolver {
 	}
 	
 	private String getRelativeImagesPath(){
-		String param = context.getInitParameter("vraptor.images.path");
+		String param = getContext().getInitParameter("vraptor.images.path");
 		return param != null ? param.trim() : DEFAULT_IMAGES_PATH;
 	}
 
 	private String getRelativeSubReportsPath(){
-		String param = context.getInitParameter("vraptor.subreports.path");
+		String param = getContext().getInitParameter("vraptor.subreports.path");
 		return param != null ? param.trim() : DEFAULT_SUBREPORTS_PATH;
 	}
 	
 	private String getRelativeReportsPath(){
-		String param = context.getInitParameter("vraptor.reports.path");
+		String param = getContext().getInitParameter("vraptor.reports.path");
 		return param != null ? param.trim() : DEFAULT_REPORTS_PATH;
 	}
 	
 	private String getRelativeReportGenerationPath(){
-		String param = context.getInitParameter("vraptor.reports.generation.path");
+		String param = getContext().getInitParameter("vraptor.reports.generation.path");
 		return param != null ? param.trim() : DEFAULT_REPORT_GENERATION_PATH;
 	}
 	
 	private String getBundleName(){
-		String param = context.getInitParameter("vraptor.reports.resourcebundle.name");
+		String param = getContext().getInitParameter("vraptor.reports.resourcebundle.name");
 		return param != null ? param.trim() : DEFAULT_BUNDLE_NAME;
+	}
+	
+	private ServletContext getContext(){
+		String tryPath = request.getSession().getServletContext().getRealPath(DEFAULT_REPORTS_PATH) ;
+		return tryPath != null ? request.getSession().getServletContext() : context;
 	}
 
 }

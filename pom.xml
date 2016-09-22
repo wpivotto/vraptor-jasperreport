@@ -103,7 +103,6 @@
 	</build>
 
 	<dependencies>
-
 		<dependency>
 			<groupId>br.com.caelum</groupId>
 			<artifactId>vraptor</artifactId>
