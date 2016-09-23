@@ -41,7 +41,7 @@ Using it
 <dependency>
 	<groupId>br.com.prixma</groupId>
   	<artifactId>vraptor-jasperreport</artifactId>
-  	<version>4.1.0</version>
+  	<version>4.1.1</version>
 </dependency>
 ```
 
@@ -229,10 +229,10 @@ public class ReportsController {
 	}
 	
 	private File generateZipFile() {
-		ReportItem report1 = new ReportItem(new MonthlySalesGrowthReport(), pdf());
-		ReportItem report2 = new ReportItem(new TopCustomerAnalysisReport(), png());
-		ReportItem report3 = new ReportItem(new ItemSummaryWorksheetReport(), xlsx());
-		return exporter.export("sales_dashboard", report1, report2, report3);
+		ReportItem part1 = new ReportItem(new MonthlySalesGrowthReport(), pdf());
+		ReportItem part2 = new ReportItem(new TopCustomerAnalysisReport(), png());
+		ReportItem part3 = new ReportItem(new ItemSummaryWorksheetReport(), xlsx());
+		return exporter.export("sales_dashboard", part1, part2, part3);
 	}
 	
 }
@@ -331,12 +331,12 @@ Decorators can be used to provide default parameters for all reports, like this
 
 ```java 
 @SessionScoped
-public class MyDecorator implements ReportDecorator {
+public class LoggedUserInjector implements ReportDecorator {
 	
 	@Inject private final LoggedUser user;
 	
 	public void decorate(Report report) {
-		report.addParameter("GeneratedBy", user);
+		report.addParameter("GeneratedBy", user.getName());
 	}
 }
 ```
@@ -373,16 +373,13 @@ report.addParameter("java.sql.Connection", con);
 Or, you can take advantage of the Decorators feature and create one like this:
 
 ```java
+@ApplicationScoped
 public class SQLReportDecorator implements ReportDecorator {
 
-	@PersistenceContext
-	private EntityManager em;
+	@Inject private EntityManager em;
 
-	@Override
 	public void decorate(Report report) {
-		if (report.getData() == null) {
-			report.addParameter(Connection.class.getName(), getConnection());
-		}
+		report.addParameter(Connection.class.getName(), getConnection());
 	}
 
 	private Connection getConnection() {
