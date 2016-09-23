@@ -3,12 +3,12 @@ package br.com.caelum.vraptor.jasperreports;
 import java.io.File;
 import java.util.Locale;
 
-import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-@ApplicationScoped
+@RequestScoped
 public class ReportPathResolver {
 
 	@Inject private ServletContext context;
@@ -71,7 +71,7 @@ public class ReportPathResolver {
 	}
 	
 	private ServletContext getContext(){
-		String tryPath = request.getSession().getServletContext().getRealPath(DEFAULT_REPORTS_PATH) ;
+		String tryPath = request.getSession().getServletContext().getRealPath(DEFAULT_REPORTS_PATH);
 		return tryPath != null ? request.getSession().getServletContext() : context;
 	}
 
